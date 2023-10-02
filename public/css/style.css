@@ -1,0 +1,94 @@
+
+#modalOrcamentos .row, #modalOrcamentos .row > div{
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+#modalOrcamentos .table-sm td, #modalOrcamentos .table-sm th{
+    border-color: black !important;
+}
+
+body{
+    background-color: #ffffff;
+}
+
+#printOrcamento {
+    max-width: 794px;
+    width: 100%;
+    height: auto;
+}
+
+
+.cabecalho-colunas{
+    width: 70%;
+}
+.logo-coluna{
+    width:30%
+}
+.quatro-colunas{
+    width: 25%;
+    padding: 0;
+    margin: 0;
+}
+
+p, label{
+    border: 0;
+    margin: 0;
+}
+
+.table-print{
+    border: 0;
+    margin: 0;
+}
+
+*{
+    line-height: 18px;
+}
+
+.table-print tr td, .table-print tr th{
+    padding: 1px;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.table-print-itens{
+    border: 2px solid #000;
+}
+
+.produto{
+    width: 40%;
+}
+
+.valores{
+    width: 20%;
+}
+
+.table .duas-colunas{
+    width: 50%;
+}
+#printOrcamento .row, #printOrcamento .row > div{
+    padding: 0;
+    margin: 0;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+#printOrcamento .table-sm td, #printOrcamento .table-sm th{
+    border-color: black !important;
+}
+
+.status_1{
+    background-color: yellow;
+    color: black;
+}
+
+.status_2{
+    background-color: green;
+    color: black;
+}
+
+.status_3{
+    background-color: gray;
+    color: white;
+}
+
