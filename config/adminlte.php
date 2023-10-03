@@ -190,9 +190,9 @@ return [
 
     'dashboard_url' => 'admin/home',
 
-    'logout_url' => 'admin/logout',
+    'logout_url' => 'logout',
 
-    'login_url' => 'admin/login',
+    'login_url' => 'login',
 
     'register_url' => false,
 
@@ -231,7 +231,7 @@ return [
     */
 
     'menu' => [
-    
+
         ['header' => 'Menu Cadastros'],
         [
             'text'        => 'Cadastro Veículos',
@@ -248,7 +248,7 @@ return [
             'url'         => 'admin/controleacesso',
             'icon'        => 'fas fa-gift'
         ],
-    
+
     //     ['header' => 'Menu Principal'],
     //     [
     //         'text'        => 'Clientes',
@@ -269,7 +269,7 @@ return [
     //     [
     //         'text'        => 'Caixa Diário',
     //         'url'         => 'admin/caixa',
-    //         'icon'        => 'fas fa-cash-register'           
+    //         'icon'        => 'fas fa-cash-register'
     //     ],
     //     [
     //         'text'        => 'Entradas',
@@ -291,13 +291,13 @@ return [
     //         'text'        => 'Produtos',
     //         'url'         => 'admin/produto',
     //         'icon'        => 'fab fa-product-hunt',
-            
+
     //     ],
     //     [
     //         'text'        => 'Entrada de Material',
     //         'url'         => 'admin/compra',
     //         'icon'        => 'fas fa-plus-circle',
-            
+
     //     ],
     //     [
     //         'text'        => 'Baixa de Material',
@@ -339,7 +339,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
-        
+
     ],
 
     /*

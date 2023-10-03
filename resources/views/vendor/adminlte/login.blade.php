@@ -37,7 +37,7 @@
             <img src="svg/logo.svg" alt="Dominare">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">{{ __('adminlte::adminlte.login_message') }}</p>
-                
+
                 <form action="{{ $login_url }}" method="post">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
@@ -66,13 +66,21 @@
                             </div>
                         @endif
                     </div>
-                    <div class="row">
-                        {{-- <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" name="remember" id="remember">
-                                <label for="remember">{{ __('adminlte::adminlte.remember_me') }}</label>
+                    <div class="input-group mb-3">
+                        <select name="unidade_id" id="unidade_id" class="form-control {{ $errors->has('unidade_id') ? 'is-invalid' : '' }}">
+                            <option value="">--Condomínio--</option>
+                            @foreach ($data as $i => $v)
+                                <option value="{{ $i }}">{{ $v }}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('unidade_id'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('unidade_id') }}
                             </div>
-                        </div> --}}
+                        @endif
+                    </div>
+                    <div class="row">
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">
                                 {{ __('adminlte::adminlte.sign_in') }}

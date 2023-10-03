@@ -12,7 +12,7 @@ class TableCodesSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         // VEICULOS CODES
         DB::table('table_codes')->insert([
@@ -42,13 +42,13 @@ class TableCodesSeeder extends Seeder
             'valor' => 3,
             'descricao' => 'VEÍCULOS SERVIÇOS',
         ]);
-        
+
         DB::table('table_codes')->insert([
             'pai' => '2',
             'item' => '4',
             'valor' => 4,
             'descricao' => 'OUTROS VEÍCULOS',
-        ]);    
+        ]);
 
         // PESSOAS CODES
         DB::table('table_codes')->insert([
@@ -129,13 +129,14 @@ class TableCodesSeeder extends Seeder
             'valor' => 1,
             'descricao' => 'RECEPCIONADO PORTARIA',
         ]);
-        
+
         DB::table('table_codes')->insert([
             'pai' => '9',
             'item' => '2',
             'valor' => 2,
             'descricao' => 'ENTREGUE P/ MORADOR',
         ]);
-        
+
+
     }
 }

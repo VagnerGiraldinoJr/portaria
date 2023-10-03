@@ -4,15 +4,12 @@ use App\Http\Controllers\Admin\ClienteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-    Route::get('/', function () {
-    return redirect()->to('http://dominare.localhost/admin/');
-    });
-        Route::group(['prefix' => 'admin'],function(){
-        Auth::routes();
-    });
+Route::get('/', function () {
+    return redirect('/admin');
+});
 
-    Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 'Admin'],function(){
-        Route::get('/', 'IndexController@index')->name('home');
+Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 'Admin'],function(){
+        Route::get('/', 'IndexController@index')->name('admin');
         Route::get('/home', 'IndexController@index')->name('home');
 
 
@@ -93,11 +90,11 @@ use Illuminate\Support\Facades\Route;
         Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
         Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');
         Route::put('controleacesso/update/{id}', 'ControleAcessoController@update')->name('admin.controleacesso.update');
-        Route::delete('controleacesso/destroy/{id}', 'ControleAcessoController@destroy')->name('admin.controleacesso.destroy');     
-    
+        Route::delete('controleacesso/destroy/{id}', 'ControleAcessoController@destroy')->name('admin.controleacesso.destroy');
+
         //ControleAcesso_extra
         Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
-        Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');   
+        Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');
 
         //Veiculos
         Route::get('veiculo', 'VeiculoController@index')->name('admin.veiculo.index');
@@ -107,8 +104,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('veiculo/show/{id}', 'VeiculoController@show')->name('admin.veiculo.show');
         Route::put('veiculo/update/{id}', 'VeiculoController@update')->name('admin.veiculo.update');
         Route::delete('veiculo/destroy/{id}', 'VeiculoController@destroy')->name('admin.veiculo.destroy');
-        
-        
+
+
         //Compras
         Route::any('compra', 'CompraController@index')->name('admin.compra.index');
         Route::get('compra/create', 'CompraController@create')->name('admin.compra.create');
@@ -147,9 +144,5 @@ use Illuminate\Support\Facades\Route;
         Route::post('caixa/abrir', 'CaixaController@abrir')->name('admin.caixa.abrir');
         Route::put('caixa/fechar', 'CaixaController@fechar')->name('admin.caixa.fechar');
     });
-    
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-    
-    
+Auth::routes();

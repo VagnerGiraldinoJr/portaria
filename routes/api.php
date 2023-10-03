@@ -23,9 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api'],function(){
     Route::get('pessoa/{rg}', 'PessoaController@index')->name('api.pessoa.index');
-    Route::get('veiculo/{placa}', 'VeiculoController@index')->name('api.veiculo.index');    
+    Route::get('veiculo/{placa}', 'VeiculoController@index')->name('api.veiculo.index');
 });
 
-Route::group(['namespace' => 'Api' ],function(){
-    Route::get('parametro/{titulo}', 'ParametroController@index')->name('api.parametro');
-});
+// Route::group(['namespace' => 'Api' ],function(){
+//     Route::get('parametro/{titulo}', 'ParametroController@index')->name('api.parametro');
+// });
