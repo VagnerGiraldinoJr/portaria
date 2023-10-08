@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class PessoaController extends Controller
 {
-    public function index(Pessoa $pessoas, $rg)
+    public function index(Pessoa $pessoas, $bloco, $apto)
     {
-        return $pessoas->where('rg','like','%'.$rg.'%')->first();
+        return $pessoas ->where('bloco','like','%'.$bloco.'%')
+                        ->where('apto','like','%'.$apto.'%')
+                        ->first();
     }
 }

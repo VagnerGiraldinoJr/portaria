@@ -251,7 +251,9 @@
         var ajax = new XMLHttpRequest();
 
         // Seta tipo de requisição e URL com os parâmetros
-        ajax.open("GET", "{{ asset('api/pessoa/')}}/" + rg, true);
+        // ajax.open("GET", "{{ asset('api/pessoa/')}}/" + bloco + "/apto/" + apto, true);
+        ajax.open("GET", "{{ asset('api/pessoa/')}}/" + rg + "/apto/" + rg, true);
+      
 
         // Envia a requisição
         ajax.send();
@@ -265,6 +267,7 @@
                 var data = ajax.responseText;
                 if (!data == []) {
                     document.getElementById('nome_completo').value = JSON.parse(data).nome_completo;
+                    document.getElementById('celular').value = JSON.parse(data).celular;
                     document.getElementById('rg').value = JSON.parse(data).rg;
                     document.getElementById('pessoa_id').value = JSON.parse(data).id;
 

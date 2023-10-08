@@ -12,7 +12,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::get('/', 'IndexController@index')->name('admin');
         Route::get('/home', 'IndexController@index')->name('home');
 
-
         //Cliente
         Route::any('cliente', [ClienteController::class, 'index'])->name('admin.cliente.index');
         Route::get('cliente/create', 'ClienteController@create')->name('admin.cliente.create');
@@ -47,7 +46,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::delete('pedido/destroy/{id}', 'PedidoController@destroy')->name('admin.pedido.destroy');
 
 
-
         //Produto
         Route::get('produto', 'ProdutoController@index')->name('admin.produto.index');
         Route::get('produto/create', 'ProdutoController@create')->name('admin.produto.create');
@@ -57,22 +55,23 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::put('produto/update/{id}', 'ProdutoController@update')->name('admin.produto.update');
         Route::delete('produto/destroy/{id}', 'ProdutoController@destroy')->name('admin.produto.destroy');
 
-        //User
-        // Route::get('user', ['uses'=> 'UserController@index','is' => 'admin'])->name('admin.user.index');
-        // Route::get('user/create', ['uses'=> 'UserController@create','is' => 'admin'])->name('admin.user.create');
-        // Route::post('user/store', ['uses'=> 'UserController@store','is' => 'admin'])->name('admin.user.store');
-        // Route::get('user/edit/{id}', ['uses'=> 'UserController@edit','is' => 'admin'])->name('admin.user.edit');
-        // Route::get('user/show/{id}', ['uses'=> 'UserController@show','is' => 'admin'])->name('admin.user.show');
-        // Route::put('user/update/{id}', ['uses'=> 'UserController@update','is' => 'admin'])->name('admin.user.update');
-        // Route::delete('user/destroy/{id}', ['uses'=> 'UserController@destroy','is' => 'admin'])->name('admin.user.destroy');
+       // User
+        Route::get('user', ['uses'=> 'UserController@index'])->name('admin.user.index');
+        Route::get('user/create', ['uses'=> 'UserController@create'])->name('admin.user.create');
+        Route::post('user/store', ['uses'=> 'UserController@store'])->name('admin.user.store');
+        Route::get('user/edit/{id}', ['uses'=> 'UserController@edit'])->name('admin.user.edit');
+        Route::get('user/show/{id}', ['uses'=> 'UserController@show'])->name('admin.user.show');
+        Route::put('user/update/{id}', ['uses'=> 'UserController@update'])->name('admin.user.update');
+        Route::delete('user/destroy/{id}', ['uses'=> 'UserController@destroy'])->name('admin.user.destroy');
 
-        Route::get('user', ['uses'=> 'UserController@index','is' => 'admin'])->name('admin.user.index');
-        Route::get('user/create', ['uses'=> 'UserController@create','is' => 'admin'])->name('admin.user.create');
-        Route::post('user/store', ['uses'=> 'UserController@store','is' => 'admin'])->name('admin.user.store');
-        Route::get('user/edit/{id}', ['uses'=> 'UserController@edit','is' => 'admin'])->name('admin.user.edit');
-        Route::get('user/show/{id}', ['uses'=> 'UserController@show','is' => 'admin'])->name('admin.user.show');
-        Route::put('user/update/{id}', ['uses'=> 'UserController@update','is' => 'admin'])->name('admin.user.update');
-        Route::delete('user/destroy/{id}', ['uses'=> 'UserController@destroy','is' => 'admin'])->name('admin.user.destroy');
+        //Veiculos
+        Route::get('veiculo', 'VeiculoController@index')->name('admin.veiculo.index');
+        Route::get('veiculo/create', 'VeiculoController@create')->name('admin.veiculo.create');
+        Route::post('veiculo/store', 'VeiculoController@store')->name('admin.veiculo.store');
+        Route::get('veiculo/edit/{id}', 'VeiculoController@edit')->name('admin.veiculo.edit');
+        Route::get('veiculo/show/{id}', 'VeiculoController@show')->name('admin.veiculo.show');
+        Route::put('veiculo/update/{id}', 'VeiculoController@update')->name('admin.veiculo.update');
+        Route::delete('veiculo/destroy/{id}', 'VeiculoController@destroy')->name('admin.veiculo.destroy');
 
         //Pessoas
         Route::get('pessoa', 'PessoaController@index')->name('admin.pessoa.index');
@@ -95,17 +94,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         //ControleAcesso_extra
         Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
         Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');
-
-        //Veiculos
-        Route::get('veiculo', 'VeiculoController@index')->name('admin.veiculo.index');
-        Route::get('veiculo/create', 'VeiculoController@create')->name('admin.veiculo.create');
-        Route::post('veiculo/store', 'VeiculoController@store')->name('admin.veiculo.store');
-        Route::get('veiculo/edit/{id}', 'VeiculoController@edit')->name('admin.veiculo.edit');
-        Route::get('veiculo/show/{id}', 'VeiculoController@show')->name('admin.veiculo.show');
-        Route::put('veiculo/update/{id}', 'VeiculoController@update')->name('admin.veiculo.update');
-        Route::delete('veiculo/destroy/{id}', 'VeiculoController@destroy')->name('admin.veiculo.destroy');
-
-
+        
         //Compras
         Route::any('compra', 'CompraController@index')->name('admin.compra.index');
         Route::get('compra/create', 'CompraController@create')->name('admin.compra.create');

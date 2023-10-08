@@ -15,8 +15,8 @@ return [
     */
 
     'title' => 'Dominare - Gestão de Portarias',
-    'title_prefix' => '',
-    'title_postfix' => '',
+    'title_prefix' => 'Dominare',
+    'title_postfix' => 'Gestão de Portarias',
 
     /*
     |--------------------------------------------------------------------------
@@ -46,9 +46,9 @@ return [
     */
 
     'logo' => '<b>S</b>istema de <b>G</b>estão para <b>P</b>ortarias',
-    'logo_img' => 'img/logo.svg',
+    //'logo_img' => 'img/logo.svg',
     'logo_img_class' => 'brand-image-xl',
-    'logo_img_xl' => 'svg/logo.svg',
+     'logo_img_xl' => 'svg/logo.svg',
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'Dominare',
 
@@ -200,7 +200,7 @@ return [
 
     'password_email_url' => false,
 
-    'profile_url' => true,
+    'profile_url' => 'admin/user',
 
     /*
     |--------------------------------------------------------------------------
@@ -309,12 +309,12 @@ return [
     //         'url'         => 'admin/estoque/inventario',
     //         'icon'        => 'fas fa-database',
     //     ],
-    ['header' => 'Acesso' , 'can' => 'admin' ] ,
+    ['header' => 'Acesso' , 'can' => 'administrador' ] ,
     [
         'text'        => 'Usuários',
         'url'         => 'admin/user',
         'icon'        => 'far fa-user',
-        'can'          => 'admin'
+        'can'          => 'administrador'
     ],
 ],
 

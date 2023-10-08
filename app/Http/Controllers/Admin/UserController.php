@@ -10,8 +10,8 @@ use App\Models\TableCode;
 use App\Http\Requests\Admin\User\UserInsertRequest ;
 use App\Http\Requests\Admin\User\UserEditarRequest ;
 use DB;
-use Illuminate\Support\Facades\DB as FacadesDB;
 use Kodeine\Acl\Models\Eloquent\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,6 +27,7 @@ class UserController extends Controller
 
     public function index()
     {
+        
         // PARAMS DEFAULT
         $this->params['subtitulo']='Usuários Cadastrados';
         $this->params['arvore'][0] = [

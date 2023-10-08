@@ -21,8 +21,8 @@ class UserSeeder extends Seeder
             'remember_token' => 'remember_token',
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
-            'role' => '1', // 1 = Admin
-            'lotacao' => '1', // Condomínio 01
+            'role' => '2', // 2 = Admin
+            'unidade_id' => '1', // Condomínio 01
         ]);
 
         DB::table('users')->insert([
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
             'role' => '0', // Usuário
-            'lotacao' => '2', // Condomínio 02
+            'unidade_id' => '2', // Condomínio 02
         ]);
     }
 }

@@ -15,6 +15,11 @@ class CreateControleAcessosTable extends Migration
     {
         Schema::create('controle_acessos', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            //  2. Create foreign key column
+            $table->bigInteger('unidade_id')->unsigned();
+            // 3. Create foreign key constraints
+            
             $table->integer('tipo');
             $table->integer('pessoa_id')->nullable();
             $table->integer('veiculo_id')->nullable();
@@ -24,6 +29,11 @@ class CreateControleAcessosTable extends Migration
             $table->string('observacao');
             $table->string('motivo');
             $table->string('destino')->nullable();
+
+            $table  ->foreign('unidade_id')
+                    ->references('id')
+                    ->on('unidades');
+                    
             $table->timestamps();
         });
     }

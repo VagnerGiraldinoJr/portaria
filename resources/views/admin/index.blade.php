@@ -15,7 +15,7 @@
                 <div class="card-body ">
 
                     <div class="row">
-                        @role('admin')
+                      @role('admin')
                         <div class="col-lg-3 col-6">
                           <!-- small box -->
                           <div class="small-box bg-info">
@@ -28,23 +28,23 @@
                             <div class="icon">
                               <i class="fas fa-user-lock"></i>
                             </div>
-                            <a href="{{ route($params['main_route'].'.user.index')}}" class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route($params['main_route'].'.user.index')}}" class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>                            
                           </div>
                         </div>
-                        @endrole
+                      @endrole
                         <!-- ./col -->
                         <div class="col-lg-3 col-6">
                           <!-- small box -->
                           <div class="small-box bg-warning">
                             <div class="inner">
-                              <h3>{{$data['cliente']}}</h3>
+                              <h3>{{$data['controleacesso']}}</h3>
 
                               <p>Encomendas Recebidas</p>
                             </div>
                             <div class="icon">
                               <i class="fas fa-gift"></i>
                             </div>
-                            <a href="{{ route($params['main_route'].'.cliente.index')}}" class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route($params['main_route'].'.controleacesso.index')}}" class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                           </div>
                         </div>
                         <!-- ./col -->

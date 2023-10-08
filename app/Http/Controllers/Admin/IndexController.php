@@ -8,16 +8,22 @@ use App\Models\User;
 use App\Models\Cliente;
 use App\Models\Orcamento;
 use App\Models\Produto;
+use App\Models\ControleAcesso;
 use Illuminate\Support\Facades\Response;
 
 //use App\Models\Atendimento;
 
 class IndexController extends Controller
 {
-    public function __construct(User $administradores,Cliente $clientes,Produto $produtos, Orcamento $orcamentos)
+    private $administrador = [];
+    private $controleacesso = [];
+    private $produto = [];
+    private $orcamento = [];
+    private $params = [];
+    public function __construct(User $administradores,ControleAcesso $controleacessos,Produto $produtos, Orcamento $orcamentos)
     {
         $this->administrador = $administradores;
-        $this->cliente = $clientes;
+        $this->controleacesso = $controleacessos;
         $this->produto = $produtos;
         $this->orcamento = $orcamentos;
         //$this->atendimento = $atendimentos;
@@ -37,7 +43,8 @@ class IndexController extends Controller
 
         $params = $this->params;
         $data['admin'] = $this->administrador->count();
-        $data['cliente'] = $this->cliente->count();
+        $data['controleacesso'] = $this->controleacesso->count();
+       
         $data['produto'] = $this->produto->count();
         $data['orcamento'] = $this->orcamento->count();
         $data['pedido'] = $this->orcamento->has('getPedido')->count();
@@ -49,3 +56,14 @@ class IndexController extends Controller
     }
 
 }
+
+
+
+
+
+    // $total  =  $this->select('valor')
+    //                 ->whereDate('operacao',$operacao)
+    //                 ->whereDate('data_hora','<=',$date)
+    //                 ->get()
+    //                 ->sum("valor");
+    // return $total;

@@ -13,6 +13,25 @@ class TableCodesSeeder extends Seeder
     public function run()
     {
 
+         // USUARIO SISTEMAS CODES
+         DB::table('table_codes')->insert([
+            'pai' => '1',
+            'item' => '0',
+            'valor' => 'PERFIL',
+            'descricao' => 'PERFIL',
+        ]);
+        DB::table('table_codes')->insert([
+            'pai' => '1',
+            'item' => '1',
+            'valor' => 1,
+            'descricao' => 'PORTARIA',
+        ]);
+        DB::table('table_codes')->insert([
+            'pai' => '1',
+            'item' => '2',
+            'valor' => 2,
+            'descricao' => 'ADMIN',
+        ]);
 
         // VEICULOS CODES
         DB::table('table_codes')->insert([
@@ -83,14 +102,14 @@ class TableCodesSeeder extends Seeder
             'pai' => '4',
             'item' => '4',
             'valor' => 4,
-            'descricao' => 'VISITATNES',
+            'descricao' => 'VISITANTES',
         ]);
 
         DB::table('table_codes')->insert([
             'pai' => '4',
             'item' => '5',
             'valor' => 5,
-            'descricao' => 'IMOBILIARIA',
+            'descricao' => 'IMOBILIÁRIA',
         ]);
 
         // ENTRADA CODES
