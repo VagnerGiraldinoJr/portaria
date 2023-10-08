@@ -8,7 +8,7 @@ use App\Models\Setor;
 use App\Models\TableCode;
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class VeiculoController extends Controller
 {
@@ -35,7 +35,7 @@ class VeiculoController extends Controller
         ];
  
         $params = $this->params;
-        $data = $this->veiculo->select()->get();
+        $data = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->get();
         return view('admin.veiculo.index',compact('params','data'));
 
     }
@@ -62,6 +62,8 @@ class VeiculoController extends Controller
     public function store(VeiculoRequest $request)
     {
         $dataForm  = $request->all();
+        $dataForm['unidade_id'] = Auth::user()->unidade_id;
+       
 
         $insert = $this->veiculo->create($dataForm);
         if($insert){
@@ -84,7 +86,7 @@ class VeiculoController extends Controller
                'titulo' => 'Editar'
            ]];
        $params = $this->params;
-       $data = $this->veiculo->find($id);
+       $data = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
        $preload['tipo'] = $codes->select(2);
 
        return view('admin.veiculo.show',compact('params', 'data','preload'));
@@ -104,7 +106,7 @@ class VeiculoController extends Controller
            ]];
        $params = $this->params;
        
-       $data = $this->veiculo->find($id);
+       $data = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
 
        $preload['tipo'] = $codes->select(2);
        return view('admin.veiculo.create',compact('params', 'data','preload'));
@@ -119,7 +121,8 @@ class VeiculoController extends Controller
             $dataForm["atendimento_online"] = 0;
         }
 
-        if($this->veiculo->find($id)->update($dataForm)){
+        $veiculo = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->find($id);
+        if($veiculo->update($dataForm)){
             return redirect()->route($this->params['main_route'].'.index');
         }else{
             return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao editar.']);
@@ -128,7 +131,7 @@ class VeiculoController extends Controller
 
     public function destroy($id)
     {
-        $data = $this->veiculo->find($id);
+        $data = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->find($id);
 
         if($data->delete()){
             return redirect()->route($this->params['main_route'].'.index');

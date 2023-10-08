@@ -15,12 +15,20 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('unidade_id')->unsigned();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role')->default(0)->comment('Reference TableCode');
-            $table->integer('lotacao')->comment('Reference TableCode');
+
+             //  2. Create foreign key column
+             // 3. Create foreign key constraints
+             
+             $table  ->foreign('unidade_id')
+                             ->references('id')
+                             ->on('unidades');
+
             $table->rememberToken();
             $table->timestamps();
         });

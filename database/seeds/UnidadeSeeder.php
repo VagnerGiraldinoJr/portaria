@@ -13,14 +13,10 @@ class UnidadeSeeder extends Seeder
     public function run()
     {
         DB::table('unidades')->insert([
-            'titulo' => 'Portaria 01',
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
+            'titulo' => 'Portaria 01'
         ]);
         DB::table('unidades')->insert([
-            'titulo' => 'Portaria 02',
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
+            'titulo' => 'Portaria 02'
         ]);
     }
 }

@@ -19,6 +19,17 @@ class CreateVeiculosTable extends Migration
             $table->string('modelo');
             $table->boolean('tipo');
             $table->string('observacao');
+            
+            //  2. Create foreign key column
+            $table->bigInteger('unidade_id')->unsigned();
+            // 3. Create foreign key constraints
+            
+            $table  ->foreign('unidade_id')
+                            ->references('id')
+                            ->on('unidades');
+
+            
+
             $table->timestamps();
         });
     }

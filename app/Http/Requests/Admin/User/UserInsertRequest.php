@@ -27,7 +27,7 @@ class UserInsertRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
-            'role' => 'required',
+            // 'role' => 'required',
         ];
     }
 
@@ -38,7 +38,7 @@ class UserInsertRequest extends FormRequest
             'email.required' =>'O campo :attribute é de preenchimento obrigatório!',
             'email.email' =>'O campo :attribute precisa ser um email válido!',
 
-            'role.required' =>'O campo :attribute é de preenchimento obrigatório!',
+            // 'role.required' =>'O campo :attribute é de preenchimento obrigatório!',
 
             'email.unique' =>':attribute já cadastrada',
             'password.required' =>'O campo :attribute é de preenchimento obrigatório!',
@@ -52,7 +52,7 @@ class UserInsertRequest extends FormRequest
             'name' => 'Nome',
             'email' => 'E-mail',
             'password' => 'Senha',
-            'role' => 'Papel',
+            // 'role' => 'Papel',
         ];
     }
 }
