@@ -8,6 +8,7 @@ use App\Models\Pessoa;
 use App\Models\TableCode;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PessoaController extends Controller
 {
@@ -34,6 +35,7 @@ class PessoaController extends Controller
         ];
 
         $params = $this->params;
+        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->get();
         $data = $this->pessoa->get();
         return view('admin.pessoa.index', compact('params', 'data'));
     }
@@ -53,7 +55,7 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-
+       
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'preload'));
     }
@@ -61,7 +63,7 @@ class PessoaController extends Controller
     public function store(PessoaRequest $request)
     {
         $dataForm  = $request->all();
-
+        $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->pessoa->create($dataForm);
         if ($insert) {
             return redirect()->route($this->params['main_route'] . '.index');
@@ -84,6 +86,7 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
+        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
         $data = $this->pessoa->find($id);
         $preload['tipo'] = $codes->select(4);
 
@@ -106,7 +109,7 @@ class PessoaController extends Controller
         $params = $this->params;
 
         $data = $this->pessoa->find($id);
-
+        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'data', 'preload'));
     }
