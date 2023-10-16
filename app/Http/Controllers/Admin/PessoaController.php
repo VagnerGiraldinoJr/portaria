@@ -55,7 +55,6 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-       
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'preload'));
     }
