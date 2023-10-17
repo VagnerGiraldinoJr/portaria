@@ -7,15 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pessoa extends Model
 {
     protected $fillable = [        
-       
         "nome_completo",
         "celular",
         "rg",
         "tipo",
-        
+        "unidade_id"
     ];
-
-   
     public function getDescTipoAttribute()
     {
         $codes = new TableCode();
