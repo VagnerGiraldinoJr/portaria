@@ -36,7 +36,6 @@ class PessoaController extends Controller
 
         $params = $this->params;
         $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->get();
-        $data = $this->pessoa->get();
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 
@@ -64,6 +63,7 @@ class PessoaController extends Controller
         $dataForm  = $request->all();
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->pessoa->create($dataForm);
+
         if ($insert) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
@@ -86,7 +86,7 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
         $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
-        $data = $this->pessoa->find($id);
+        
         $preload['tipo'] = $codes->select(4);
 
         return view('admin.pessoa.show', compact('params', 'data', 'preload'));
@@ -107,8 +107,8 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->pessoa->find($id);
         $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'data', 'preload'));
     }
@@ -118,11 +118,10 @@ class PessoaController extends Controller
     {
         $dataForm  = $request->all();
 
-        // if(! isset($dataForm["atendimento_online"])){
-        //     $dataForm["atendimento_online"] = 0;
-        // }
+        //ajustar no veículo
+        $pessoa = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
 
-        if ($this->pessoa->find($id)->update($dataForm)) {
+        if ($pessoa->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
@@ -131,7 +130,7 @@ class PessoaController extends Controller
 
     public function destroy($id)
     {
-        $data = $this->pessoa->find($id);
+        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
 
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');

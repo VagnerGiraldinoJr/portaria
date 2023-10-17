@@ -15,15 +15,13 @@ class CreatePessoasTable extends Migration
     {
         Schema::create('pessoas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('unidade_id')->unsigned();
-            
+            $table->bigInteger('unidade_id')->unsigned();            
             $table->string('nome_completo');
             $table->string('rg',15);
             $table->string('celular',11)->nullable();
             $table->integer('tipo');
             //  2. Create foreign key column
-            // 3. Create foreign key constraints
-            
+            // 3. Create foreign key constraints            
             $table  ->foreign('unidade_id')
                             ->references('id')
                             ->on('unidades');
