@@ -50,7 +50,7 @@
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('rg', 'RG')}}
-                            {{Form::text('rg',null,['class' => 'form-control', 'placeholder' => 'Informe o número do RG completo'])}}
+                            {{Form::text('rg',null,['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG completo'])}}
                         </div>
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
@@ -60,7 +60,7 @@
                         
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('celular', 'Nr Celular')}}
-                            {{Form::text('celular',null,['class' => 'form-control', 'placeholder' => 'Informe o número celular'])}}
+                            {{Form::text('celular',null,['class' => 'form-control celular', 'placeholder' => 'Informe o número celular'])}}
                         </div>
 
                         <div class="form-group col-12 col-md-12 col-lg-12">
@@ -90,5 +90,7 @@
 @stop
 
 @section('js')
-<script src="{{ asset('js/scripts.js')}}"></script>
+    <script src="{{ asset('plugin/jquery.mask.min.js')}}" ></script>
+    <script src="{{ asset('js/scripts.js')}}" ></script>
 @stop
+

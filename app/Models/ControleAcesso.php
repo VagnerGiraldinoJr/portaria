@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ControleAcesso extends Model
 {
     
-    protected $fillable = ["id","tipo","pessoa_id","veiculo_id","motorista","data_entrada","data_saida","observacao","motivo","destino","desc_tipo"];
+    protected $fillable = ["id","tipo","pessoa_id","unidade_id","veiculo_id","motorista","data_entrada","data_saida","observacao","motivo","destino","desc_tipo"];
 
 
     public function pessoa(): HasMany

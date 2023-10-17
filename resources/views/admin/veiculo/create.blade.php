@@ -8,8 +8,8 @@
 
 @section('content')
     <section class="content" >
-       <div class="row">
-           <div class="col-12">
+    <div class="row">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -20,7 +20,6 @@
                             <a href="{{ route($params['main_route'].'.index')}}" class="btn btn-primary btn-xs"><span class="fas fa-arrow-left"></span>  Voltar</a>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body ">
@@ -33,7 +32,6 @@
                             </ul>
                         </div>
                     @endif
-
                     @if( isset($data))
                         {{
                             Form::model($data,[
@@ -46,10 +44,9 @@
                         {{ Form::open(['route' => $params['main_route'].'.store','method' =>'post']) }}
                     @endif
                     <div class="row">
-                                               
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('placa', 'Placa')}}
-                            {{Form::text('placa',null,['class' => 'form-control placa', 'placeholder' => 'Informe a Placa'])}}
+                            {{Form::text('placa',null,['class' => 'form-control placa', 'maxlength=8', 'placeholder' => 'Informe a Placa'])}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('modelo', 'Modelo')}}
@@ -63,13 +60,10 @@
                                 ['class' => 'form-control']                               
                             )}}
                         </div>
-
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('observacao', 'Observação')}}
                             {{Form::text('observacao',null,['class' => 'form-control', 'placeholder' => 'Observação'])}}
                         </div>
-
-
                         <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
                             {{Form::submit('Salvar',['class'=>'btn btn-success btn-sm'])}}
                         </div>
@@ -77,11 +71,9 @@
                     {{ Form::close() }}
                 </div>
                 <!-- /.card-body -->
-              </div>
-
-
-           </div>
-       </div>
+            </div>
+        </div>
+    </div>
     </section>
 @stop
 
@@ -90,17 +82,8 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('js/scripts.js')}}"></script>
-    <script src="{{ asset('js/plugin/jquery.js')}}"></script>
-    <script src="{{ asset('js/plugin/jquery.mask.js')}}"></script>
-    <script src="{{ asset('js/plugin/jquery-ui/jquery-ui.min.js')}}"></script>
-
-
-    <script>
-        $(document).ready(function () {
-            maskMercosul('.placa');
-        });
-
-        
-    </script>
+<script src="{{ asset('js/plugin/jquery.js')}}"></script>
+<script src="{{ asset('js/plugin/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{ asset('js/plugin/jquery.mask.js')}}"></script>
+<script src="{{ asset('js/scripts.js')}}"></script>
 @stop
