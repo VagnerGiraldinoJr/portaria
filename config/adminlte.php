@@ -214,7 +214,7 @@ return [
     |
     */
 
-    'enabled_laravel_mix' => true,
+    'enabled_laravel_mix' => false,
     'laravel_mix_css_path' => 'css/app.css',
     'laravel_mix_js_path' => 'js/app.js',
 
