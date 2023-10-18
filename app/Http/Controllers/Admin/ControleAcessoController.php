@@ -35,8 +35,6 @@ class ControleAcessoController extends Controller
         $data = $this->controle_acesso->with('pessoa')->with('veiculo')->select()->get();
         $data['unidade_id'] = Auth::user()->unidade_id;
         
-        dd($params);
-        
         return view('admin.controleacesso.index',compact('params','data'));
     }
     public function create(TableCode $codes)
