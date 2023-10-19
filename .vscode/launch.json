@@ -11,5 +11,8 @@
 			"isMultiSession": true,
 			"enableTableSync": true
 		}
-	]
+	],
+	"lastPrograms": [],
+	"lastProgramExecuted": "<cancel>",
+	"lastProgramArguments": []
 }
