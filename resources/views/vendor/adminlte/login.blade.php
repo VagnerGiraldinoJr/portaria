@@ -34,7 +34,7 @@
             <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
         </div>
         <div class="card">
-            <img src="svg/logo.svg" alt="Dominare">
+            <img src="{{ asset('svg/Logo.svg') }}" alt="Dominare">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">{{ __('adminlte::adminlte.login_message') }}</p>
 
