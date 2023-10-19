@@ -131,7 +131,7 @@ class ControleAcessoController extends Controller
     public function update(Request $request, $id)
     {
         $dataForm  = $request->all();
-       
+       //Pull
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s'); 
        
         if($this->controle_acesso->find($id)->update($dataForm)){
