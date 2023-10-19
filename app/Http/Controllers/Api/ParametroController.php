@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class ParametroController extends Controller
 {
+    
     public function __construct(Parametro $parametros)
     {
         $this->parametro = $parametros;
