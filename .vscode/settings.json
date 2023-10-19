@@ -1,4 +1,7 @@
 {
     "totvsLanguageServer.welcomePage": false,
-    "totvsLanguageServer.editor.toggle.autocomplete": "Basic"
+    "totvsLanguageServer.editor.toggle.autocomplete": "Basic",
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }

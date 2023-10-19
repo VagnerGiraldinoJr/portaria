@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PessoaController extends Controller
+// {
+//     public function index(Pessoa $pessoas, $bloco, $apto)
+//     {
+//         return $pessoas ->where('bloco','like','%'.$bloco.'%')
+//                         ->where('apto','like','%'.$apto.'%')
+//                         ->first();
+//     }
+// }
 {
-    public function index(Pessoa $pessoas, $bloco, $apto)
+    public function index(Pessoa $pessoas, $rg)
     {
-        return $pessoas ->where('bloco','like','%'.$bloco.'%')
-                        ->where('apto','like','%'.$apto.'%')
+        return $pessoas ->where('rg','like','%'.$rg.'%')
                         ->first();
     }
 }

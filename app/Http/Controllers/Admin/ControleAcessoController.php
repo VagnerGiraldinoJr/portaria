@@ -32,9 +32,9 @@ class ControleAcessoController extends Controller
                     'titulo' => 'Controle de Acessos'
         ];
         $params = $this->params;
-        $data = $this->controle_acesso->with('pessoa')->with('veiculo')->select()->get();
-        $data['unidade_id'] = Auth::user()->unidade_id;
-        
+        $data = $this->controle_acesso->where('unidade_id',Auth::user()->unidade_id)->with('pessoa')->with('veiculo')->get();
+
+
         return view('admin.controleacesso.index',compact('params','data'));
     }
     public function create(TableCode $codes)
@@ -132,7 +132,7 @@ class ControleAcessoController extends Controller
     public function update(Request $request, $id)
     {
         $dataForm  = $request->all();
-       
+       //Pull
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s'); 
        
         if($this->controle_acesso->find($id)->update($dataForm)){
