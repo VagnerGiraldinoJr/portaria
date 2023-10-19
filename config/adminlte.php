@@ -46,9 +46,9 @@ return [
     */
 
     'logo' => '<b>S</b>istema de <b>G</b>estão para <b>P</b>ortarias',
-    //'logo_img' => 'img/logo.svg',
+    'logo_img' => 'img/logo.svg',
     'logo_img_class' => 'brand-image-xl',
-     'logo_img_xl' => 'svg/logo.svg',
+    'logo_img_xl' => 'svg/logo.svg',
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'Dominare',
 
