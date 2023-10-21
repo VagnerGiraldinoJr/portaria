@@ -345,7 +345,7 @@ temporary rendered events).
   bottom: -1px;
   left: -1px;
   /* darkening effect */
-  background: #000;
+  background: #e9ecef;
   opacity: 0.25;
 }
 
@@ -866,7 +866,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   --------------------------------------------------------------------------------------------------*/
   .fc-event {
     background: #fff !important;
-    color: #000 !important;
+    color: #e9ecef !important;
     page-break-inside: avoid;
   }
 

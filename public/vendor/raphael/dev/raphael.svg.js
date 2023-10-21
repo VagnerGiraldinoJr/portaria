@@ -724,7 +724,7 @@ define(["./raphael.core"], function(R) {
         p.type = "path";
         setFillAndStroke(p, {
             fill: "none",
-            stroke: "#000",
+            stroke: "#e9ecef",
             path: pathString
         });
         return p;
@@ -1021,19 +1021,19 @@ define(["./raphael.core"], function(R) {
      o x (number)
      o y (number)
      > Gradients
-     * Linear gradient format: “`‹angle›-‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`90-#fff-#000`” – 90°
-     * gradient from white to black or “`0-#fff-#f00:20-#000`” – 0° gradient from white via red (at 20%) to black.
+     * Linear gradient format: “`‹angle›-‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`90-#fff-#e9ecef`” – 90°
+     * gradient from white to black or “`0-#fff-#f00:20-#e9ecef`” – 0° gradient from white via red (at 20%) to black.
      *
-     * radial gradient: “`r[(‹fx›, ‹fy›)]‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`r#fff-#000`” –
-     * gradient from white to black or “`r(0.25, 0.75)#fff-#000`” – gradient from white to black with focus point
+     * radial gradient: “`r[(‹fx›, ‹fy›)]‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`r#fff-#e9ecef`” –
+     * gradient from white to black or “`r(0.25, 0.75)#fff-#e9ecef`” – gradient from white to black with focus point
      * at 0.25, 0.75. Focus point coordinates are in 0..1 range. Radial gradients can only be applied to circles and ellipses.
      > Path String
      # <p>Please refer to <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path’s data attribute’s format are described in the SVG specification.">SVG documentation regarding path string</a>. Raphaël fully supports it.</p>
      > Colour Parsing
      # <ul>
      #     <li>Colour name (“<code>red</code>”, “<code>green</code>”, “<code>cornflowerblue</code>”, etc)</li>
-     #     <li>#••• — shortened HTML colour: (“<code>#000</code>”, “<code>#fc0</code>”, etc)</li>
-     #     <li>#•••••• — full length HTML colour: (“<code>#000000</code>”, “<code>#bd2300</code>”)</li>
+     #     <li>#••• — shortened HTML colour: (“<code>#e9ecef</code>”, “<code>#fc0</code>”, etc)</li>
+     #     <li>#•••••• — full length HTML colour: (“<code>#e9ecef000</code>”, “<code>#bd2300</code>”)</li>
      #     <li>rgb(•••, •••, •••) — red, green and blue channels’ values: (“<code>rgb(200,&nbsp;100,&nbsp;0)</code>”)</li>
      #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (“<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>”)</li>
      #     <li>rgba(•••, •••, •••, •••) — red, green and blue channels’ values: (“<code>rgba(200,&nbsp;100,&nbsp;0, .5)</code>”)</li>
@@ -1209,7 +1209,7 @@ define(["./raphael.core"], function(R) {
         var el = $("circle");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {cx: x, cy: y, r: r, fill: "none", stroke: "#000"};
+        res.attrs = {cx: x, cy: y, r: r, fill: "none", stroke: "#e9ecef"};
         res.type = "circle";
         $(el, res.attrs);
         return res;
@@ -1218,7 +1218,7 @@ define(["./raphael.core"], function(R) {
         var el = $("rect");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {x: x, y: y, width: w, height: h, rx: r || 0, ry: r || 0, fill: "none", stroke: "#000"};
+        res.attrs = {x: x, y: y, width: w, height: h, rx: r || 0, ry: r || 0, fill: "none", stroke: "#e9ecef"};
         res.type = "rect";
         $(el, res.attrs);
         return res;
@@ -1227,7 +1227,7 @@ define(["./raphael.core"], function(R) {
         var el = $("ellipse");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {cx: x, cy: y, rx: rx, ry: ry, fill: "none", stroke: "#000"};
+        res.attrs = {cx: x, cy: y, rx: rx, ry: ry, fill: "none", stroke: "#e9ecef"};
         res.type = "ellipse";
         $(el, res.attrs);
         return res;
@@ -1254,7 +1254,7 @@ define(["./raphael.core"], function(R) {
             "font-family": R._availableAttrs["font-family"],
             "font-size": R._availableAttrs["font-size"],
             stroke: "none",
-            fill: "#000"
+            fill: "#e9ecef"
         };
         res.type = "text";
         setFillAndStroke(res, res.attrs);

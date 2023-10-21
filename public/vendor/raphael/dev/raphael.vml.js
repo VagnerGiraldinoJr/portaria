@@ -741,7 +741,7 @@ define(["./raphael.core"], function(R) {
         el.coordsize = zoom + S + zoom;
         el.coordorigin = vml.coordorigin;
         var p = new Element(el, vml),
-            attr = {fill: "none", stroke: "#000"};
+            attr = {fill: "none", stroke: "#e9ecef"};
         pathString && (attr.path = pathString);
         p.type = "path";
         p.path = [];
@@ -837,7 +837,7 @@ define(["./raphael.core"], function(R) {
         el.coordorigin = "0 0";
         var p = new Element(el, vml),
             attr = {
-                fill: "#000",
+                fill: "#e9ecef",
                 stroke: "none",
                 font: R._availableAttrs.font,
                 text: text

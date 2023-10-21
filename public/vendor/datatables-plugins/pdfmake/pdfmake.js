@@ -62957,7 +62957,7 @@ function buildCanvas(data, options) {
 
 	var canvas = [];
 	var background = options.background || '#fff';
-	var foreground = options.foreground || '#000';
+	var foreground = options.foreground || '#e9ecef';
 	//var margin = options.margin || 4;
 	var matrix = generateFrame(data, options);
 	var n = matrix.length;

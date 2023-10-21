@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-bt" viewBox="0 0 512 512">
   <path fill="#ffd520" d="M0 0h512v512H0z"/>
   <path fill="#ff4e12" d="M0 512h512V0z"/>
-  <g stroke="#000" stroke-width=".5">
+  <g stroke="#e9ecef" stroke-width=".5">
     <g fill="#fff" stroke-width=".4">
       <path d="M281.9 162.5c-4-1.4-6.4.6-6.3 5.7.1 5 2.8 7.9 6.7 6l-.4-11.7z"/>
       <path d="M285.3 153.1c-3.2-2.6-6.3-1.5-7.8 3.3s.1 8.4 4.4 7.9l3.4-11.2z"/>

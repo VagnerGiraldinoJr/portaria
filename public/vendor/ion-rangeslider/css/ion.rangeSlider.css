@@ -82,7 +82,7 @@ Build date: 2018-12-11 23:23:51
   left: 0;
   width: 1px;
   height: 8px;
-  background: #000;
+  background: #e9ecef;
 }
 .irs-grid-pol.small {
   height: 4px;
@@ -96,7 +96,7 @@ Build date: 2018-12-11 23:23:51
   font-size: 9px;
   line-height: 9px;
   padding: 0 3px;
-  color: #000;
+  color: #e9ecef;
 }
 .irs-disable-mask {
   position: absolute;
@@ -110,7 +110,7 @@ Build date: 2018-12-11 23:23:51
   z-index: 2;
 }
 .lt-ie9 .irs-disable-mask {
-  background: #000;
+  background: #e9ecef;
   filter: alpha(opacity=0);
   cursor: not-allowed;
 }

@@ -6,7 +6,7 @@
   <path d="M0 0h640v144H0z"/>
   <path fill="#060" d="M0 336h640v144H0z"/>
   <g id="b" transform="matrix(3 0 0 3 320 240)">
-    <use width="100%" height="100%" stroke="#000" xlink:href="#a"/>
+    <use width="100%" height="100%" stroke="#e9ecef" xlink:href="#a"/>
     <use width="100%" height="100%" fill="#fff" xlink:href="#a"/>
   </g>
   <use width="100%" height="100%" transform="matrix(-1 0 0 1 640 0)" xlink:href="#b"/>

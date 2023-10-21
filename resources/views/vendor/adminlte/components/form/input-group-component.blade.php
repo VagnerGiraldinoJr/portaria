@@ -1,3 +1,5 @@
+{{-- Setup the input group component structure --}}
+
 <div class="{{ $makeFormGroupClass() }}">
 
     {{-- Input label --}}
@@ -26,11 +28,16 @@
     </div>
 
     {{-- Error feedback --}}
-    @if($isInvalid() && ! isset($disableFeedback))
+    @if($isInvalid())
         <span class="invalid-feedback d-block" role="alert">
             <strong>{{ $errors->first($errorKey) }}</strong>
         </span>
     @endif
+
+    {{-- Bottom slot --}}
+    @isset($bottomSlot)
+        {{ $bottomSlot }}
+    @endisset
 
 </div>
 

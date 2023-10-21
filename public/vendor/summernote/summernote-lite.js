@@ -8118,8 +8118,8 @@
           fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
           // pallete colors(n x n)
           colors: [
-              ['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
-              ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF'],
+              ['#e9ecef000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
+              ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#e9ecef0FF', '#9C00FF', '#FF00FF'],
               ['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
               ['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD'],
               ['#E76363', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5'],
@@ -8139,7 +8139,7 @@
               ['Rosewood', 'Cinnamon', 'Olive', 'Parsley', 'Tiber', 'Midnight Blue', 'Valentino', 'Loulou'],
           ],
           colorButton: {
-              foreColor: '#000000',
+              foreColor: '#e9ecef000',
               backColor: '#FFFF00'
           },
           lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],

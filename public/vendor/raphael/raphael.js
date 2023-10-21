@@ -313,7 +313,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             rx: 0,
             ry: 0,
             src: "",
-            stroke: "#000",
+            stroke: "#e9ecef",
             "stroke-dasharray": "",
             "stroke-linecap": "butt",
             "stroke-linejoin": "butt",
@@ -985,8 +985,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      - colour (string) colour string in one of formats:
      # <ul>
      #     <li>Colour name (“<code>red</code>”, “<code>green</code>”, “<code>cornflowerblue</code>”, etc)</li>
-     #     <li>#••• — shortened HTML colour: (“<code>#000</code>”, “<code>#fc0</code>”, etc)</li>
-     #     <li>#•••••• — full length HTML colour: (“<code>#000000</code>”, “<code>#bd2300</code>”)</li>
+     #     <li>#••• — shortened HTML colour: (“<code>#e9ecef</code>”, “<code>#fc0</code>”, etc)</li>
+     #     <li>#•••••• — full length HTML colour: (“<code>#e9ecef000</code>”, “<code>#bd2300</code>”)</li>
      #     <li>rgb(•••, •••, •••) — red, green and blue channels’ values: (“<code>rgb(200,&nbsp;100,&nbsp;0)</code>”)</li>
      #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (“<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>”)</li>
      #     <li>hsb(•••, •••, •••) — hue, saturation and brightness values: (“<code>hsb(0.5,&nbsp;0.25,&nbsp;1)</code>”)</li>
@@ -3223,7 +3223,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      > Usage
      | for (var i = 0, i < 5, i++) {
      |     paper.circle(10 + 15 * i, 10, 10)
-     |          .attr({fill: "#000"})
+     |          .attr({fill: "#e9ecef"})
      |          .data("i", i)
      |          .click(function () {
      |             alert(this.data("i"));
@@ -3930,7 +3930,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             opacity: glow.opacity == null ? .5 : glow.opacity,
             offsetx: glow.offsetx || 0,
             offsety: glow.offsety || 0,
-            color: glow.color || "#000"
+            color: glow.color || "#e9ecef"
         },
             c = s.width / 2,
             r = this.paper,
@@ -5356,7 +5356,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             }
         }
         return this.path(path).attr({
-            fill: "#000",
+            fill: "#e9ecef",
             stroke: "none"
         });
     };
@@ -6282,7 +6282,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         p.type = "path";
         setFillAndStroke(p, {
             fill: "none",
-            stroke: "#000",
+            stroke: "#e9ecef",
             path: pathString
         });
         return p;
@@ -6579,19 +6579,19 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      o x (number)
      o y (number)
      > Gradients
-     * Linear gradient format: “`‹angle›-‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`90-#fff-#000`” – 90°
-     * gradient from white to black or “`0-#fff-#f00:20-#000`” – 0° gradient from white via red (at 20%) to black.
+     * Linear gradient format: “`‹angle›-‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`90-#fff-#e9ecef`” – 90°
+     * gradient from white to black or “`0-#fff-#f00:20-#e9ecef`” – 0° gradient from white via red (at 20%) to black.
      *
-     * radial gradient: “`r[(‹fx›, ‹fy›)]‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`r#fff-#000`” –
-     * gradient from white to black or “`r(0.25, 0.75)#fff-#000`” – gradient from white to black with focus point
+     * radial gradient: “`r[(‹fx›, ‹fy›)]‹colour›[-‹colour›[:‹offset›]]*-‹colour›`”, example: “`r#fff-#e9ecef`” –
+     * gradient from white to black or “`r(0.25, 0.75)#fff-#e9ecef`” – gradient from white to black with focus point
      * at 0.25, 0.75. Focus point coordinates are in 0..1 range. Radial gradients can only be applied to circles and ellipses.
      > Path String
      # <p>Please refer to <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path’s data attribute’s format are described in the SVG specification.">SVG documentation regarding path string</a>. Raphaël fully supports it.</p>
      > Colour Parsing
      # <ul>
      #     <li>Colour name (“<code>red</code>”, “<code>green</code>”, “<code>cornflowerblue</code>”, etc)</li>
-     #     <li>#••• — shortened HTML colour: (“<code>#000</code>”, “<code>#fc0</code>”, etc)</li>
-     #     <li>#•••••• — full length HTML colour: (“<code>#000000</code>”, “<code>#bd2300</code>”)</li>
+     #     <li>#••• — shortened HTML colour: (“<code>#e9ecef</code>”, “<code>#fc0</code>”, etc)</li>
+     #     <li>#•••••• — full length HTML colour: (“<code>#e9ecef000</code>”, “<code>#bd2300</code>”)</li>
      #     <li>rgb(•••, •••, •••) — red, green and blue channels’ values: (“<code>rgb(200,&nbsp;100,&nbsp;0)</code>”)</li>
      #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (“<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>”)</li>
      #     <li>rgba(•••, •••, •••, •••) — red, green and blue channels’ values: (“<code>rgba(200,&nbsp;100,&nbsp;0, .5)</code>”)</li>
@@ -6767,7 +6767,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         var el = $("circle");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {cx: x, cy: y, r: r, fill: "none", stroke: "#000"};
+        res.attrs = {cx: x, cy: y, r: r, fill: "none", stroke: "#e9ecef"};
         res.type = "circle";
         $(el, res.attrs);
         return res;
@@ -6776,7 +6776,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         var el = $("rect");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {x: x, y: y, width: w, height: h, rx: r || 0, ry: r || 0, fill: "none", stroke: "#000"};
+        res.attrs = {x: x, y: y, width: w, height: h, rx: r || 0, ry: r || 0, fill: "none", stroke: "#e9ecef"};
         res.type = "rect";
         $(el, res.attrs);
         return res;
@@ -6785,7 +6785,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         var el = $("ellipse");
         svg.canvas && svg.canvas.appendChild(el);
         var res = new Element(el, svg);
-        res.attrs = {cx: x, cy: y, rx: rx, ry: ry, fill: "none", stroke: "#000"};
+        res.attrs = {cx: x, cy: y, rx: rx, ry: ry, fill: "none", stroke: "#e9ecef"};
         res.type = "ellipse";
         $(el, res.attrs);
         return res;
@@ -6812,7 +6812,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             "font-family": R._availableAttrs["font-family"],
             "font-size": R._availableAttrs["font-size"],
             stroke: "none",
-            fill: "#000"
+            fill: "#e9ecef"
         };
         res.type = "text";
         setFillAndStroke(res, res.attrs);
@@ -7735,7 +7735,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         el.coordsize = zoom + S + zoom;
         el.coordorigin = vml.coordorigin;
         var p = new Element(el, vml),
-            attr = {fill: "none", stroke: "#000"};
+            attr = {fill: "none", stroke: "#e9ecef"};
         pathString && (attr.path = pathString);
         p.type = "path";
         p.path = [];
@@ -7831,7 +7831,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         el.coordorigin = "0 0";
         var p = new Element(el, vml),
             attr = {
-                fill: "#000",
+                fill: "#e9ecef",
                 stroke: "none",
                 font: R._availableAttrs.font,
                 text: text

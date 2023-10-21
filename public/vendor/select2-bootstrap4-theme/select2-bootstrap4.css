@@ -102,7 +102,7 @@
   border-bottom-right-radius: 0; }
 
 .select2-container--bootstrap4.select2-container--disabled .select2-selection, .select2-container--bootstrap4.select2-container--disabled.select2-container--focus .select2-selection {
-  background-color: #e9ecef;
+  background-color: #000;
   cursor: not-allowed;
   border-color: #ced4da;
   -webkit-box-shadow: none;
@@ -129,7 +129,7 @@ form.was-validated select:valid ~ .select2-container--bootstrap4 .select2-select
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem; }
   .select2-container--bootstrap4 .select2-dropdown .select2-results__option[aria-selected=true] {
-    background-color: #e9ecef; }
+    background-color: #000; }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted,
 .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected=true] {

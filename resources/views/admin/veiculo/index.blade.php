@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', config('admin.title'))
 @section('content_header')
-    @include('admin.layouts.header')
+@include('admin.layouts.header')
 @stop
 
 @section('content')
@@ -16,7 +16,7 @@
                             </div>
                             <div class="col-6 text-right">
                                 <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-xs"><span
-                                        class="fas fa-plus"></span> Novo Cadastro</a>
+                                class="fas fa-plus"></span> Novo Cadastro</a>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
             </div>
         </div>
     </section>
- </section>
+</section>
 </section>
 </section>
 </section>
@@ -73,30 +73,4 @@
 @section('plugins.Datatables', true)
 @stop
 @section('js')
-<script>
-    $(document).ready(function() {
-        var table = $('#dataTablePortaria').DataTable({
-            "language": {
-                "decimal": "",
-                "emptyTable": "Dados Indisponiveis na Tabela",
-                "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
-                "infoEmpty": "Mostrando 0 linhas",
-                "infoFiltered": "(filtrando _MAX_ total de linhas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrando _MENU_ linhas",
-                "loadingRecords": "Carregando...",
-                "processing": "Processando...",
-                "search": "Busca:",
-                "zeroRecords": "Nenhum resultado encontrado",
-                "paginate": {
-                    "first": "Primeiro",
-                    "last": "Ultimo",
-                    "next": "Proximo",
-                    "previous": "Anterior"
-                },
-            }
-        });
-    });
-</script>
 @stop

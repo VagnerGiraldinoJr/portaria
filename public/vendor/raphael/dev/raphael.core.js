@@ -183,7 +183,7 @@ define(["eve"], function(eve) {
             rx: 0,
             ry: 0,
             src: "",
-            stroke: "#000",
+            stroke: "#e9ecef",
             "stroke-dasharray": "",
             "stroke-linecap": "butt",
             "stroke-linejoin": "butt",
@@ -855,8 +855,8 @@ define(["eve"], function(eve) {
      - colour (string) colour string in one of formats:
      # <ul>
      #     <li>Colour name (“<code>red</code>”, “<code>green</code>”, “<code>cornflowerblue</code>”, etc)</li>
-     #     <li>#••• — shortened HTML colour: (“<code>#000</code>”, “<code>#fc0</code>”, etc)</li>
-     #     <li>#•••••• — full length HTML colour: (“<code>#000000</code>”, “<code>#bd2300</code>”)</li>
+     #     <li>#••• — shortened HTML colour: (“<code>#e9ecef</code>”, “<code>#fc0</code>”, etc)</li>
+     #     <li>#•••••• — full length HTML colour: (“<code>#e9ecef000</code>”, “<code>#bd2300</code>”)</li>
      #     <li>rgb(•••, •••, •••) — red, green and blue channels’ values: (“<code>rgb(200,&nbsp;100,&nbsp;0)</code>”)</li>
      #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (“<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>”)</li>
      #     <li>hsb(•••, •••, •••) — hue, saturation and brightness values: (“<code>hsb(0.5,&nbsp;0.25,&nbsp;1)</code>”)</li>
@@ -3093,7 +3093,7 @@ define(["eve"], function(eve) {
      > Usage
      | for (var i = 0, i < 5, i++) {
      |     paper.circle(10 + 15 * i, 10, 10)
-     |          .attr({fill: "#000"})
+     |          .attr({fill: "#e9ecef"})
      |          .data("i", i)
      |          .click(function () {
      |             alert(this.data("i"));
@@ -3800,7 +3800,7 @@ define(["eve"], function(eve) {
             opacity: glow.opacity == null ? .5 : glow.opacity,
             offsetx: glow.offsetx || 0,
             offsety: glow.offsety || 0,
-            color: glow.color || "#000"
+            color: glow.color || "#e9ecef"
         },
             c = s.width / 2,
             r = this.paper,
@@ -5226,7 +5226,7 @@ define(["eve"], function(eve) {
             }
         }
         return this.path(path).attr({
-            fill: "#000",
+            fill: "#e9ecef",
             stroke: "none"
         });
     };

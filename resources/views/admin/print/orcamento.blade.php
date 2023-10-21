@@ -186,24 +186,24 @@
     .table {
         width: 100%;
         margin-bottom: 1rem;
-        color: #000;
+        color: #e9ecef;
         border-collapse: collapse !important;
     }
 
     .table th, .table td {
         padding: 0.25rem;
         vertical-align: top;
-        border-top: 1px solid #000;
+        border-top: 1px solid #e9ecef;
         
     }
 
     .table thead th {
         vertical-align: bottom;
-        border-bottom: 2px solid #000;
+        border-bottom: 2px solid #e9ecef;
     }
 
     .table tbody + tbody {
-        border-top: 2px solid #000;
+        border-top: 2px solid #e9ecef;
     }
 
 
@@ -243,12 +243,12 @@
     }
 
     .table-print tr td, .table-print tr th{
-        border: 1px solid #000;
+        border: 1px solid #e9ecef;
         border-collapse: collapse;
     }
 
     .table-print-itens{
-        border: 2px solid #000;
+        border: 2px solid #e9ecef;
     }
 
     .produto{
@@ -265,7 +265,7 @@
     #printOrcamento .row, #printOrcamento .row > div{
         padding: 0;
         margin: 0;
-        border: 1px solid #000;
+        border: 1px solid #e9ecef;
         border-collapse: collapse;
     }
 
