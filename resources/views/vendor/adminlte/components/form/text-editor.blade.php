@@ -1,11 +1,17 @@
 @extends('adminlte::components.form.input-group-component')
 
+{{-- Set errors bag internallly --}}
+
+@php($setErrorsBag($errors ?? null))
+
+{{-- Set input group item section --}}
+
 @section('input_group_item')
 
     {{-- Summernote Textarea --}}
     <textarea id="{{ $id }}" name="{{ $name }}"
         {{ $attributes->merge(['class' => $makeItemClass()]) }}
-    >{{ $slot }}</textarea>
+    >{{ $getOldValue($errorKey, $slot) }}</textarea>
 
 @overwrite
 

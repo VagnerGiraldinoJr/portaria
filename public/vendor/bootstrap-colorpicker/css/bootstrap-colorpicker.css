@@ -113,7 +113,7 @@
     height: 6px;
     width: 6px;
     border-radius: 6px;
-    border: 1px solid #000;
+    border: 1px solid #e9ecef;
     -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
     position: absolute;

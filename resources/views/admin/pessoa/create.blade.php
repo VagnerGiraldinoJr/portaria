@@ -1,11 +1,9 @@
 @extends('adminlte::page')
 
 @section('title', config('admin.title'))
-
 @section('content_header')
 @include('admin.layouts.header')
 @stop
-
 @section('content')
 <section class="content">
     <div class="row">
@@ -21,7 +19,6 @@
                                 <span class="fas fa-arrow-left"></span> Voltar</a>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body ">
@@ -34,7 +31,6 @@
                         </ul>
                     </div>
                     @endif
-
                     @if( isset($data))
                     {{
                             Form::model($data,[
@@ -49,8 +45,8 @@
                     <div class="row">
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('rg', 'RG')}}
-                            {{Form::text('rg',null,['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG completo'])}}
+                            {{Form::label('rg', 'RG/CPF')}}
+                            {{Form::text('rg',null,['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG/CPF completo'])}}
                         </div>
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
@@ -59,7 +55,7 @@
                         </div>
                         
                         <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('celular', 'Nr Celular')}}
+                            {{Form::label('celular', 'Nº Celular')}}
                             {{Form::text('celular',null,['class' => 'form-control celular', 'placeholder' => 'Informe o número celular'])}}
                         </div>
 

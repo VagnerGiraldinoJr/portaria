@@ -340,7 +340,7 @@
   .swal2-close:hover {
     transform: none;
     background: transparent;
-    color: #000; }
+    color: #e9ecef; }
 
 .swal2-content {
   z-index: 1;

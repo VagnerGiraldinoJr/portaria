@@ -1,7 +1,5 @@
 @extends('adminlte::page')
-
 @section('title', config('admin.title'))
-
 @section('content_header')
 @include('admin.layouts.header')
 @stop
