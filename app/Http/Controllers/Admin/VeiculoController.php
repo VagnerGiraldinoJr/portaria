@@ -78,6 +78,7 @@ class VeiculoController extends Controller
     ]];
     $params = $this->params;
     $data = $this->veiculo->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+    
     $preload['tipo'] = $codes->select(2);
     return view('admin.veiculo.show',compact('params', 'data','preload'));
     }

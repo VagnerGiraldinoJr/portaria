@@ -44,7 +44,7 @@ class UserController extends Controller
                         INNER JOIN roles r
                                 ON r.id = ru.role_id');
 
-
+        $data = $this->user->where('unidade_id',Auth::user()->unidade_id)->get();
         return view('admin.user.index',compact('params','data'));
     }
 
@@ -72,7 +72,7 @@ class UserController extends Controller
 
         $dataForm['password'] = Hash::make($dataForm['password']);
         $dataForm['atendimento'] = (!isset($dataForm['atendimento'])?0:$dataForm['atendimento']);
-
+        $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->user->create($dataForm);
         if($insert->assignRole( $dataForm['role'] )){
             return redirect()->route($this->params['main_route'].'.index');
