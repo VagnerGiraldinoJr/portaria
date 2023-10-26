@@ -12,6 +12,7 @@ use App\Http\Requests\Admin\User\UserEditarRequest ;
 use DB;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class UserController extends Controller
 {
@@ -43,8 +44,10 @@ class UserController extends Controller
                                 ON ru.user_id = u.id
                         INNER JOIN roles r
                                 ON r.id = ru.role_id');
+// dd($preload);
 
         $data = $this->user->where('unidade_id',Auth::user()->unidade_id)->get();
+       
         return view('admin.user.index',compact('params','data'));
     }
 
