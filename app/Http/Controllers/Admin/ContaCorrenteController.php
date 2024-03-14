@@ -43,6 +43,12 @@ class ContaCorrenteController extends Controller
         $searchFields['data_fim']= (isset($searchFields['data_fim']) && $searchFields['data_fim'] !== null )?$searchFields['data_fim']:\Carbon\Carbon::now()->toDateString();
 
         $data = $this->conta_corrente->getEntradaSaidaIntervalo($searchFields['data_inicio'],$searchFields['data_fim'],30);
+        
+        
+        $searchFields = $request->get('order_by', 'data_inicio');
+        $searchFields = $request->get('order_type', 'desc');
+        
+        
         return view('admin.conta_corrente.index',compact('params','data','searchFields'));
 
     }

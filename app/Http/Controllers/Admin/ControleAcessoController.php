@@ -33,7 +33,13 @@ class ControleAcessoController extends Controller
         ];
         $params = $this->params;
         $data = $this->controle_acesso->where('unidade_id',Auth::user()->unidade_id)->with('pessoa')->with('veiculo')->get();
-
+        
+        $data = $this->controle_acesso
+        ->where('unidade_id', Auth::user()->unidade_id)
+        ->with('pessoa')
+        ->with('veiculo')
+        ->orderByDesc('data_entrada') // Ordenar por data_inicio em ordem decrescente
+        ->get();
 
         return view('admin.controleacesso.index',compact('params','data'));
     }
