@@ -64,11 +64,11 @@ return [
     */
 
     'logo' => '<b>Dominare</b>SEG',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    /*'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',*/
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Dominare Logo',
+    /*'logo_img_alt' => 'Dominare Logo',*/
 
     /*
     |--------------------------------------------------------------------------
@@ -399,7 +399,7 @@ return [
             'url'        => '#',
             'icon_color' => 'red',
             'icon'        => 'fab fa-laravel',
-            'label'       => 'Vagner Giraldino',
+            'label'       => '+55 (**)* ****-****',
             'label_color' => 'secondary',
         ],
     ],

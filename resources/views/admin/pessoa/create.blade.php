@@ -58,7 +58,13 @@
                             {{Form::label('celular', 'Nº Celular')}}
                             {{Form::text('celular',null,['class' => 'form-control celular', 'placeholder' => 'Informe o número celular'])}}
                         </div>
-
+<!-- Campo novo para unidade (127 - Apto ou casa) -->
+<!-- 26/04/2024 -->
+                        <div class="form-group col-6 col-md-6 col-lg-6">
+                            {{Form::label('unidade', 'Unidade')}}
+                            {{Form::text('unidade',null,['class' => 'form-control unidade', 'placeholder' => 'Informe a unidade'])}}
+                        </div>
+                        
                         <div class="form-group col-12 col-md-12 col-lg-12">
                             {{Form::label('tipo', 'Classificação')}}<br>
                             {{Form::select('tipo', $preload['tipo'],

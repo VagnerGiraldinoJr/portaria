@@ -25,4 +25,5 @@ Route::group(['namespace' => 'Api'],function(){
     // Route::get('pessoa/{bloco}/apto/{apto}', 'PessoaController@index')->name('api.pessoa.index');
     Route::get('pessoa/{rg}', 'PessoaController@index')->name('api.pessoa.index');
     Route::get('veiculo/{placa}', 'VeiculoController@index')->name('api.veiculo.index');
+    //Route::get('morador/{placa}', 'MoradorController@index')->name('api.morador.index');
 });

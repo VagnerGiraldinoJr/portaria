@@ -50,6 +50,10 @@
                             {{Form::label('rg', 'RG')}}
                             {{Form::text('rg',$data->rg,['class' => 'form-control', 'placeholder' => 'Informe o número do RG completo'])}}
                         </div>
+                        <div class="form-group col-6 col-md-6 col-lg-6">
+                            {{Form::label('unidade', 'Unidade')}}
+                            {{Form::text('unidade',$data->unidade,['class' => 'form-control', 'placeholder' => 'Informe o número do unidade completo'])}}
+                        </div>
                         <div class="form-group col-12 col-md-12 col-lg-12">
                             {{Form::label('tipo', 'Escala')}}<br>
                             {{Form::select('tipo', $preload['tipo'],
