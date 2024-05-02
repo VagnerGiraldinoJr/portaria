@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => '/home',
+    'dashboard_url' => '/admin',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => '',
@@ -337,6 +337,12 @@ return [
             'text' => 'Cadastro Pessoas',
             'icon' => 'far fa-window-minimize',
             'url'  => 'admin/pessoa',
+            'icon_color' => 'red',
+        ],
+        [
+            'text' => 'Cadastro Lotes/Unidades',
+            'icon' => 'far fa-window-minimize',
+            'url'  => 'admin/lote',
             'icon_color' => 'red',
         ],
         [

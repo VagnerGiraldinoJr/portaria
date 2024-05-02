@@ -22,7 +22,7 @@ class PessoaRequest extends FormRequest
             
             'nome_completo' => 'required',
             'rg' => 'required',
-            
+            'unidade' => 'required'
 
         ];
     }
@@ -33,6 +33,7 @@ class PessoaRequest extends FormRequest
             
             'nome_completo.required' => 'O :attribute é obrigatório',
             'rg.required' => 'O :attribute é obrigatório',
+            'unidade.required' => 'O :attribute é obrigatório',
             
           
         ];
@@ -44,6 +45,7 @@ class PessoaRequest extends FormRequest
             
             'nome_completo.required' => 'O :attribute é obrigatório',
             'rg.required' => 'O :attribute é obrigatório',
+            'unidade.required' => 'O :attribute é obrigatório',
             
             
         ];

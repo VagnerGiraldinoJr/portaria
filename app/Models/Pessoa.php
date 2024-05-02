@@ -11,7 +11,7 @@ class Pessoa extends Model
         "celular",
         "rg",
         "tipo",
-        "unidade",
+        "lote",
         "unidade_id"
     ];
     public function getDescTipoAttribute()

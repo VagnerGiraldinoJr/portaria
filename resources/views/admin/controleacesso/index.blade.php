@@ -27,9 +27,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Tipo</th>
-                                                <th>RG / Placa</th>
-                                                <th>Nome / Modelo</th>
-                                                <th>Destino</th>
+                                                <th>Nome</th>                                                
+                                                <th>Unidade</th>
                                                 <th>Data Entrada</th>
                                                 <th>Data Saída</th>
                                                 <th>Operação</th>
@@ -40,15 +39,13 @@
                                             <tr>
                                                 <td>{{ $item->desc_tipo}}</td>
                                                 @if($item->tipo == 1)
-                                                <td>{{ $item->pessoa[0]->rg}}</td>
-                                                <td>{{ $item->pessoa[0]->nome_completo}}</td>
-
+                                                <!-- <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->rg : ''}}</td> -->
+                                                <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->nome_completo : ''}}</td>
+                                                <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->unidade : ''}}</td>
                                                 @else
-                                                <td>{{ $item->veiculo[0]->placa }}</td>
-                                                <td>{{ $item->veiculo[0]->modelo}}</td>
+                                                <td>{{ (isset($item->veiculo[0])) ? $item->veiculo[0]->placa : ''}}</td>
+                                                <td>{{ (isset($item->veiculo[0])) ? $item->veiculo[0]->modelo : ''}}</td>
                                                 @endif
-
-                                                <td>{{ $item->destino}}</td>
                                                 <td>{{ Carbon\Carbon::parse($item->data_entrada)->format('d/m/Y H:i:s') }}
                                                 </td>
                                                 <td>@if($item->data_saida <> NULL)
@@ -61,8 +58,8 @@
                                                     <a href="{{ route($params['main_route'].'.exit', $item->id) }}"
                                                         class="btn btn-outline-primary btn-xs"><span
                                                             class="fas fa-check"></span> Marcar Saída</a>
-
-                                                    <a href="https://wa.me/{{$item->pessoa[0]->celular}}?text=Olá!%20Você%20recebeu%20uma%20encomenda!%20Está%20disponível%20na%20portaria.%20"
+                                              
+                                                    <a href="https://wa.me/{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->celular : '' }}?text=Olá!%20Você%20recebeu%20uma%20encomenda!%20Está%20disponível%20na%20portaria.%20"
                                                         target="_blank" rel="noopener noreferrer"
                                                         class="btn btn-outline-success btn-xs"><span
                                                             class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>

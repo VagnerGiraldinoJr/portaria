@@ -33,14 +33,13 @@ class ControleAcessoController extends Controller
         ];
         $params = $this->params;
         $data = $this->controle_acesso->where('unidade_id',Auth::user()->unidade_id)->with('pessoa')->with('veiculo')->get();
-        
         $data = $this->controle_acesso
         ->where('unidade_id', Auth::user()->unidade_id)
         ->with('pessoa')
         ->with('veiculo')
         ->orderByDesc('data_entrada') // Ordenar por data_inicio em ordem decrescente
         ->get();
-
+     
         return view('admin.controleacesso.index',compact('params','data'));
     }
     public function create(TableCode $codes)
@@ -63,16 +62,16 @@ class ControleAcessoController extends Controller
     public function store(ControleAcessoRequest $request)
     {
         $dataForm  = $request->all();
-        $format = 'Y-m-!d H:i:s';
-                
+        // $format = 'Y-m-!d H:i:s';   
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->controle_acesso->create($dataForm);
+       
         if($insert){
             return redirect()->route($this->params['main_route'].'.index');
         }else{
             return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao fazer Inserir.']);
-        }
+        } 
     }
     public function show($id, TableCode $codes)
     {

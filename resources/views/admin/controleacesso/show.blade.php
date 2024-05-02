@@ -61,6 +61,11 @@
                             {{Form::label('rg', 'RG')}}
                             {{Form::text('rg',((isset($data->pessoa) && sizeof($data->pessoa)) ? $data->pessoa[0]->rg : ''),['class' => 'form-control','onChange' => 'buscarRG()','readonly' => 'readonly'])}}
                         </div>
+                        
+                        <div id="div_rg" class="form-group col-6 col-md-6 col-lg-6">
+                            {{Form::label('unidade', 'Unidade')}}
+                            {{Form::text('unidade',((isset($data->pessoa) && sizeof($data->pessoa)) ? $data->pessoa[0]->unidade : ''),['class' => 'form-control','onChange' => 'buscarRG()','readonly' => 'readonly'])}}
+                        </div>
 
 
                         <div id="div_nome_completo" class="form-group col-6 col-md-6 col-lg-6">
@@ -83,15 +88,15 @@
                             {{Form::text('data_entrada',(isset($data->data_entrada) ? $data->data_entrada : null),['class' => 'form-control', 'readonly' => 'readonly'])}}
                         </div>
 
-                        <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
+                        <!-- <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('motivo', 'Motivo')}}
                             {{Form::text('motivo',(isset($data->motivo) ? $data->motivo : null),['class' => 'form-control', 'readonly' => 'readonly'])}}
-                        </div>
+                        </div> -->
 
-                        <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
+                        <!-- <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('destino', 'Destino')}}
                             {{Form::text('destino',(isset($data->destino) ? $data->destino : null),['class' => 'form-control', 'readonly' => 'readonly'])}}
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="form-group col-12 col-md-12 col-lg-12 ">
