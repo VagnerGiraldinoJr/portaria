@@ -13,7 +13,7 @@ use App\Models\TableCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+/*
 class ContaCorrenteController extends Controller
 {
     public function __construct(ContaCorrente $conta_correntes, Orcamento $orcamentos, Caixa $caixas)
@@ -208,3 +208,4 @@ class ContaCorrenteController extends Controller
         
     }
 }
+*/
