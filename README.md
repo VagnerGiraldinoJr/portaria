@@ -41,11 +41,11 @@ Se você gostaria de contribuir para o projeto Portaria, ficaremos muito felizes
 
 ## Licença
 
-Consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
+Consulte o arquivo (LICENSE) para obter mais detalhes.
 
 ## Contato
 
 Se você tiver alguma dúvida, sugestão ou feedback sobre o projeto Portaria, entre em contato conosco pelo email: 
   ```
-   [vgiraldino@gmail.com]
+   vgiraldino@gmail.com
    ```
