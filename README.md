@@ -46,6 +46,6 @@ Consulte o arquivo (LICENSE) para obter mais detalhes.
 ## Contato
 
 Se você tiver alguma dúvida, sugestão ou feedback sobre o projeto Portaria, entre em contato conosco pelo email: 
-  ```
-   vgiraldino@gmail.com
-   ```
+```
+vgiraldino@gmail.com
+```
