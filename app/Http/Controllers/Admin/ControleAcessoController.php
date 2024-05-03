@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ControleAcesso\ControleAcessoRequest;
 use App\Models\TableCode;
 use App\Models\ControleAcesso;
+use App\Models\Lote;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -15,9 +16,11 @@ class ControleAcessoController extends Controller
 {
     private $params = [];
     private $controle_acesso = [];
-    public function __construct(ControleAcesso $controle_acessos)
+    private $lote ; 
+    public function __construct(ControleAcesso $controle_acessos, Lote $lotes)
     { 
         $this->controle_acesso = $controle_acessos;
+        $this->lote = $lotes;
         // Default values
         $this->params['titulo']='Controle de Acesso da Portaria';
         $this->params['main_route']='admin.controleacesso';
@@ -32,7 +35,6 @@ class ControleAcessoController extends Controller
                     'titulo' => 'Controle de Acessos'
         ];
         $params = $this->params;
-        $data = $this->controle_acesso->where('unidade_id',Auth::user()->unidade_id)->with('pessoa')->with('veiculo')->get();
         $data = $this->controle_acesso
         ->where('unidade_id', Auth::user()->unidade_id)
         ->with('pessoa')
@@ -52,13 +54,19 @@ class ControleAcessoController extends Controller
         'titulo' => 'Controle de Acesso'
         ],
         [
-    'url' => '',
-    'titulo' => 'Cadastrar'
-    ]];
+            'url' => '',
+            'titulo' => 'Cadastrar'
+            ]];
     $params = $this->params;            
     $preload['tipo'] = $codes->select(5);
+    $preload['unidade'] = $data = $this ->lote
+                                        ->where('unidade_id', Auth::user()->unidade_id)
+                                        ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
+                                        ->get()->pluck('descricao','id');
+    
     return view('admin.controleacesso.create',compact('params','preload'));
     }
+ 
     public function store(ControleAcessoRequest $request)
     {
         $dataForm  = $request->all();

@@ -17,7 +17,10 @@ class CreateLotesTable extends Migration
             $table->bigIncrements('id');            
             $table->bigInteger('unidade_id')->unsigned();
             $table->string('descricao');
-            $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->foreign('unidade_id')
+                             ->references('id')
+                             ->on('unidades');
+
             $table->timestamps();
         });
     }

@@ -42,8 +42,8 @@
                     {{ Form::open(['route' => $params['main_route'] . '.store', 'method' => 'post']) }}
                     @endif
                     <div class="row">
-                        <input type="hidden" id="veiculo_id" name="veiculo_id" value="">
                         <input type="hidden" id="pessoa_id" name="pessoa_id" value="">
+                        <input type="hidden" id="lote_id" name="lote_id" value="">
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{ Form::label('tipo', 'Tipo de Acesso') }}<br>
@@ -68,8 +68,12 @@
                         </div>
                         <!-- {{-- UNIDADE --}} -->
                         <div id="div_unidade" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('unidade', 'Unidade/Apto.') }}
-                            {{ Form::text('unidade', isset($data->pessoa) && sizeof($data->pessoa) ? $data->pessoa[0]->unidade : '', ['class' => 'form-control','onChange' => 'buscarUnidade()','placeholder' => 'unidade']) }}
+                            {{ Form::label('lote', 'Unidade/Apto.') }}
+                            <br>
+                            {{ Form::select('lote', $preload['unidade'], isset($data->lote_id) ? $data->lote_id : null, [
+                                    'class' => 'form-control',
+                                    'onChange' => 'buscarLote();',
+                                ]) }}
                         </div>
                         <!-- {{-- NOME COMPLETO --}} -->
                         <div id="div_nome_completo" class="form-group col-6 col-md-6 col-lg-6">
@@ -261,7 +265,7 @@ function buscarRG() {
 }
 
 function buscarLote() {
-    var rg = document.getElementById('lote').value;
+    var lote = document.getElementById('lote').value;
     if (!lote != '') return;
     var ajax = new XMLHttpRequest();
     // Seta tipo de requisição e URL com os parâmetros

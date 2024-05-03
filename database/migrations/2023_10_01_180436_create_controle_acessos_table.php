@@ -21,8 +21,8 @@ class CreateControleAcessosTable extends Migration
             // 3. Create foreign key constraints
             
             $table->integer('tipo');
-            $table->integer('pessoa_id')->nullable();
-            $table->integer('veiculo_id')->nullable();
+            $table->bigInteger('lote_id')->nullable();
+            $table->bigInteger('veiculo_id')->nullable();
             $table->string('motorista')->nullable();
             $table->datetime('data_entrada');
             $table->datetime('data_saida')->nullable();
@@ -30,10 +30,6 @@ class CreateControleAcessosTable extends Migration
             $table->string('motivo');
             $table->string('destino')->nullable();
 
-            $table  ->foreign('unidade_id')
-                    ->references('id')
-                    ->on('unidades');
-                    
             $table->timestamps();
         });
     }

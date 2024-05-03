@@ -8,8 +8,15 @@ use Illuminate\Http\Request;
 
 class LoteController extends Controller
 {
-    public function index(Lote $descricao){
-        return $descricao ->where('descricao','like','%'.$descricao.'%')
-                        ->first();
+    private $lote; 
+
+    public function __construct(Lote $lotes)
+    {
+
+        $this->lote = $lotes;
+    }
+    
+    public function index($id){
+        return $this->lote->find($id);
     }
 }
