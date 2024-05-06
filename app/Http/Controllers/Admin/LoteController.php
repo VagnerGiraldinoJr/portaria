@@ -35,7 +35,7 @@ class LoteController extends Controller
 
         $params = $this->params;
         $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->get();
-        dd($data);
+      
         return view('admin.lote.index', compact('params', 'data'));
     }
 

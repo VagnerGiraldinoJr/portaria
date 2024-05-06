@@ -73,8 +73,9 @@ class ControleAcessoController extends Controller
         // $format = 'Y-m-!d H:i:s';   
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
+        
         $insert = $this->controle_acesso->create($dataForm);
-       
+        dd($dataForm);
         if($insert){
             return redirect()->route($this->params['main_route'].'.index');
         }else{

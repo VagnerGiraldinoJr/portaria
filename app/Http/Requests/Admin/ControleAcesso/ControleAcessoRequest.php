@@ -26,8 +26,8 @@ class ControleAcessoRequest extends FormRequest
             'pessoa_id' => 'required_if:tipo,1',
             'veiculo_id' => 'required_if:tipo,2',
             // 'motorista' => 'required',
-            'data_entrada' => 'required',
-            'unidade' => 'required',
+           // 'data_entrada' => 'required',
+          //  'unidade' => 'required',
            // 'motivo' => 'required',
         ];
     }
@@ -40,8 +40,8 @@ class ControleAcessoRequest extends FormRequest
             'pessoa_id.required_if' => 'O :attribute é obrigatório',
             'veiculo_id.required_if' => 'O :attribute é obrigatório',
             // 'motorista.required' => 'O :attribute é obrigatório',
-            'data_entrada.required' => 'O :attribute é obrigatório',
-            'unidade.required' => 'O :attribute é obrigatório',
+           // 'data_entrada.required' => 'O :attribute é obrigatório',
+          //  'unidade.required' => 'O :attribute é obrigatório',
             // 'motivo.required' => 'O :attribute é obrigatório',
         ];
     }
@@ -54,8 +54,8 @@ class ControleAcessoRequest extends FormRequest
             'pessoa_id' => 'Pessoa',
             'veiculo_id' => 'Veiculo',
             // 'motorista' => 'Motorista',
-            'data_entrada' => 'Data de Entrada',
-            'unidade' => 'Data de Entrada',
+           // 'data_entrada' => 'Data de Entrada',
+            //'unidade' => 'Data de Entrada',
            // 'motivo' => 'Motivo',
             
         ];

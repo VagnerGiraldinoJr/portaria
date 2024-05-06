@@ -35,7 +35,9 @@ class PessoaController extends Controller
         ];
 
         $params = $this->params;
-        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->get();
+       
+        $data = $this->pessoa->where('lote_id',Auth::user()->lote_id)->get();
+       
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 
@@ -61,7 +63,7 @@ class PessoaController extends Controller
     public function store(PessoaRequest $request)
     {
         $dataForm  = $request->all();
-        $dataForm['unidade_id'] = Auth::user()->unidade_id;
+        $dataForm['lote_id'] = Auth::user()->lote_id;
         $insert = $this->pessoa->create($dataForm);
 
         if ($insert) {
@@ -85,7 +87,7 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $data = $this->pessoa->where('lote_id',Auth::user()->lote_id)->where('id',$id)->first();
         
         $preload['tipo'] = $codes->select(4);
 
@@ -107,7 +109,7 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $data = $this->pessoa->where('lote_id',Auth::user()->lote_id)->where('id',$id)->first();
 
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'data', 'preload'));
@@ -119,7 +121,7 @@ class PessoaController extends Controller
         $dataForm  = $request->all();
 
         //ajustar no veículo
-        $pessoa = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $pessoa = $this->pessoa->where('lote_id',Auth::user()->lote_id)->where('id',$id)->first();
 
         if ($pessoa->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
@@ -130,7 +132,7 @@ class PessoaController extends Controller
 
     public function destroy($id)
     {
-        $data = $this->pessoa->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $data = $this->pessoa->where('lote_id',Auth::user()->lote_id)->where('id',$id)->first();
 
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
