@@ -30,11 +30,10 @@
                             <tr>
 
                                 <th>RG</th>
-                                <th>Nr Celular</th>
-                                
+                                <th>Nr Celular</th>                                
                                 <th>Nome Completo</th>
                                 <th>Tipo</th>
-                                <th>Lote / Apto</th>
+                                <th>Unidade</th>
                                 <th>Operações</th>
 
                             </tr>

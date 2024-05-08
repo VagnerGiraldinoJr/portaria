@@ -27,7 +27,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Tipo</th>
-                                                <th>Apto / Placa</th>                                                
+                                                <th>Apto / Placa</th>
                                                 <th>Data Entrada</th>
                                                 <th>Data Saída</th>
                                                 <th>Operação</th>
@@ -54,7 +54,7 @@
                                                     <a href="{{ route($params['main_route'].'.exit', $item->id) }}"
                                                         class="btn btn-outline-primary btn-xs"><span
                                                             class="fas fa-check"></span> Marcar Saída</a>
-                                              
+
                                                     <a href="https://wa.me/{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->celular : '' }}?text=Olá!%20Você%20recebeu%20uma%20encomenda!%20Está%20disponível%20na%20portaria.%20"
                                                         target="_blank" rel="noopener noreferrer"
                                                         class="btn btn-outline-success btn-xs"><span
@@ -113,5 +113,5 @@ $(document).ready(function() {
         }
     });
 });
-</script>
-@stop
+                </script>
+                @stop
