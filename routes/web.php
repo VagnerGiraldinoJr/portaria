@@ -83,13 +83,13 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::delete('pessoa/destroy/{id}', 'PessoaController@destroy')->name('admin.pessoa.destroy');
 
          //Lotes
-         Route::get('lote', 'loteController@index')->name('admin.lote.index');
-         Route::get('lote/create', 'loteController@create')->name('admin.lote.create');
-         Route::post('lote/store', 'loteController@store')->name('admin.lote.store');
-         Route::get('lote/edit/{id}', 'loteController@edit')->name('admin.lote.edit');
-         Route::get('lote/show/{id}', 'loteController@show')->name('admin.lote.show');
-         Route::put('lote/update/{id}', 'loteController@update')->name('admin.lote.update');
-         Route::delete('lote/destroy/{id}', 'loteController@destroy')->name('admin.lote.destroy');
+         Route::get('lote', 'LoteController@index')->name('admin.lote.index');
+         Route::get('lote/create', 'LoteController@create')->name('admin.lote.create');
+         Route::post('lote/store', 'LoteController@store')->name('admin.lote.store');
+         Route::get('lote/edit/{id}', 'LoteController@edit')->name('admin.lote.edit');
+         Route::get('lote/show/{id}', 'LoteController@show')->name('admin.lote.show');
+         Route::put('lote/update/{id}', 'LoteController@update')->name('admin.lote.update');
+         Route::delete('lote/destroy/{id}', 'LoteController@destroy')->name('admin.lote.destroy');
 
         //ControleAcesso
         Route::get('controleacesso', 'ControleAcessoController@index')->name('admin.controleacesso.index');
