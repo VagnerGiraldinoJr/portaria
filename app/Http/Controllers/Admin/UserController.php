@@ -38,15 +38,9 @@ class UserController extends Controller
 
         $params = $this->params;
 
-        $data = DB::select('SELECT u.* , r.name as desc_role
-                              FROM users u
-                        INNER JOIN role_user ru
-                                ON ru.user_id = u.id
-                        INNER JOIN roles r
-                                ON r.id = ru.role_id');
-// dd($preload);
-
         $data = $this->user->where('unidade_id',Auth::user()->unidade_id)->get();
+
+        // dd($data);
        
         return view('admin.user.index',compact('params','data'));
     }

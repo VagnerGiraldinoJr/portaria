@@ -37,9 +37,9 @@ class ControleAcessoController extends Controller
         $params = $this->params;
         $data = $this->controle_acesso
         ->where('unidade_id', Auth::user()->unidade_id)
-        ->with('pessoa')
+        ->with('lote')
         ->with('veiculo')
-        ->orderByDesc('data_entrada') // Ordenar por data_inicio em ordem decrescente
+        ->orderBy('data_entrada','desc') // Ordenar por data_inicio em ordem decrescente
         ->get();
      
         return view('admin.controleacesso.index',compact('params','data'));
@@ -63,19 +63,17 @@ class ControleAcessoController extends Controller
                                         ->where('unidade_id', Auth::user()->unidade_id)
                                         ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
                                         ->get()->pluck('descricao','id');
-    
     return view('admin.controleacesso.create',compact('params','preload'));
     }
  
     public function store(ControleAcessoRequest $request)
     {
         $dataForm  = $request->all();
-        // $format = 'Y-m-!d H:i:s';   
-        $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
-        $dataForm['unidade_id'] = Auth::user()->unidade_id;
+        // id, unidade_id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at
         
+        $dataForm['data_entrada'] = Carbon::now()->format('Y-m-d H:i:s');
+        $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->controle_acesso->create($dataForm);
-        dd($dataForm);
         if($insert){
             return redirect()->route($this->params['main_route'].'.index');
         }else{

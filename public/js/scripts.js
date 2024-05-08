@@ -1,5 +1,4 @@
-$(document).ready(function($){
-// $(document).ready(function(){
+$( window ).on( "load", function(){
     // MASKS
     $('#cep').mask("00.000-000", {placeholder: "00.000-000"});
     var SPMaskBehavior = function (val) {
@@ -25,5 +24,6 @@ $(document).ready(function($){
     /// itens de pedido
     $('.cep').mask("00.000-000", {placeholder: "00.000-000"});
     $('.rg').mask("00000000000000");
-    $(".placa").mask('AAA-XXXX');
+    $('.placa').mask('SSS-0A00',{placeholder: "AAA-0000"});
+    $('.unidade').mask('AAAAAAAAAA');
 });

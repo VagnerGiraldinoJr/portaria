@@ -40,24 +40,25 @@
                         <!-- Campos -->
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('nome_completo', 'Nome Completo')}}
-                            {{Form::text('nome_completo',$data->nome_completo,['class' => 'form-control', 'placeholder' => 'Informe o nome completo'])}}
+                            {{Form::text('nome_completo',$data->nome_completo,['class' => 'form-control', 'readonly', 'placeholder' => 'Informe o nome completo'])}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('celular', 'Celular')}}
-                            {{Form::text('celular',$data->celular,['class' => 'form-control', 'placeholder' => 'Informe o número de celular'])}}
+                            {{Form::text('celular',$data->celular,['class' => 'form-control','readonly', 'placeholder' => 'Informe o número de celular'])}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('rg', 'RG')}}
-                            {{Form::text('rg',$data->rg,['class' => 'form-control', 'placeholder' => 'Informe o número do RG completo'])}}
+                            {{Form::text('rg',$data->rg,['class' => 'form-control','readonly', 'placeholder' => 'Informe o número do RG completo'])}}
                         </div>
-                        <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('unidade', 'Unidade')}}
-                            {{Form::text('unidade',$data->unidade,['class' => 'form-control', 'placeholder' => 'Informe o número do unidade completo'])}}
+                        <div id="div_unidade" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('lote', 'Unidade/Apto.') }}
+                            <br>
+                            {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, ['class' => 'form-control','readonly']) }}
                         </div>
                         <div class="form-group col-12 col-md-12 col-lg-12">
                             {{Form::label('tipo', 'Escala')}}<br>
                             {{Form::select('tipo', $preload['tipo'],
-                                ((isset($data->tipo)) ? $data->tipo : null), ['class' => 'form-control']                               
+                                ((isset($data->tipo)) ? $data->tipo : null), ['class' => 'form-control','readonly']                               
                             )}}
                         </div>
                         <div class="row">

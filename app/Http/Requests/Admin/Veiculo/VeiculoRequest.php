@@ -21,7 +21,8 @@ class VeiculoRequest extends FormRequest
         return [
             'placa' => 'required',
             'modelo' => 'required',
-            'tipo'=>'required'
+            'tipo'=>'required',
+            'observacao'=>'required'
         ];
     }
     //["placa","modelo","tipo","observacao"];
@@ -29,7 +30,8 @@ class VeiculoRequest extends FormRequest
         return [
             'placa.required' => 'O :attribute é obrigatório',
             'modelo.required' => 'O :attribute é obrigatório',
-            'tipo.required' => 'O :attribute é obrigatório'
+            'tipo.required' => 'O :attribute é obrigatório',
+            'observacao.required' => 'O :attribute é obrigatório'
         ];
     }
 
@@ -38,7 +40,8 @@ class VeiculoRequest extends FormRequest
         return [
             'placa' => 'Placa',
             'modelo' => 'Modelo',
-            'tipo' => 'Tipo'
+            'tipo' => 'Tipo',
+            'observacao' => 'Observação / Cor'
         ];
     }
 }

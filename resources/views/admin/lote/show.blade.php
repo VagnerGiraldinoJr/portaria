@@ -38,13 +38,9 @@
                     <div class="row">
 
                         <!-- Campos -->
-                        <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('id', 'ID')}}
-                            {{Form::text('id',$data->id,['class' => 'form-control', 'placeholder' => 'Informe o número do Unidade/Lote'])}}
-                        </div>
-                        <div class="form-group col-6 col-md-6 col-lg-6">
+                        <div class="form-group col-12">
                             {{Form::label('descricao', 'Descrição')}}
-                            {{Form::text('descricao',$data->descricao,['class' => 'form-control', 'placeholder' => 'Informe o número do Unidade/Lote'])}}
+                            {{Form::text('descricao',$data->descricao,['class' => 'form-control', 'readonly', 'placeholder' => 'Informe o número do Unidade/Lote'])}}
                         </div>
                         
                         <div class="row">

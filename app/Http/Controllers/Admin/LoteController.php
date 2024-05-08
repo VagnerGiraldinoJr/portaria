@@ -53,6 +53,9 @@ class LoteController extends Controller
                 'titulo' => 'Cadastrar'
             ]
         ];
+
+        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->get();
+
         $params = $this->params;
         $preload['id'] = $codes->select(4);
        

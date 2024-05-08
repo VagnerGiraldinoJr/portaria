@@ -59,8 +59,8 @@
                             )}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('observacao', 'Observação')}}
-                            {{Form::text('observacao',null,['class' => 'form-control', 'placeholder' => 'Observação'])}}
+                            {{Form::label('observacao', 'Observação / Cor')}}
+                            {{Form::text('observacao',null,['class' => 'form-control', 'placeholder' => 'Observação / Cor'])}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
                             {{Form::submit('Salvar',['class'=>'btn btn-success btn-sm'])}}
@@ -82,6 +82,6 @@
 @section('js')
 <script src="{{ asset('js/plugin/jquery.js')}}"></script>
 <script src="{{ asset('js/plugin/jquery-ui/jquery-ui.min.js')}}"></script>
-<script src="{{ asset('js/plugin/jquery.mask.js')}}"></script>
+<script src="{{ asset('js/plugin/jquery.mask.min.js')}}"></script>
 <script src="{{ asset('js/scripts.js')}}"></script>
 @stop

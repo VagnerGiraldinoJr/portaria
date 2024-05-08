@@ -42,7 +42,10 @@
                     {{ Form::open(['route' => $params['main_route'] . '.store', 'method' => 'post']) }}
                     @endif
                     <div class="row">
-                        <input type="hidden" id="pessoa_id" name="pessoa_id" value="">
+
+                        {{-- id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at --}}
+                        
+                        <input type="hidden" id="veiculo_id" name="veiculo_id" value="">
                         <input type="hidden" id="lote_id" name="lote_id" value="">
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
@@ -61,75 +64,66 @@
                                     'placeholder' => 'Informe a Placa',
                                 ]) }}
                         </div>
-                        <!-- {{-- MODELO --}} -->
-                        <div id="div_modelo" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('modelo', 'Modelo') }}
-                            {{ Form::text('modelo', isset($data->veiculo) && sizeof($data->veiculo) ? $data->veiculo[0]->modelo : '', ['class' => 'form-control', 'placeholder' => 'Informe o Modelo']) }}
-                        </div>
+
                         <!-- {{-- UNIDADE --}} -->
-                        <div id="div_unidade" class="form-group col-6 col-md-6 col-lg-6">
+                        <div id="div_lote" class="form-group col-6 col-md-6 col-lg-6">
                             {{ Form::label('lote', 'Unidade/Apto.') }}
                             <br>
                             {{ Form::select('lote', $preload['unidade'], isset($data->lote_id) ? $data->lote_id : null, [
                                     'class' => 'form-control',
-                                    'onChange' => 'buscarLote();',
+                                    'onChange' => 'buscarLote()',
                                 ]) }}
                         </div>
-                        <!-- {{-- NOME COMPLETO --}} -->
-                        <div id="div_nome_completo" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('nome_completo', 'Nome Completo') }}
-                            {{ Form::text('nome_completo', isset($data->pessoa) && sizeof($data->pessoa) ? $data->pessoa[0]->nome_completo : '', ['class' => 'form-control', 'placeholder' => 'Nome Completo','readonly' => 'readonly']) }}
-                        </div>
-                        <!-- {{-- CELULAR --}} -->
-                        <div id="div_celular" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('celular', 'Celular') }}
-                            {{ Form::text('celular', isset($data->pessoa) && sizeof($data->pessoa) ? $data->pessoa[0]->celular : '', ['class' => 'form-control', 'placeholder' => 'Celular', 'readonly' => 'readonly']) }}
+
+                        <!-- {{-- MODELO --}} -->
+                        <div id="div_modelo_veiculo" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('modelo_veiculo', 'Modelo') }}
+                            {{ Form::text('modelo_veiculo', null , ['class' => 'form-control', 'readonly',  'placeholder' => 'Informe o Modelo']) }}
                         </div>
 
-                        <!-- {{-- MOTORISTA --}} -->
-                        <div id="div_motorista" class="form-group col-6 col-md-6 col-lg-6">
+                        <!-- {{-- MODELO --}} -->
+                        <div id="div_observacao_veiculo" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('observacao_veiculo', 'Observação / Cor') }}
+                            {{ Form::text('observacao_veiculo', null , ['class' => 'form-control', 'readonly',  'placeholder' => 'Observação / Cor']) }}
+                        </div>
+
+                         <!-- {{-- MOTORISTA --}} -->
+                         <div id="div_motorista" class="form-group col-6 col-md-6 col-lg-6">
                             {{ Form::label('motorista', 'Motorista') }}
                             {{ Form::text('motorista', isset($data->motorista) ? $data->motorista : null, ['class' => 'form-control', 'placeholder' => 'Informe o Motorista']) }}
                         </div>
-                        <!-- {{-- RG --}} -->
-                        <div id="div_rg" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('rg', 'DOC. (RG/CPF)') }}
-                            {{ Form::text('rg', isset($data->pessoa) && sizeof($data->pessoa) ? $data->pessoa[0]->rg : '', ['class' => 'form-control', 'onChange' => 'buscarRG()', 'placeholder' => 'Informe um RG']) }}
-                        </div>
-                        <!-- {{-- DATA ENTRADA --}} -->
-                        <div id="div_data_entrada" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('data_entrada', 'Data Entrada') }}
-                            {{ Form::text('data_entrada', \Carbon\Carbon::now()->format('d-m-Y H:i:s'), ['class' => 'form-control', 'placeholder' => 'Informe a data de entrada','readonly' => 'readonly']) }}
+
+                        <div id="div_nome_pessoa" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('nome_pessoa', 'Nome Completo') }}
+                            {{ Form::text('nome_pessoa', null, ['class' => 'form-control', 'placeholder' => 'Nome Completo','readonly' => 'readonly']) }}
                         </div>
 
+                        <div id="div_rg_pessoa" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('rg_pessoa', 'Documento') }}
+                            {{ Form::text('rg_pessoa', null , ['class' => 'form-control', 'placeholder' => 'Documento','readonly' => 'readonly']) }}
+                        </div>
+                       
                         <!-- {{-- MOTIVO --}} -->
-                        <!-- <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
+                        <div id="div_motivo" class="form-group col-6 col-md-6 col-lg-6">
                             {{ Form::label('motivo', 'Motivo') }}
-                            {{ Form::text('motivo', isset($data->motivo) ? $data->motivo : null, ['class' => 'form-control', 'placeholder' => 'Informe o Motivo']) }}
-                        </div> -->
-                        <!-- {{-- DESTINO --}} -->
-                        <!-- <div id="motivo" class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('destino', 'Destino') }}
-                            {{ Form::text('destino', isset($data->destino) ? $data->destino : null, ['class' => 'form-control', 'placeholder' => 'Informe o Destino na unidade']) }}
-                        </div> -->
+                            {{ Form::text('motivo', null, ['class' => 'form-control', 'placeholder' => 'Informe o Motivo']) }}
+                        </div> 
                         <!-- {{-- OBSERVACAO --}} -->
-                        <div class="form-group col-6 col-md-6 col-lg-12">
+                        <div class="form-group col-6 col-md-6 col-lg-6">
                             {{ Form::label('observacao', 'Observação') }}
                             {{ Form::text('observacao', isset($data->observacao) ? $data->observacao : null, ['class' => 'form-control', 'placeholder' => 'Observação']) }}
                         </div>
 
-                        <!-- {{--------------------+CADASTRAR VEICULO FORM---------------------}} -->
                         <div id="div_botao_placa" class="d-none form-group col-12 col-md-12 col-lg-12">
-                            <a href="{{ route('admin.veiculo.index') }}"
+                            <a href="{{ route('admin.veiculo.create') }}"
                                 class="btn btn-primary btn-lg d-flex align-self-end">
                                 <span class="p-1 fas fa-plus"> Cadastrar novo Veículo</span>
                             </a>
                         </div>
-                        <!-- {{--------------------+CADASTRAR PESSOA FORM---------------------}} -->
-                        <div id="div_botao_rg" class="d-none form-group col-12 col-md-12 col-lg-12">
-                            <a href="{{ route('admin.pessoa.index') }}"
+                        <div id="div_botao_rg" class="d-none form-group col-6 col-md-6 col-lg-6">
+                            <a href="{{ route('admin.lote.create') }}"
                                 class="btn btn-primary btn-lg d-flex align-self-end">
-                                <span class="p-1 fas fa-plus"> Cadastrar nova Pessoa</span>
+                                <span class="p-1 fas fa-plus"> Cadastrar Lote / Apto</span>
                             </a>
                         </div>
                         <!-- {{--------------------BOTAO SALVAR---------------------}} -->
@@ -152,148 +146,106 @@
 @stop
 
 @section('js')
-<script src="{{ asset('js/scripts.js') }}"></script>
 <script src="{{ asset('js/plugin/jquery.js') }}"></script>
-<script src="{{ asset('js/plugin/jquery.mask.js') }}"></script>
-<script src="{{ asset('js/plugin/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/plugin/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 <script>
-$(function() {
-    $('#data_entrada').datepicker({
-        dateFormat: 'dd-mm-yy',
-        onSelect: function(datetext) {
-            var d = new Date(); // for now
-            var h = d.getHours();
-            h = (h < 10) ? ("0" + h) : h;
-            var m = d.getMinutes();
-            m = (m < 10) ? ("0" + m) : m;
-            var s = d.getSeconds();
-            s = (s < 10) ? ("0" + s) : s;
-            datetext = datetext + " " + h + ":" + m + ":" + s;
-            $('#data_entrada').val(datetext);
-        },
-    });
-});
-$(document).ready(function() {
-    maskMercosul('.placa');
-    $('#rg').mask('00000000000000');
-});
+    function selectColuna() {
+        var tipo = document.getElementById('tipo').value;
+        if (tipo == 1) {
+            document.getElementById('div_placa').style.display = "none";
+            document.getElementById('div_modelo_veiculo').style.display = "none";
+            document.getElementById('div_observacao_veiculo').style.display = "none";
+            document.getElementById('div_motorista').style.display = "none";
+            
+            document.getElementById('div_lote').style.display = "block";
+            document.getElementById('div_nome_pessoa').style.display = "block";
+            document.getElementById('div_rg_pessoa').style.display = "block";
+            document.getElementById('div_motivo').style.display = "block";
+            buscarLote();
+            
+        } else {
+            document.getElementById('div_placa').style.display = "block";
+            document.getElementById('div_modelo_veiculo').style.display = "block";
+            document.getElementById('div_observacao_veiculo').style.display = "block";
+            document.getElementById('div_motorista').style.display = "block";
+            
+            document.getElementById('div_lote').style.display = "none";
+            document.getElementById('div_nome_pessoa').style.display = "none";
+            document.getElementById('div_rg_pessoa').style.display = "none";
+            document.getElementById('div_motivo').style.display = "none";
+        }    
+    };
 
-
-
-function selectColuna() {
-    var tipo = document.getElementById('tipo').value;
-    if (tipo == 1) {
-        document.getElementById('div_placa').style.display = "none";
-        document.getElementById('div_modelo').style.display = "none";
-        document.getElementById('div_motorista').style.display = "none";
-        document.getElementById('div_rg').style.display = "block";
-        document.getElementById('div_unidade').style.display = "block";
-        document.getElementById('div_nome_completo').style.display = "block";
-        buscarRG();
+    function buscarPlaca() {
+        var placa = document.getElementById('placa').value;
         
-    } else {
-        document.getElementById('div_rg').style.display = "none";
-        document.getElementById('div_unidade').style.display = "none";
-        document.getElementById('div_nome_completo').style.display = "none";
-        document.getElementById('div_placa').style.display = "block";
-        document.getElementById('div_modelo').style.display = "block";
-        buscarPlaca();
-    }    
-};
-
-function resetarBotaoCadastro() {
-    document.getElementById('div_botao_placa').classList.add("d-none");
-    document.getElementById('div_botao_rg').classList.add("d-none");
-    document.getElementById('div_botao_unidade').classList.add("d-none");
-}
-
-function buscarPlaca() {
-    var placa = document.getElementById('placa').value;
-    if (!placa != '') return;
-    var ajax = new XMLHttpRequest();
-    // Seta tipo de requisição e URL com os parâmetros
-    ajax.open("GET", "{{ asset('api/veiculo/') }}/" + placa, true);
-    // Envia a requisição
-    ajax.send();
-    // Cria um evento para receber o retorno.
-    ajax.onreadystatechange = function() {
-        // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
-        if (ajax.readyState == 4 && ajax.status == 200) {
-            var data = ajax.responseText;
-            if (!data == []) {
-                resultado = JSON.parse(data);
-                document.getElementById('modelo').value = resultado.modelo;
-                document.getElementById('placa').value = resultado.placa;
-                document.getElementById('veiculo_id').value = resultado.id;
-            } else {
-                document.getElementById('modelo').value = 'NÃO ENCONTRADO';
-                document.getElementById('div_botao_placa').classList.remove("d-none");
+        if (!placa != '') return;
+        
+        var ajax = new XMLHttpRequest();
+        // Seta tipo de requisição e URL com os parâmetros
+        ajax.open("GET", "{{ asset('api/veiculo/') }}/" + placa, true);
+        // Envia a requisição
+        ajax.send();
+        // Cria um evento para receber o retorno.
+        ajax.onreadystatechange = function() {
+            // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var data = ajax.responseText;
+                if (!data == []) {
+                    resultado = JSON.parse(data);
+                    document.getElementById('placa').value = resultado.placa;
+                    document.getElementById('modelo_veiculo').value = resultado.modelo;
+                    document.getElementById('observacao_veiculo').value = resultado.observacao;
+                    document.getElementById('veiculo_id').value = resultado.id;
+                } else {
+                    document.getElementById('modelo').value = 'NÃO ENCONTRADO';
+                    document.getElementById('observacao_veiculo').value = '';
+                    document.getElementById('div_botao_placa').classList.remove("d-none");
+                    document.getElementById('veiculo_id').value = '';
+                }
+            }else {
+                document.getElementById('modelo').value = '';
+                document.getElementById('observacao_veiculo').value = '';
+                document.getElementById('veiculo_id').value = '';
             }
         }
     }
-}
 
-function buscarRG() {
-    var rg = document.getElementById('rg').value;
-    if (!rg != '') return;
-    var ajax = new XMLHttpRequest();
-    // Seta tipo de requisição e URL com os parâmetros
-    // ajax.open("GET", "{{ asset('api/pessoa/') }}/" + bloco + "/apto/" + apto, true);
-    // ajax.open("GET", "{{ asset('api/pessoa/') }}/" + rg + "/apto/" + rg, true);
-    // ajax.open("GET", "{{ asset('api/veiculo/') }}/" + placa, true);
-    ajax.open("GET", "{{ asset('api/pessoa/') }}/" + rg, true);
-    // Envia a requisição
-    ajax.send();
-    // Cria um evento para receber o retorno.
-    ajax.onreadystatechange = function() {
-        // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
-        if (ajax.readyState == 4 && ajax.status == 200) {
-            var data = ajax.responseText;
-            if (!data == []) {
-                document.getElementById('nome_completo').value = JSON.parse(data).nome_completo;
-                document.getElementById('celular').value = JSON.parse(data).celular;
-                document.getElementById('rg').value = JSON.parse(data).rg;
-                document.getElementById('pessoa_id').value = JSON.parse(data).id;
-            } else {
-                document.getElementById('nome_completo').value = 'NÃO ENCONTRADO';
-                document.getElementById('pessoa_id').value = '';
-                resetarBotaoCadastro();
-                document.getElementById('div_botao_rg').classList.remove("d-none");
+    function buscarLote() {
+        var lote = document.getElementById('lote').value;
+        
+        if (!lote != '') return;
+        
+        var ajax = new XMLHttpRequest();
+        // Seta tipo de requisição e URL com os parâmetros
+        ajax.open("GET", "{{ asset('api/lote/') }}/" + lote, true);
+        // Envia a requisição
+        ajax.send();
+        // Cria um evento para receber o retorno.
+        ajax.onreadystatechange = function() {
+            // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var data = ajax.responseText;
+                if (!data == []) {
+                    resultado = JSON.parse(data);
+                    document.getElementById('nome_pessoa').value = resultado.nome_completo;
+                    document.getElementById('rg_pessoa').value = resultado.rg;
+                    document.getElementById('lote_id').value = resultado.lote_id;
+                } else {
+                    document.getElementById('nome_pessoa').value = 'NÃO ENCONTRADO';
+                    document.getElementById('rg_pessoa').value = '';
+                    document.getElementById('div_botao_rg').classList.remove("d-none");
+                    document.getElementById('lote_id').value = '';
+                }
+            }else{
+                document.getElementById('nome_pessoa').value = '';
+                document.getElementById('rg_pessoa').value = '';
+                document.getElementById('lote_id').value = '';
             }
         }
     }
-}
 
-function buscarLote() {
-    var lote = document.getElementById('lote').value;
-    if (!lote != '') return;
-    var ajax = new XMLHttpRequest();
-    // Seta tipo de requisição e URL com os parâmetros
-    // ajax.open("GET", "{{ asset('api/pessoa/') }}/" + bloco + "/apto/" + apto, true);
-    // ajax.open("GET", "{{ asset('api/pessoa/') }}/" + lote + "/apto/" + lote, true);
-    // ajax.open("GET", "{{ asset('api/veiculo/') }}/" + placa, true);
-    ajax.open("GET", "{{ asset('api/pessoa/') }}/" + lote, true);
-    // Envia a requisição
-    ajax.send();
-    // Cria um evento para receber o retorno.
-    ajax.onreadystatechange = function() {
-        // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
-        if (ajax.readyState == 4 && ajax.status == 200) {
-            var data = ajax.responseText;
-            if (!data == []) {
-                document.getElementById('nome_completo').value = JSON.parse(data).nome_completo;
-                document.getElementById('celular').value = JSON.parse(data).celular;
-                document.getElementById('lote').value = JSON.parse(data).lote;
-                document.getElementById('pessoa_id').value = JSON.parse(data).id;
-            } else {
-                document.getElementById('nome_completo').value = 'NÃO ENCONTRADO';
-                document.getElementById('pessoa_id').value = '';
-                resetarBotaoCadastro();
-                document.getElementById('div_botao_unidade').classList.remove("d-none");
-            }
-        }
-    }
-}
-selectColuna();
+    selectColuna();
 </script>
 @stop

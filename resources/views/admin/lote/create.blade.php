@@ -44,9 +44,8 @@
                     <div class="row">
 
                         <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{ Form::label('descricao', 'Lote/Unidade') }}
-                            {{ Form::selectRange('descricao', 1, 100, null, ['class' => 'form-control descricao', 'placeholder' => 'Selecione um número', 'title' => 'Por favor, selecione um número de 1 a 100']) }}
-                            <small class="text-muted">Selecione um número de 1 a 100</small>
+                            {{Form::label('descricao', 'Descrição do Lote/Unidade')}}
+                            {{Form::text('descricao',null,['class' => 'form-control unidade', 'placeholder' => 'Descrição'])}}
                         </div>
 
                         <div class="form-group col-6 col-md-6 col-lg-8 pt-2">
@@ -69,6 +68,7 @@
 @stop
 
 @section('js')
+<script src="{{ asset('js/plugin/jquery.js')}}"></script>
 <script src="{{ asset('plugin/jquery.mask.min.js')}}"></script>
 <script src="{{ asset('js/scripts.js')}}"></script>
 @stop

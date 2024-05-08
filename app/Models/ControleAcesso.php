@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ControleAcesso extends Model
 {
     
-    protected $fillable = ["id","tipo","unidade","pessoa_id","unidade_id","veiculo_id","motorista","data_entrada","data_saida","observacao","motivo","destino","desc_tipo"];
+    // id, unidade_id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at
+
+    protected $fillable = ["id","tipo","lote_id","unidade_id","veiculo_id","motorista","data_entrada","data_saida","observacao","motivo","desc_tipo"];
 
 
-    public function pessoa(): HasMany
+    public function lote(): HasMany
     {
-        return $this->HasMany(Pessoa::class, 'id', 'pessoa_id');
+        return $this->HasMany(Lote::class, 'id', 'lote_id');
     }
 
     public function veiculo(): HasMany

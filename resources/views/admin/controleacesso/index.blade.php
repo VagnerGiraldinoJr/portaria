@@ -27,8 +27,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Tipo</th>
-                                                <th>Nome</th>                                                
-                                                <th>Unidade</th>
+                                                <th>Apto / Placa</th>                                                
                                                 <th>Data Entrada</th>
                                                 <th>Data Saída</th>
                                                 <th>Operação</th>
@@ -39,12 +38,9 @@
                                             <tr>
                                                 <td>{{ $item->desc_tipo}}</td>
                                                 @if($item->tipo == 1)
-                                                <!-- <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->rg : ''}}</td> -->
-                                                <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->nome_completo : ''}}</td>
-                                                <td>{{ (isset($item->pessoa[0])) ? $item->pessoa[0]->unidade : ''}}</td>
+                                                <td>{{ (isset($item->lote[0])) ? $item->lote[0]->descricao : ''}}</td>
                                                 @else
                                                 <td>{{ (isset($item->veiculo[0])) ? $item->veiculo[0]->placa : ''}}</td>
-                                                <td>{{ (isset($item->veiculo[0])) ? $item->veiculo[0]->modelo : ''}}</td>
                                                 @endif
                                                 <td>{{ Carbon\Carbon::parse($item->data_entrada)->format('d/m/Y H:i:s') }}
                                                 </td>

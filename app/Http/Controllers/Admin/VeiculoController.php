@@ -88,7 +88,7 @@ class VeiculoController extends Controller
         $this->params['arvore']=[
         [
             'url' => 'admin/veiculos',
-            'titulo' => 'Galerias'
+            'titulo' => 'Veículos'
         ],
         [
             'url' => '',

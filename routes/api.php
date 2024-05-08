@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Api'],function(){
-    Route::get('pessoa/{unidade}', 'PessoaController@index')->name('api.pessoa.index');
-    Route::get('pessoa/{rg}', 'PessoaController@index')->name('api.pessoa.index');
-    Route::get('veiculo/{placa}', 'VeiculoController@index')->name('api.veiculo.index');
+Route::group(['middleware' => ['auth', 'throttle:2200,1'], 'namespace' => 'Api'], function () {
+    Route::get('pessoa/{unidade}','PessoaController@index')->name('api.pessoa.index');
+    Route::get('pessoa/{rg}','PessoaController@index')->name('api.pessoa.index');
+    Route::get('veiculo/{placa}','VeiculoController@index')->name('api.veiculo.index');
     Route::get('lote/{id}', 'loteController@index')->name('api.lote.index');
-    //Route::get('morador/{placa}', 'MoradorController@index')->name('api.morador.index');
 });

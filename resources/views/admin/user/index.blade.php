@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{ $item->name}}</td>
                                     <td>{{ $item->email}}</td>
-                                    <td>{{ $item->role}}</td>
+                                    <td>{{ $item->desc_role}}</td>
                             
                                     {{-- @dump($item); --}}
                                     <td>

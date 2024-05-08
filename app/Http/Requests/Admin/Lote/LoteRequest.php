@@ -19,27 +19,21 @@ class LoteRequest extends FormRequest
     public function rules()
     {
         return [
-            
             'descricao' => 'required'
-
         ];
     }
 
     public function messages()
     {
         return [
-            
             'descricao.required' => 'O :attribute é obrigatório'
-          
         ];
     }
 
     public function attributes()
     {
         return [
-            
-            'descricao.required' => 'O :attribute é obrigatório'            
-            
+            'descricao' => 'Descrição'            
         ];
     }
 }

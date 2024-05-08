@@ -58,11 +58,14 @@
                             {{Form::label('celular', 'Nº Celular')}}
                             {{Form::text('celular',null,['class' => 'form-control celular', 'placeholder' => 'Informe o número celular'])}}
                         </div>
-<!-- Campo novo para unidade (127 - Apto ou casa) -->
-<!-- 26/04/2024 -->
-                        <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('unidade', 'Unidade')}}
-                            {{Form::text('unidade',null,['class' => 'form-control unidade', 'placeholder' => 'Informe a unidade'])}}
+                        <!-- Campo novo para unidade (127 - Apto ou casa) -->
+                        <!-- 26/04/2024 -->
+                        <div id="div_unidade" class="form-group col-6 col-md-6 col-lg-6">
+                            {{ Form::label('lote', 'Unidade/Apto.') }}
+                            <br>
+                            {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
+                                    'class' => 'form-control',
+                                ]) }}
                         </div>
                         
                         <div class="form-group col-12 col-md-12 col-lg-12">
@@ -92,6 +95,7 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('js/plugin/jquery.js')}}"></script>
     <script src="{{ asset('plugin/jquery.mask.min.js')}}" ></script>
     <script src="{{ asset('js/scripts.js')}}" ></script>
 @stop
