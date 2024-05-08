@@ -22,5 +22,10 @@ class UnidadeSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
+        DB::table('unidades')->insert([
+            'titulo' => 'Portaria 3 | Vittace Sabará',
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
     }
 }

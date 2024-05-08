@@ -12,7 +12,6 @@ class TableCodesSeeder extends Seeder
      */
     public function run()
     {
-
          // USUARIO SISTEMAS CODES
          DB::table('table_codes')->insert([
             'pai' => '1',

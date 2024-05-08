@@ -21,8 +21,8 @@ class RoleSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'Operador',
-            'slug' => 'Operador',
+            'name' => 'Operador/Portaria',
+            'slug' => 'Operador/Portaria',
             'description' => 'Operador',
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
