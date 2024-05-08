@@ -17,5 +17,5 @@ Route::group(['middleware' => ['auth', 'throttle:2200,1'], 'namespace' => 'Api']
     Route::get('pessoa/{unidade}','PessoaController@index')->name('api.pessoa.index');
     Route::get('pessoa/{rg}','PessoaController@index')->name('api.pessoa.index');
     Route::get('veiculo/{placa}','VeiculoController@index')->name('api.veiculo.index');
-    Route::get('lote/{id}', 'loteController@index')->name('api.lote.index');
+    Route::get('lote/{id}', 'LoteController@index')->name('api.lote.index');
 });
