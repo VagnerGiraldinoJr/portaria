@@ -34,7 +34,7 @@ class IndexController extends Controller
 
 
         // Default values
-        $this->params['titulo']='Bem Vindo';
+        $this->params['titulo']='Indicadores - Portaria';
         $this->params['main_route']='admin';
 
     }
@@ -49,8 +49,6 @@ class IndexController extends Controller
         $data['admin'] = $this->administrador->count();
         $data['controleacesso'] = $this->controleacesso->count();
         $data['EncomendasNaoEntregues'] = $this->controleacesso->whereNull('data_saida',NULL)->count();
-    
-        //$data['controleacesso'] = $this->controleacesso->whereisnotNull('data_saida',NULL)->count();
         $data['produto'] = $this->produto->count();
         $data['orcamento'] = $this->orcamento->count();
         $data['pedido'] = $this->orcamento->has('getPedido')->count();

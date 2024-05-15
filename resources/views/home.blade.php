@@ -15,6 +15,7 @@
                     @endif
 
                     Bem Vindo
+
                 </div>
             </div>
         </div>
