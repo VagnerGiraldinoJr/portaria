@@ -130,7 +130,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-dark',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -354,7 +354,7 @@ return [
         [
             'text' => 'Cadastro Condomínios',
             'icon' => 'far fa-window-minimize',
-            'url'  => '#',
+            'url'  => 'admin/unidade',
             'icon_color' => 'red',
         ],
         [
@@ -387,14 +387,15 @@ return [
             'text'        => 'Versão Web',
             'url'        => '#',
             'icon'        => 'fab fa-php',
-            'icon_color' => 'blue',
-            'label'       => 'V1.1.G2',
+            'icon_color' => 'light',
+            'label'       => 'V1.1.G3',
             'label_color' => 'primary',
-        ],
+        ]
+        ,
         [
             'text'        => 'Ambiente',
             'url'        => '#',
-            'icon_color' => 'green',
+            'icon_color' => 'blue',
             'icon'        => 'fab fa-skyatlas',
             'label'       => 'Online - Produção',
             'label_color' => 'success',
@@ -402,11 +403,11 @@ return [
         ],
         [
             'text'        => 'Suporte',
-            'url'        => '#',
-            'icon_color' => 'red',
-            'icon'        => 'fab fa-laravel',
-            'label'       => '+55 (**)* ****-****',
-            'label_color' => 'secondary',
+            'url'        => 'https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria',
+            'icon_color' => 'green',
+            'icon'        => 'fab fa-whatsapp',
+            'label'       => 'Abrir chamado',
+            'label_color' => 'warning',
         ],
     ],
 

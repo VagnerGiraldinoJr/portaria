@@ -94,7 +94,7 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-        $data = $this->pessoa ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+        $data = $this->pessoa ->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
                             ->where('lotes.unidade_id', Auth::user()->unidade_id)
                             ->where('pessoas.id',$id)->first();
 
@@ -122,7 +122,7 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->pessoa   ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+        $data = $this->pessoa  ->select('pessoas.*') ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
                                 ->where('lotes.unidade_id', Auth::user()->unidade_id)
                                 ->where('pessoas.id',$id)->first();
        
@@ -144,7 +144,7 @@ class PessoaController extends Controller
                                 ->where('lotes.unidade_id', Auth::user()->unidade_id)
                                 ->where('pessoas.id',$id)->first();
 
-        if ($pessoa->update($dataForm)) {
+        if (($pessoa != null) && $this->pessoa->find($id)->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
@@ -157,7 +157,7 @@ class PessoaController extends Controller
                                 ->where('lotes.unidade_id', Auth::user()->unidade_id)
                                 ->where('pessoas.id',$id)->first();
 
-        if ($pessoa->delete()) {
+        if (($pessoa != null) && $this->pessoa->find($id)->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao deletar.']);

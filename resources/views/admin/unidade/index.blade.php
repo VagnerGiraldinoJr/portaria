@@ -6,7 +6,6 @@
 @section('content')
 @section('content')
 
-
 <section class="content">
     <div class="row">
         <div class="col-12">
@@ -18,10 +17,10 @@
                         </div>
                         <div class="col-6 text-right">
                             <a href="{{ route($params['main_route'].'.create')}}" class="btn btn-primary btn-xs"><span
-                                    class="fas fa-plus"></span> Novo Cadastro</a>
+                                    class="fas fa-plus"></span> Novo
+                                Cadastro</a>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive">
@@ -29,23 +28,16 @@
                     <table id="dataTablePortaria" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>RG</th>
-                                <th>Nr Celular</th>
-                                <th>Nome Completo</th>
-                                <th>Tipo</th>
-                                <th>Unidade</th>
-                                <th>Operações</th>
+                                <th>ID</th>
+                                <th>Titulo - Condomínio</th>
+                                <th>Operação</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                             <tr>
-                                <td>{{ $item->rg}}</td>
-                                <td>{{ $item->celular}}</td>
-                                <td>{{ $item->nome_completo}}</td>
-                                <td>{{ $item->desc_tipo}}</td>
-                                <td>{{ $item->lote}}</td>
-
+                                <td>{{ $item->id}}</td>                                
+                                <td>{{ $item->titulo}}</td>                                
                                 <td>
                                     <a href="{{ route($params['main_route'].'.edit', $item->id) }}"
                                         class="btn btn-primary btn-xs"><span class="fas fa-edit"></span> Editar</a>
@@ -54,6 +46,7 @@
                                 </td>
                             </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                     @else
@@ -66,13 +59,19 @@
             </div>
         </div>
     </div>
+
 </section>
+
 @stop
+
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 @section('plugins.Datatables', true)
+
 @stop
+
 @section('js')
+
 <script>
 $(document).ready(function() {
     var table = $('#dataTablePortaria').DataTable({

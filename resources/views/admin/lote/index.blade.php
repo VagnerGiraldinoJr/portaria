@@ -21,15 +21,15 @@
 
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
+                <div class="card-body table-responsive">
                     @if(isset($data) && count($data))
-                    <table class="table table-hover">
+                    <table id="dataTablePortaria" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Unidade</th>
-                                <th>Casa</th>
-                                <th>Nr Condominio</th>
+                                <th>Unidade de Cadastro</th>
+                                <th>Descrição Casa/Lote</th>
+                                <th>Data Criação</th>
                                 <th>Operação</th>
                             </tr>
                         </thead>
@@ -65,15 +65,13 @@
 
         </div>
     </div>
-</section>
+    </section>
 @stop
-
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
+@section('plugins.Datatables', true)
 @stop
-
 @section('js')
-
 <script>
 $(document).ready(function() {
     var table = $('#dataTablePortaria').DataTable({

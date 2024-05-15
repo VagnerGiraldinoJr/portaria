@@ -81,6 +81,15 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::get('pessoa/show/{id}', 'PessoaController@show')->name('admin.pessoa.show');
         Route::put('pessoa/update/{id}', 'PessoaController@update')->name('admin.pessoa.update');
         Route::delete('pessoa/destroy/{id}', 'PessoaController@destroy')->name('admin.pessoa.destroy');
+       
+        //Unidades de acesso - Filiais
+        Route::get('unidade', 'UnidadeController@index')->name('admin.unidade.index');
+        Route::get('unidade/create', 'UnidadeController@create')->name('admin.unidade.create');
+        Route::post('unidade/store', 'UnidadeController@store')->name('admin.unidade.store');
+        Route::get('unidade/edit/{id}', 'UnidadeController@edit')->name('admin.unidade.edit');
+        Route::get('unidade/show/{id}', 'UnidadeController@show')->name('admin.unidade.show');
+        Route::put('unidade/update/{id}', 'UnidadeController@update')->name('admin.unidade.update');
+        Route::delete('unidade/destroy/{id}', 'UnidadeController@destroy')->name('admin.unidade.destroy');
 
          //Lotes
          Route::get('lote', 'LoteController@index')->name('admin.lote.index');
