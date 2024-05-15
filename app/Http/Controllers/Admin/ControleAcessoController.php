@@ -41,7 +41,6 @@ class ControleAcessoController extends Controller
         ->with('veiculo')
         ->orderBy('data_entrada','desc') // Ordenar por data_inicio em ordem decrescente
         ->get();
-     
         return view('admin.controleacesso.index',compact('params','data'));
     }
     public function create(TableCode $codes)
@@ -178,6 +177,14 @@ class ControleAcessoController extends Controller
             return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao deletar.']);
         }
     }
+
+    public function contador()
+    {
+        $data  = $this->controle_acesso('data_saida');
+    }
+
+   
+
 
    
 

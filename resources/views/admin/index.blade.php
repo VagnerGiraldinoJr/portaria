@@ -62,7 +62,7 @@
                                 <div class="icon">
                                     <i class="fas fa-clipboard-check"></i>
                                 </div>
-                                <a href="{{ route($params['main_route'].'.pedido.index')}}" class="small-box-footer">Ver
+                                <a href="{{ route($params['main_route'].'.controleacesso.index')}}" class="small-box-footer">Ver
                                     Mais <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -71,14 +71,14 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>{{$data['produto']}}</h3>
+                                    <h3>{{$data['pessoas']}}</h3>
 
                                     <p>Cadastros de Moradores</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-tag"></i>
                                 </div>
-                                <a href="{{ route($params['main_route'].'.produto.index')}}"
+                                <a href="{{ route($params['main_route'].'.pessoa.index')}}"
                                     class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
