@@ -53,11 +53,11 @@
 
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-success">
+                            <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>{{$data['EncomendasNaoEntregues']}}</h3>
 
-                                    <p>Encomendas não Entregues</p>
+                                    <p>Encomendas não Retiradas</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-clipboard-check"></i>
@@ -73,7 +73,7 @@
                                 <div class="inner">
                                     <h3>{{$data['pessoas']}}</h3>
 
-                                    <p>Cadastros de Moradores</p>
+                                    <p>Total de Moradores</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-tag"></i>
