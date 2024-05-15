@@ -48,30 +48,17 @@ class IndexController extends Controller
         $params = $this->params;
         $data['admin'] = $this->administrador->count();
         $data['controleacesso'] = $this->controleacesso->count();
+        $data['EncomendasNaoEntregues'] = $this->controleacesso->whereNull('data_saida',NULL)->count();
+    
+        //$data['controleacesso'] = $this->controleacesso->whereisnotNull('data_saida',NULL)->count();
         $data['produto'] = $this->produto->count();
         $data['orcamento'] = $this->orcamento->count();
         $data['pedido'] = $this->orcamento->has('getPedido')->count();
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
-        $data['pessoas'] = $this->pessoa->count();;
-
-        // No seu controlador ou em qualquer lugar onde você está chamando a função de contagem
-//$count = ControleAcesso::whereNotNull('data_saida')->count();
-
-        // Criar Pedidos por status
+        $data['pessoas'] = $this->pessoa->count();
 
         return view('admin.index',compact('params','data'));
     }
 
 }
-
-
-
-
-
-    // $total  =  $this->select('valor')
-    //                 ->whereDate('operacao',$operacao)
-    //                 ->whereDate('data_hora','<=',$date)
-    //                 ->get()
-    //                 ->sum("valor");
-    // return $total;

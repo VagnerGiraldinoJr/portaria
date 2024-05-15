@@ -29,5 +29,9 @@ class ControleAcesso extends Model
         $codes = new TableCode();
         return (isset($this->tipo) && $this->tipo != NULL) ? $codes->getDescricaoById(5,$this->tipo) : '' ;  
     }
+
+    public function EncomendasNaoEntregues(){
+        return $this->where('data_saida',NULL)->get()->first();
+    }
    
-}
+}   

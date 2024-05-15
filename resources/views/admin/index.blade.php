@@ -55,9 +55,9 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>{{$data['controleacesso']}}</h3>
+                                    <h3>{{$data['EncomendasNaoEntregues']}}</h3>
 
-                                    <p>Encomendas Entregues</p>
+                                    <p>Encomendas não Entregues</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-clipboard-check"></i>
