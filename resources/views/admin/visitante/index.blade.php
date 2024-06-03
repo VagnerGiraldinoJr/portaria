@@ -6,7 +6,6 @@
 @section('content')
 @section('content')
 
-
 <section class="content">
     <div class="row">
         <div class="col-12">
@@ -16,13 +15,12 @@
                         <div class="col-6">
                             <h3 class="card-title">{{$params['subtitulo']}}</h3>
                         </div>
-                     
                         <div class="col-6 text-right">
                             <a href="{{ route($params['main_route'].'.create')}}" class="btn btn-primary btn-xs"><span
-                                    class="fas fa-plus"></span> Novo Cadastro</a>
+                                    class="fas fa-plus"></span> Novo
+                                Cadastro</a>
                         </div>
                     </div>
-               
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive">
@@ -30,28 +28,33 @@
                     <table id="dataTablePortaria" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>RG</th>
-                                <th>Nr Celular</th>
-                                <th>Nome Completo</th>
-                                <th>Tipo</th>
-                                <th>Unidade</th>
-                                <th>Operações</th>
+                                <th>Nome</th>
+                                <th>Documento</th>
+                                <th>Placa do Veículo</th>
+                                <th>Unidade Visitada</th>
+                                <th>Hora de Entrada</th>
+                                <th>Hora de Saída</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $item)
+                            @foreach ($visitantes as $visitante)
                             <tr>
-                                <td>{{ $item->rg}}</td>
-                                <td>{{ $item->celular}}</td>
-                                <td>{{ $item->nome_completo}}</td>
-                                <td>{{ $item->desc_tipo}}</td>
-                                <td>{{ $item->lote}}</td>
-
+                                <td>{{ $visitante->nome }}</td>
+                                <td>{{ $visitante->documento }}</td>
+                                <td>{{ $visitante->placa_do_veiculo }}</td>
+                                <td>{{ $visitante->lote_id }}</td>
+                                <td>{{ $visitante->hora_de_entrada }}</td>
+                                <td>{{ $visitante->hora_de_saida }}</td>
                                 <td>
-                                    <a href="{{ route($params['main_route'].'.edit', $item->id) }}"
-                                        class="btn btn-primary btn-xs"><span class="fas fa-edit"></span> Editar</a>
-                                    <a href="{{ route($params['main_route'].'.show', $item->id) }}"
-                                        class="btn btn-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a>
+                                    @if($visitante->hora_de_saida == NULL)
+                                    <a href="{{ route($params['main_route'].'.exit', $visitante->id) }}"
+                                        class="btn btn-outline-primary btn-xs"><span class="fas fa-check"></span> Marcar
+                                        Saída</a>
+                                    
+                                    @endif
+                                    <!-- <a class="btn btn-outline-primary btn-xs"><span class="fas fa-check"></span> Saída
+                                        Concluída</a> -->
                                 </td>
                             </tr>
                             @endforeach
@@ -63,17 +66,24 @@
                     </div>
                     @endif
                 </div>
+
                 <!-- /.card-body -->
             </div>
         </div>
     </div>
 </section>
+
+
 @stop
+
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 @section('plugins.Datatables', true)
+
 @stop
+
 @section('js')
+
 <script>
 $(document).ready(function() {
     var table = $('#dataTablePortaria').DataTable({

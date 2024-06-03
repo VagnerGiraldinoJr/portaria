@@ -53,7 +53,7 @@
                             {{Form::label('nome_completo', 'Nome Completo')}}
                             {{Form::text('nome_completo',null,['class' => 'form-control', 'placeholder' => 'Informe o nome completo'])}}
                         </div>
-                        
+
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('celular', 'Nº Celular')}}
                             {{Form::text('celular',null,['class' => 'form-control celular', 'placeholder' => 'Informe o número celular'])}}
@@ -67,7 +67,7 @@
                                     'class' => 'form-control',
                                 ]) }}
                         </div>
-                        
+
                         <div class="form-group col-12 col-md-12 col-lg-12">
                             {{Form::label('tipo', 'Classificação')}}<br>
                             {{Form::select('tipo', $preload['tipo'],
@@ -83,8 +83,6 @@
                 </div>
                 <!-- /.card-body -->
             </div>
-
-
         </div>
     </div>
 </section>
@@ -95,8 +93,7 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('js/plugin/jquery.js')}}"></script>
-    <script src="{{ asset('plugin/jquery.mask.min.js')}}" ></script>
-    <script src="{{ asset('js/scripts.js')}}" ></script>
+<script src="{{ asset('js/plugin/jquery.js')}}"></script>
+<script src="{{ asset('plugin/jquery.mask.min.js')}}"></script>
+<script src="{{ asset('js/scripts.js')}}"></script>
 @stop
-

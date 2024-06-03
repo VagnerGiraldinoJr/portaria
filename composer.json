@@ -12,14 +12,15 @@
         "barryvdh/laravel-dompdf": "^0.8.6",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "^4.0",
-        "geekcom/validator-docs": "^3.4",
         "fruitcake/laravel-cors": "^1.0",
-        "laravelcollective/html": "^6.1",
+        "geekcom/validator-docs": "^3.4",
         "jeroennoten/laravel-adminlte": "^3.0",
         "kodeine/laravel-acl": "^2.0",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^2.0",
-        "lucascudo/laravel-pt-br-localization": "^1.0"
+        "laravelcollective/html": "^6.1",
+        "lucascudo/laravel-pt-br-localization": "^1.0",
+        "psy/psysh": "^0.12.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

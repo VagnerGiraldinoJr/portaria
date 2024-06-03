@@ -47,4 +47,9 @@ class User extends Authenticatable
         $tmp_value = $role->select('name')->find($this->role);
         return ($tmp_value) ? $tmp_value['name'] : '';
     }
+
+        public function unidade()
+    {
+        return $this->belongsTo(Unidade::class);
+    }
 }

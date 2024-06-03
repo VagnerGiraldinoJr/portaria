@@ -94,7 +94,7 @@
                                 <div class="icon">
                                     <i class="fas fa-clipboard"></i>
                                 </div>
-                                <a href="{{ route($params['main_route'].'.orcamento.index')}}"
+                                <a href="{{ route($params['main_route'].'.visitante.index')}}"
                                     class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>

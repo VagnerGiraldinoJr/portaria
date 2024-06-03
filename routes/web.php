@@ -31,10 +31,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
     //  Route::get('orcamento/show/{id}', 'OrcamentoController@show')->name('admin.orcamento.show');
         Route::put('orcamento/update/{id}', 'OrcamentoController@update')->name('admin.orcamento.update');
         Route::delete('orcamento/destroy/{id}', 'OrcamentoController@destroy')->name('admin.orcamento.destroy');
-
         Route::get('orcamento/buscar', 'OrcamentoController@getOrcamentoById')->name('admin.orcamento.buscar');
         Route::get('orcamento/print/{id}', 'OrcamentoController@print')->name('admin.print.orcamento');
-
 
         //Pedido
         Route::any('pedido', 'PedidoController@index')->name('admin.pedido.index');
@@ -44,7 +42,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::get('pedido/show/{id}', 'PedidoController@show')->name('admin.pedido.show');
         Route::put('pedido/update/{id}', 'PedidoController@update')->name('admin.pedido.update');
         Route::delete('pedido/destroy/{id}', 'PedidoController@destroy')->name('admin.pedido.destroy');
-
 
         //Produto
         Route::get('produto', 'ProdutoController@index')->name('admin.produto.index');
@@ -91,26 +88,25 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::put('unidade/update/{id}', 'UnidadeController@update')->name('admin.unidade.update');
         Route::delete('unidade/destroy/{id}', 'UnidadeController@destroy')->name('admin.unidade.destroy');
 
-         //Lotes
-         Route::get('lote', 'LoteController@index')->name('admin.lote.index');
-         Route::get('lote/create', 'LoteController@create')->name('admin.lote.create');
-         Route::post('lote/store', 'LoteController@store')->name('admin.lote.store');
-         Route::get('lote/edit/{id}', 'LoteController@edit')->name('admin.lote.edit');
-         Route::get('lote/show/{id}', 'LoteController@show')->name('admin.lote.show');
-         Route::put('lote/update/{id}', 'LoteController@update')->name('admin.lote.update');
-         Route::delete('lote/destroy/{id}', 'LoteController@destroy')->name('admin.lote.destroy');
+        //Lotes
+        Route::get('lote', 'LoteController@index')->name('admin.lote.index');
+        Route::get('lote/create', 'LoteController@create')->name('admin.lote.create');
+        Route::post('lote/store', 'LoteController@store')->name('admin.lote.store');
+        Route::get('lote/edit/{id}', 'LoteController@edit')->name('admin.lote.edit');
+        Route::get('lote/show/{id}', 'LoteController@show')->name('admin.lote.show');
+        Route::put('lote/update/{id}', 'LoteController@update')->name('admin.lote.update');
+        Route::delete('lote/destroy/{id}', 'LoteController@destroy')->name('admin.lote.destroy');
 
         //ControleAcesso
         Route::get('controleacesso', 'ControleAcessoController@index')->name('admin.controleacesso.index');
         Route::get('controleacesso/create', 'ControleAcessoController@create')->name('admin.controleacesso.create');
         Route::post('controleacesso/store', 'ControleAcessoController@store')->name('admin.controleacesso.store');
         Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
-        // Route::get('controleacesso/buscar/{id}', 'ControleAcessoController@EncomendasNaoEntregues')->name('admin.controleacesso.buscar');
 
+        // Route::get('controleacesso/buscar/{id}', 'ControleAcessoController@EncomendasNaoEntregues')->name('admin.controleacesso.buscar');
         Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');
         Route::put('controleacesso/update/{id}', 'ControleAcessoController@update')->name('admin.controleacesso.update');
         Route::delete('controleacesso/destroy/{id}', 'ControleAcessoController@destroy')->name('admin.controleacesso.destroy');
-
 
         //ControleAcesso_extra
         Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
@@ -153,6 +149,20 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::any('caixa', 'CaixaController@index')->name('admin.caixa');
         Route::post('caixa/abrir', 'CaixaController@abrir')->name('admin.caixa.abrir');
         Route::put('caixa/fechar', 'CaixaController@fechar')->name('admin.caixa.fechar');
+
+        //Controles Visitantes
+        Route::get('visitante', 'visitanteController@index')->name('admin.visitante.index');
+        Route::get('visitante/create', 'visitanteController@create')->name('admin.visitante.create');
+        Route::post('visitante/store', 'visitanteController@store')->name('admin.visitante.store');
+        Route::get('visitante/edit/{id}', 'visitanteController@edit')->name('admin.visitante.edit');
+        Route::get('visitante/show/{id}', 'visitanteController@show')->name('admin.visitante.show');
+        Route::put('visitante/update/{id}', 'visitanteController@update')->name('admin.visitante.update');
+        Route::delete('visitante/destroy/{id}', 'visitanteController@destroy')->name('admin.visitante.destroy');
+        Route::get('visitante/exit/{id}', 'visitanteController@exit')->name('admin.visitante.exit');
+        Route::put('visitante/exit/{id}', 'visitanteController@updateexit')->name('admin.visitante.updateexit');
+        Route::get('visitante/exit/{id}', 'visitanteController@exit')->name('admin.visitante.exit');
+        Route::put('visitante/exit/{id}', 'visitanteController@updateexit')->name('admin.visitante.updateexit');
+        
     });
 
 Auth::routes();
