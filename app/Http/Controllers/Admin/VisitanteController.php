@@ -65,6 +65,7 @@ class VisitanteController extends Controller
                 'titulo' => 'Cadastrar'
             ]
         ];
+        
         $params = $this->params;
         $unidades = Unidade::all();
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
