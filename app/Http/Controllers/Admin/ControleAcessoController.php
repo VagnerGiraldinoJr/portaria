@@ -36,6 +36,7 @@ class ControleAcessoController extends Controller
         ];
         $params = $this->params;
         $data = $this->controle_acesso
+     
         ->where('unidade_id', Auth::user()->unidade_id)
         ->with('lote')
         ->with('veiculo')

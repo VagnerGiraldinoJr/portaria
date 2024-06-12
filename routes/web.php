@@ -28,7 +28,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::get('orcamento/create', 'OrcamentoController@create')->name('admin.orcamento.create');
         Route::post('orcamento/store', 'OrcamentoController@store')->name('admin.orcamento.store');
         Route::get('orcamento/edit/{id}', 'OrcamentoController@edit')->name('admin.orcamento.edit');
-    //  Route::get('orcamento/show/{id}', 'OrcamentoController@show')->name('admin.orcamento.show');
+        //Route::get('orcamento/show/{id}', 'OrcamentoController@show')->name('admin.orcamento.show');
         Route::put('orcamento/update/{id}', 'OrcamentoController@update')->name('admin.orcamento.update');
         Route::delete('orcamento/destroy/{id}', 'OrcamentoController@destroy')->name('admin.orcamento.destroy');
         Route::get('orcamento/buscar', 'OrcamentoController@getOrcamentoById')->name('admin.orcamento.buscar');

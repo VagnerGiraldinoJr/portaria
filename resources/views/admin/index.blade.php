@@ -39,14 +39,15 @@
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>{{$data['controleacesso']}}</h3>
-
-                                    <p>Encomendas Recebidas</p>
+                                    <p>Encomendas Entregue</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-gift"></i>
                                 </div>
                                 <a href="{{ route($params['main_route'].'.controleacesso.index')}}"
-                                    class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
+                                    class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right">
+                                </i>
+                            </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -57,7 +58,7 @@
                                 <div class="inner">
                                     <h3>{{$data['EncomendasNaoEntregues']}}</h3>
 
-                                    <p>Encomendas não Retiradas</p>
+                                    <p>Pendentes Entregue</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-clipboard-check"></i>

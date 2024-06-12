@@ -10,6 +10,8 @@ use App\Models\Orcamento;
 use App\Models\Produto;
 use App\Models\ControleAcesso;
 use App\Models\Pessoa;
+use App\Models\Lote;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 //use App\Models\Atendimento;
@@ -22,16 +24,25 @@ class IndexController extends Controller
     private $orcamento = [];
     private $params = [];
     private $pessoa = [];
-    public function __construct(User $administradores,ControleAcesso $controleacessos,Produto $produtos, Orcamento $orcamentos, Pessoa $pessoas)
+    private $lote = [];
+    public function __construct(
+        User $administradores,
+        ControleAcesso $controleacessos,
+        Produto $produtos, 
+        Orcamento $orcamentos, 
+        Lote $lotes,
+        Pessoa $pessoas)
     {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
         $this->produto = $produtos;
         $this->orcamento = $orcamentos;
         $this->pessoa = $pessoas;
+        $this->lote = $lotes;
 
-        //$this->atendimento = $atendimentos;
+       
 
+       
 
         // Default values
         $this->params['titulo']='Indicadores - Portaria';
@@ -44,17 +55,20 @@ class IndexController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo']='';
+       
 
         $params = $this->params;
-        $data['admin'] = $this->administrador->count();
-        $data['controleacesso'] = $this->controleacesso->count();
-        $data['EncomendasNaoEntregues'] = $this->controleacesso->whereNull('data_saida',NULL)->count();
+        $data['admin'] = $this->administrador->where('unidade_id', Auth::user()->unidade_id)->count();
+        $data['controleacesso'] = $this->controleacesso->where('unidade_id', Auth::user()->unidade_id)->count();
+        //->where('unidade_id', Auth::user()->unidade_id)
+        $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', Auth::user()->unidade_id,'data_saida','')->count();
         $data['produto'] = $this->produto->count();
         $data['orcamento'] = $this->orcamento->count();
         $data['pedido'] = $this->orcamento->has('getPedido')->count();
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
-        $data['pessoas'] = $this->pessoa->count();
+         //->where('unidade_id', Auth::user()->unidade_id)
+        $data['pessoas'] = $this->pessoa->where('lote_id', Auth::user()->lote_id)->count();
 
         return view('admin.index',compact('params','data'));
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Illuminate\Support\Facades\Auth;
 
 class ControleAcesso extends Model
 {
@@ -31,7 +31,13 @@ class ControleAcesso extends Model
     }
 
     public function EncomendasNaoEntregues(){
-        return $this->where('data_saida',NULL)->get()->first();
+    
+        return $this->where('unidade_id', Auth::user()->unidade_id, 'data_saida',NULL)->get()->first();
+    }
+    
+    public function EncomendasEntregues(){
+
+        return $this->where('unidade_id', Auth::user()->unidade_id, 'data_saida',NULL)->get()->first();
     }
    
 }   
