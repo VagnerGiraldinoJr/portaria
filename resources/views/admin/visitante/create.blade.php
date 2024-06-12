@@ -59,7 +59,7 @@
                                 <option value="" disabled selected>Selecione Unidade</option>
                                 @foreach ($lotes as $lote)
                                 <option value="{{ $lote->id }}">{{ $lote->descricao }}</option>
-                                @endforeach
+                                @endforeach     
                             </select>
                         </div>
 

@@ -38,8 +38,8 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>{{$data['controleacesso']}}</h3>
-                                    <p>Encomendas Entregue</p>
+                                    <h3>{{$data['EncomendasEntregues']}}</h3>
+                                    <p>Entregas Realizadas</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-gift"></i>
@@ -58,7 +58,7 @@
                                 <div class="inner">
                                     <h3>{{$data['EncomendasNaoEntregues']}}</h3>
 
-                                    <p>Pendentes Entregue</p>
+                                    <p>Qtd. Pendentes Portaria</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-clipboard-check"></i>
@@ -88,7 +88,7 @@
                             <!-- small box -->
                             <div class="small-box bg-secondary">
                                 <div class="inner">
-                                    <h3>{{$data['orcamento']}}</h3>
+                                    <h3>{{$data['QuantidadesVisitantes']}}</h3>
 
                                     <p>Visitantes no Condomínio</p>
                                 </div>

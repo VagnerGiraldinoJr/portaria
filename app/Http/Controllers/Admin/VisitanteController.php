@@ -36,9 +36,10 @@ class VisitanteController extends Controller
         ];
 
         $params = $this->params;        
-        $visitantes = Visitante::with('unidade', 'lote')->get();
-        $resultados = Lote::with(['unidade.users'])->get();
-        $data = $this->visitante->select('visitantes.*')->where('visitantes.unidade_id', Auth::user()->unidade_id)->get();
+        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
+        $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
+        $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
+        // dd($visitantes);
         return view('admin.visitante.index', compact('resultados', 'visitantes','params', 'data'));
 
 
@@ -66,7 +67,7 @@ class VisitanteController extends Controller
         ];
         $params = $this->params;
         $unidades = Unidade::all();
-        $lotes = Lote::all();
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->select('visitantes.*')->where('visitantes.unidade_id', Auth::user()->unidade_id)->get();
        
         return view('admin.visitante.create', compact('unidades', 'lotes', 'params'));

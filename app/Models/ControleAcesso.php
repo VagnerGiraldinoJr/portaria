@@ -38,6 +38,15 @@ class ControleAcesso extends Model
     public function EncomendasEntregues(){
 
         return $this->where('unidade_id', Auth::user()->unidade_id, 'data_saida',NULL)->get()->first();
+
+   
+    }
+   
+    public function QuantidadesVisitantes(){
+
+        return $this->where('unidade_id', Auth::user()->unidade_id, 'hora_de_saida',NULL)->get()->first();
+
+   
     }
    
 }   
