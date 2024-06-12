@@ -151,17 +151,17 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','acl'],'namespace' => 
         Route::put('caixa/fechar', 'CaixaController@fechar')->name('admin.caixa.fechar');
 
         //Controles Visitantes
-        Route::get('visitante', 'visitanteController@index')->name('admin.visitante.index');
-        Route::get('visitante/create', 'visitanteController@create')->name('admin.visitante.create');
-        Route::post('visitante/store', 'visitanteController@store')->name('admin.visitante.store');
-        Route::get('visitante/edit/{id}', 'visitanteController@edit')->name('admin.visitante.edit');
-        Route::get('visitante/show/{id}', 'visitanteController@show')->name('admin.visitante.show');
-        Route::put('visitante/update/{id}', 'visitanteController@update')->name('admin.visitante.update');
-        Route::delete('visitante/destroy/{id}', 'visitanteController@destroy')->name('admin.visitante.destroy');
-        Route::get('visitante/exit/{id}', 'visitanteController@exit')->name('admin.visitante.exit');
-        Route::put('visitante/exit/{id}', 'visitanteController@updateexit')->name('admin.visitante.updateexit');
-        Route::get('visitante/exit/{id}', 'visitanteController@exit')->name('admin.visitante.exit');
-        Route::put('visitante/exit/{id}', 'visitanteController@updateexit')->name('admin.visitante.updateexit');
+        Route::get('visitante', 'VisitanteController@index')->name('admin.visitante.index');
+        Route::get('visitante/create', 'VisitanteController@create')->name('admin.visitante.create');
+        Route::post('visitante/store', 'VisitanteController@store')->name('admin.visitante.store');
+        Route::get('visitante/edit/{id}', 'VisitanteController@edit')->name('admin.visitante.edit');
+        Route::get('visitante/show/{id}', 'VisitanteController@show')->name('admin.visitante.show');
+        Route::put('visitante/update/{id}', 'VisitanteController@update')->name('admin.visitante.update');
+        Route::delete('visitante/destroy/{id}', 'VisitanteController@destroy')->name('admin.visitante.destroy');
+        Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
+        Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
+        Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
+        Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
         
     });
 
