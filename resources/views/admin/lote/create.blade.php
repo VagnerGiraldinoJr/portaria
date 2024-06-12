@@ -43,9 +43,9 @@
                     @endif
                     <div class="row">
 
-                        <div class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('descricao', 'Descrição do Lote/Unidade')}}
-                            {{Form::text('descricao',null,['class' => 'form-control unidade', 'placeholder' => 'Descrição'])}}
+                        <div class="form-group col-6 col-md-6 col-lg-8">
+                            {{ Form::label('descricao', 'Descrição do Lote/Unidade') }}
+                            {{ Form::text('descricao', null, ['class' => 'form-control unidade', 'placeholder' => 'Descrição', 'maxlength' => 50]) }}
                         </div>
 
                         <div class="form-group col-6 col-md-6 col-lg-8 pt-2">
