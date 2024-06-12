@@ -66,7 +66,9 @@ class IndexController extends Controller
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pessoas'] = $this->pessoa->where('lote_id', Auth::user()->lote_id)->count();
+        dd($data['pessoas']);
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
+        
         return view('admin.index',compact('params','data'));
     }
 

@@ -15,6 +15,7 @@ class PessoaController extends Controller
 {
     
     private $params = [];
+    private $lote = [];
     private $pessoa = [];
     public function __construct(Pessoa $pessoas , Lote $lotes)
     {
@@ -42,7 +43,7 @@ class PessoaController extends Controller
                                 ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
                                 ->where('lotes.unidade_id', Auth::user()->unidade_id) 
                                 ->get();
-        // dd($data);
+    
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 
