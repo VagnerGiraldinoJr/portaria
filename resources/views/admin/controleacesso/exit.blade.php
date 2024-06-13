@@ -40,8 +40,12 @@
 
                     <div class="row">
                         <div id="div_data_saida" class="form-group col-6 col-md-6 col-lg-6">
-                            {{Form::label('data_saida', 'Data Saída Unidade')}}
+                            {{Form::label('data_saida', 'Data Saída Unidade:')}}
                             {{Form::text('data_saida',\Carbon\Carbon::now()->format('d-m-Y H:i:s'),['class' => 'form-control', 'placeholder' => 'Informe o data da Saída na unidade'])}}
+                        </div>
+                        <div  class="form-group col-6 col-md-6 col-lg-6">
+                            <label for="retirado_por">Retirado por</label>
+                            <input type="text" name="retirado_por" id="retirado_por" class="form-control" required>
                         </div>
                     </div>
                     {{Form::submit('Atualizar',['class'=>'btn btn-outline-info btn-sm'])}}

@@ -70,7 +70,7 @@ class ControleAcessoController extends Controller
     {
         $dataForm  = $request->all();
         // id, unidade_id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at
-        
+       
         $dataForm['data_entrada'] = Carbon::now()->format('Y-m-d H:i:s');
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $insert = $this->controle_acesso->create($dataForm);
@@ -157,7 +157,7 @@ class ControleAcessoController extends Controller
    
     public function updateexit(Request $request, $id)
     {
-        $dataForm  = $request->only('data_saida');
+        $dataForm  = $request->only('data_saida','retirado_por');
         
         $dataForm['data_saida'] = Carbon::parse($dataForm['data_saida'])->format('Y-m-d H:i:s'); 
 

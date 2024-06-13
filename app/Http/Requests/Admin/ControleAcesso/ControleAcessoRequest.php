@@ -27,6 +27,7 @@ class ControleAcessoRequest extends FormRequest
             'veiculo_id' => 'required_if:tipo,2',
             'motorista' => 'required_if:tipo,2',
             'motivo' => 'required_if:tipo,1',
+            'retirado_por' => '|string|max:191',
         ];
     }
 
@@ -50,7 +51,8 @@ class ControleAcessoRequest extends FormRequest
             'lote_id' => 'Lote / Apto',
             'veiculo_id' => 'Veiculo',
             'motorista' => 'Motorista',
-            'motivo' => 'Motivo',            
+            'motivo' => 'Motivo', 
+                    
         ];
     }
 }
