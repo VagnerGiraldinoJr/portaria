@@ -72,7 +72,8 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>{{$data['pessoas']}}</h3>
+                                    <h3>{{ $totalPessoas }}</h3>
+                                    
                                     <p>Total de Moradores</p>
                                 </div>
                                 <div class="icon">

@@ -12,6 +12,6 @@ class Lote extends Model
     {
         return $this->belongsTo(Unidade::class, 'unidade_id');
     }
-
+   
 }
 

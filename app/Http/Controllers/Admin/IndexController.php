@@ -13,6 +13,7 @@ use App\Models\Pessoa;
 use App\Models\Lote;
 use App\Models\Visitante;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 //use App\Models\Atendimento;
@@ -65,11 +66,21 @@ class IndexController extends Controller
         $data['pedido'] = $this->orcamento->has('getPedido')->count();
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
-        $data['pessoas'] = $this->pessoa->where('lote_id', Auth::user()->lote_id)->count();
-        dd($data['pessoas']);
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
-        
-        return view('admin.index',compact('params','data'));
+        $unidadeId = Auth::user()->unidade_id;
+
+        $dataresults = DB::table('pessoas')
+            ->join('lotes', 'pessoas.lote_id', '=', 'lotes.id')
+            ->join('unidades', 'lotes.unidade_id', '=', 'unidades.id')
+            ->select(DB::raw('COUNT(pessoas.id) as total_pessoas'))
+            ->where('lotes.unidade_id', $unidadeId)
+            ->groupBy('unidades.id')
+            ->first();
+    
+        $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
+                 
+      
+        return view('admin.index',compact('params','data', 'totalPessoas'));
     }
 
 }

@@ -16,7 +16,7 @@ class Unidade extends Model
     // Se houver uma relação direta entre Unidade e Visitante:
     public function visitante()
     {
-        return $this->hasMany(ModelsVisitante::class);
+        return $this->hasMany(Visitante::class);
     }
 
     public function lotes()
@@ -27,5 +27,11 @@ class Unidade extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'unidade_id');
+    }
+
+   
+    public function pessoas()
+    {
+        return $this->hasManyThrough(Pessoa::class, 'lote_id', Lote::class, 'id');
     }
 }

@@ -10,6 +10,7 @@ use App\Models\TableCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PessoaController extends Controller
 {
@@ -41,9 +42,8 @@ class PessoaController extends Controller
        
         $data = $this->pessoa->select('pessoas.*','lotes.descricao as lote')
                                 ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                                ->where('lotes.unidade_id', Auth::user()->unidade_id) 
-                                ->get();
-    
+                                ->where('unidade_id', Auth::user()->unidade_id) 
+                                ->get();                    
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 

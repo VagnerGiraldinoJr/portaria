@@ -23,7 +23,12 @@ class Pessoa extends Model
         $codes = new TableCode();
         return (isset($this->tipo) && $this->tipo != NULL) ? $codes->getDescricaoById(4,$this->tipo) : '' ;  
     }
-
+   
+    public function lote()
+    {
+        return $this->belongsTo(Lote::class,'unidade_id');
+    }
  
 
 }
+
