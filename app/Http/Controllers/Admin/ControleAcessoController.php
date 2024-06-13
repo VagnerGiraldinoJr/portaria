@@ -57,12 +57,17 @@ class ControleAcessoController extends Controller
             'url' => '',
             'titulo' => 'Cadastrar'
             ]];
-    $params = $this->params;            
+   
+    // preload          
     $preload['tipo'] = $codes->select(5);
-    $preload['unidade'] = $data = $this ->lote
-                                        ->where('unidade_id', Auth::user()->unidade_id)
-                                        ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
-                                        ->get()->pluck('descricao','id');
+    
+    // Buscar os lotes (unidades) ordenados por descrição em ordem ascendente
+    $preload['unidade'] = Lote::where('unidade_id', Auth::user()->unidade_id)
+                    ->orderBy('id', 'asc') // Ordenar por descrição em ordem ascendente
+                    ->pluck('descricao', 'id');
+
+    $params = $this->params;  
+                
     return view('admin.controleacesso.create',compact('params','preload'));
     }
  
