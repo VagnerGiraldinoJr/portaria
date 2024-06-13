@@ -34,6 +34,7 @@
                                 <th>Unidade Visitada</th>
                                 <th>Hora de Entrada</th>
                                 <th>Hora de Saída</th>
+                                <th>Motivo Entrada ?</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -46,6 +47,7 @@
                                 <td>{{ $visitante->lote_id }}</td>
                                 <td>{{ $visitante->hora_de_entrada }}</td>
                                 <td>{{ $visitante->hora_de_saida }}</td>
+                                <td>{{ $visitante->motivo }}</td>
                                 <td>
                                     @if($visitante->hora_de_saida == NULL)
                                     <a href="{{ route($params['main_route'].'.exit', $visitante->id) }}"

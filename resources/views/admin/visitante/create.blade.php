@@ -68,6 +68,12 @@
                             <input type="datetime-local" name="hora_de_entrada" id="hora_de_entrada"
                                 class="form-control" required>
                         </div>
+                        
+                        <div class="form-group col-12 col-md-6">
+                            <label for="motivo">Motivo Entrada:</label>
+                            <input type="text" name="motivo" id="motivo" class="form-control"
+                                required>
+                        </div>
 
                         <div class="form-group col-12">
                             {{ Form::submit('Salvar', ['class' => 'btn btn-success btn-sm']) }}

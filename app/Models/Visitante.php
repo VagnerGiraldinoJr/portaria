@@ -15,7 +15,8 @@ class Visitante extends Model
     'unidade_id', 
     'lote_id', 
     'hora_de_entrada', 
-    'user_id'
+    'user_id',
+    'motivo'
          
     ];
 

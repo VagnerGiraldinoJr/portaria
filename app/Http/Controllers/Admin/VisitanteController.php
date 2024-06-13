@@ -36,13 +36,11 @@ class VisitanteController extends Controller
         ];
 
         $params = $this->params;        
-        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
+        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->orderBy('created_at', 'desc')->get();
         $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
-        // dd($visitantes);
+
         return view('admin.visitante.index', compact('resultados', 'visitantes','params', 'data'));
-
-
     }
    
    
@@ -89,6 +87,7 @@ class VisitanteController extends Controller
             'placa_do_veiculo' => 'required|string|max:191',
             'lote_id' => 'nullable|exists:lotes,id',
             'hora_de_entrada' => 'required|date_format:Y-m-d\TH:i',
+            'motivo' => 'nullable|string',
         ]);
     
         $user_id = Auth::id();
@@ -103,17 +102,6 @@ class VisitanteController extends Controller
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $unidade_id = Lote::find($lote_id)->unidade_id ?? null;
        
-        // Adicione um passo de depuração para verificar os dados antes de salvar
-        // Log::info('Criando o registro de Visitante', [
-        // 'nome' => $request->nome,
-        // 'documento' => $request->documento,
-        // 'placa_do_veiculo' => $request->placa_do_veiculo,
-        // 'unidade_id' => $unidade_id,
-        // 'lote_id' => $lote_id,
-        // 'hora_de_entrada' => $request->hora_de_entrada,
-        // 'user_id' => $user_id,
-        //  ]);
-        
         
         // Cria um novo registro de visitante com os dados fornecidos e o ID do usuário logado
          $visitante = new Visitante([
@@ -124,9 +112,9 @@ class VisitanteController extends Controller
         'lote_id' => $lote_id,
         'hora_de_entrada' => $request->hora_de_entrada,
         'user_id' => $user_id,
+        'motivo' => $request->motivo,
          ]);
-       
-       
+
         $visitante->save();
 
 
