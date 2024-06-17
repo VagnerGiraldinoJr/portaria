@@ -26,7 +26,7 @@ Para começar a utilizar o projeto Portaria em seu ambiente local, siga estas et
 3. Execute o projeto:
 
    ```bash
-   [......]
+   composer update
    ```
 
 4. Acesse a aplicação em seu navegador web:
