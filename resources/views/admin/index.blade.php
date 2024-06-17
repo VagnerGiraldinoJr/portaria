@@ -138,10 +138,10 @@
                                         Ordenação dos registros;
                                     </div>
                                     <!-- Placement of additional controls. Optional -->
-                                    <div class="timeline-footer">
+                                    {{-- <div class="timeline-footer">
                                         <a class="btn btn-primary btn-sm">Ler mais</a>
                                         <a class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <!-- The last icon means the story is complete -->
