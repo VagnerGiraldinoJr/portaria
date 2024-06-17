@@ -26,13 +26,15 @@ Para começar a utilizar o projeto Portaria em seu ambiente local, siga estas et
 3. Execute o projeto:
 
    ```bash
-   [......]
+   composer update
+   composer dump-autoload
+   php artisan key:generate
    ```
 
 4. Acesse a aplicação em seu navegador web:
 
    ```
-   [......]
+   http://127.0.0.1:8000/
    ```
 
 ## Contribuição
