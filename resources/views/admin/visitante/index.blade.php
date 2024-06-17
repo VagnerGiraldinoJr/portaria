@@ -112,11 +112,11 @@
             "order": [
                 [7, "asc"],
                 [7, "asc"]
-            ], // Assuming "Nome" is the first column (index 0)
+            ], 
             "columnDefs": [{
                     "orderable": true,
                     "targets": [7]
-                } // Set the "Ação" column (index 6) as sortable
+                } 
             ],
         });
     });
