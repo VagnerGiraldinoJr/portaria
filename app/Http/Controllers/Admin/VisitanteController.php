@@ -9,7 +9,7 @@ use App\Models\Visitante;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 
 class VisitanteController extends Controller
@@ -34,12 +34,13 @@ class VisitanteController extends Controller
             'url' => 'admin/visitante ',
             'titulo' => 'Cadastro Visitantes'
         ];
-
+        
         $params = $this->params;        
-        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->orderBy('created_at', 'desc')->get();
+        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
         $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
-
+        
+       
         return view('admin.visitante.index', compact('resultados', 'visitantes','params', 'data'));
     }
    
@@ -63,7 +64,7 @@ class VisitanteController extends Controller
                 'titulo' => 'Cadastrar'
             ]
         ];
-        
+    
         $params = $this->params;
         $unidades = Unidade::all();
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();

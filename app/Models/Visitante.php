@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitante extends Model
 {
-   
+
     protected $fillable = [
-    'nome', 
-    'documento', 
-    'placa_do_veiculo', 
-    'unidade_id', 
-    'lote_id', 
-    'hora_de_entrada', 
-    'user_id',
-    'motivo'
-         
+        'nome',
+        'documento',
+        'placa_do_veiculo',
+        'unidade_id',
+        'lote_id',
+        'hora_de_entrada',
+        'user_id',
+        'motivo'
+
     ];
 
     public function unidade()
@@ -29,4 +29,5 @@ class Visitante extends Model
     {
         return $this->belongsTo(Lote::class, 'lote_id');
     }
+   
 }
