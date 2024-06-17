@@ -26,6 +26,7 @@
                     <div class="card-body table-responsive">
                         @if (isset($data) && count($data))
                             <table id="dataTablePortaria" class="table table-hover">
+                                
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
