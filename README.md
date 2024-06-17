@@ -27,6 +27,7 @@ Para começar a utilizar o projeto Portaria em seu ambiente local, siga estas et
 
    ```bash
    composer update
+   composer dump-autoload
    ```
 
 4. Acesse a aplicação em seu navegador web:
