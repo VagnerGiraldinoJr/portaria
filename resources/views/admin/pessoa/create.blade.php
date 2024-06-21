@@ -77,6 +77,9 @@
 
                         <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
                             {{Form::submit('Salvar',['class'=>'btn btn-success btn-sm'])}}
+                            
+                        <button class='btn btn-primary btn-sm' type="button" id="addContatoBtn">Adicionar Contato</button>
+
                         </div>
                     </div>
                     {{ Form::close() }}
@@ -96,4 +99,35 @@
 <script src="{{ asset('js/plugin/jquery.js')}}"></script>
 <script src="{{ asset('plugin/jquery.mask.min.js')}}"></script>
 <script src="{{ asset('js/scripts.js')}}"></script>
+
+
+
+{{-- 
+inicio --}}
+
+
+
+<script>
+    // JavaScript para adicionar outro campo de contato
+    document.getElementById('addContatoBtn').addEventListener('click', function() {
+        const novoCampo = `
+            <div class="form-group">
+                <label for="contato_nome">Nome do Contato</label>
+                <input type="text" name="contato_nome[]" class="form-control" placeholder="Informe o nome do contato">
+            </div>
+            <div class="form-group">
+                <label for="contato_telefone">Telefone do Contato</label>
+                <input type="text" name="contato_telefone[]" class="form-control" placeholder="Informe o telefone do contato">
+            </div>
+            <!-- ... outros campos de contato ... -->
+        `;
+        // Adicione o novo campo ao formulário
+        document.querySelector('.card-body').insertAdjacentHTML('beforeend', novoCampo);
+    });
+</script>
+
+{{-- 
+fim --}}
+
+
 @stop

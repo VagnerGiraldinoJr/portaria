@@ -408,6 +408,7 @@ return [
             'icon'        => 'fab fa-whatsapp',
             'label'       => 'Abrir chamado',
             'label_color' => 'warning',
+            
         ],
     ],
 

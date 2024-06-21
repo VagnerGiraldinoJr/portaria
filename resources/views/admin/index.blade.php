@@ -32,6 +32,7 @@
                                             class="small-box-footer">Ver
                                             Mais <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
+
                                 </div>
                             @endrole
                             <!-- ./col -->
@@ -153,4 +154,23 @@
                 </div>
             </div>
     </section>
+
+    {{-- inicio footer --}}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"></h3>
+            <footer>
+                <span class="time"><i class="fas fa-clock"></i> {{ date('d/m/Y H:i:s') }}</span>
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Versão</b> V1.1.G3
+                </div>
+                <footer class="text-center">
+                    &copy; {{ date('Y') }} GIT CONSULTORIA INOVAÇÕES EM SOLUÇÕES DE TI LTDA - Todos os direitos
+                    reservados
+                </footer>
+            </footer>
+        </div>
+    </div>
+    {{-- final footer --}}
+
 @stop
