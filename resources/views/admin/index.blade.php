@@ -121,7 +121,7 @@
                         <div class="timeline">
                             <!-- Timeline time label -->
                             <div class="time-label">
-                                <span class="bg-green">17 Junho 2024</span>
+                                <span class="bg-green">21 Junho 2024</span>
                             </div>
                             <div>
                                 <!-- Before each timeline item corresponds to one icon on the left scale -->
@@ -129,13 +129,12 @@
                                 <!-- Timeline item -->
                                 <div class="timeline-item">
                                     <!-- Time -->
-                                    <span class="time"><i class="fas fa-clock"></i> 18:05</span>
+                                    <span class="time"><i class="fas fa-clock"></i> 17:10</span>
                                     <!-- Header. Optional -->
                                     <h3 class="timeline-header"><a href="#">Suporte Dev.</a> Última atualização
                                     </h3>
                                     <!-- Body -->
                                     <div class="timeline-body">
-                                        Atualização na tela de Visitantes.</br>
                                         Ordenação dos registros;
                                     </div>
                                     <!-- Placement of additional controls. Optional -->
