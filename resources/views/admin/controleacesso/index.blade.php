@@ -97,6 +97,7 @@
 <script>
 $(document).ready(function() {
     var table = $('#dataTablePortaria').DataTable({
+        "pageLength": 25,
         "language": {
             "decimal": "",
             "emptyTable": "Dados Indisponiveis na Tabela",
