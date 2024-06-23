@@ -320,10 +320,10 @@ return [
             'url'        => 'admin/controleacesso',
         ],
         [
-            'text'       => 'Agendar Salão',
+            'text'       => 'Reservas - Áreas Comuns',
             'icon'        => 'far fa-address-card',           
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'url'        => 'admin/reserva',
         ],
 
         

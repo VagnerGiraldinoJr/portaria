@@ -16,16 +16,16 @@ class VisitanteController extends Controller
 {
     private $params = [];
     private $visitante = [];
-    
+
     public function __construct(Visitante $visitantes)
     {
         $this->visitante = $visitantes;
-       
+
         // DEFAULT VALUES
         $this->params['titulo'] = 'Visitantes';
         $this->params['main_route'] = 'admin.visitante';
     }
-    
+
     public function index()
     {
         // PARAMS DEFAULT
@@ -34,17 +34,17 @@ class VisitanteController extends Controller
             'url' => 'admin/visitante ',
             'titulo' => 'Cadastro Visitantes'
         ];
-        
-        $params = $this->params;        
+
+        $params = $this->params;
         $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
         $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
-        
-       
-        return view('admin.visitante.index', compact('resultados', 'visitantes','params', 'data'));
+
+
+        return view('admin.visitante.index', compact('resultados', 'visitantes', 'params', 'data'));
     }
-   
-   
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -64,12 +64,12 @@ class VisitanteController extends Controller
                 'titulo' => 'Cadastrar'
             ]
         ];
-    
+
         $params = $this->params;
         $unidades = Unidade::all();
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->select('visitantes.*')->where('visitantes.unidade_id', Auth::user()->unidade_id)->get();
-       
+
         return view('admin.visitante.create', compact('unidades', 'lotes', 'params'));
     }
 
@@ -90,10 +90,10 @@ class VisitanteController extends Controller
             'hora_de_entrada' => 'required|date_format:Y-m-d\TH:i',
             'motivo' => 'nullable|string',
         ]);
-    
+
         $user_id = Auth::id();
         if (!$user_id) {
-        return back()->withErrors(['user_id' => 'User ID is missing'])->withInput();
+            return back()->withErrors(['user_id' => 'User ID is missing'])->withInput();
         }
 
         // Obtém o ID do lote a partir do formulário
@@ -102,78 +102,78 @@ class VisitanteController extends Controller
         // Obtém o ID da unidade a partir do registro do lote
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
         $unidade_id = Lote::find($lote_id)->unidade_id ?? null;
-       
-        
+
+
         // Cria um novo registro de visitante com os dados fornecidos e o ID do usuário logado
-         $visitante = new Visitante([
-        'nome' => $request->nome,
-        'documento' => $request->documento,
-        'placa_do_veiculo' => $request->placa_do_veiculo,
-        'unidade_id' => $unidade_id,
-        'lote_id' => $lote_id,
-        'hora_de_entrada' => $request->hora_de_entrada,
-        'user_id' => $user_id,
-        'motivo' => $request->motivo,
-         ]);
+        $visitante = new Visitante([
+            'nome' => $request->nome,
+            'documento' => $request->documento,
+            'placa_do_veiculo' => $request->placa_do_veiculo,
+            'unidade_id' => $unidade_id,
+            'lote_id' => $lote_id,
+            'hora_de_entrada' => $request->hora_de_entrada,
+            'user_id' => $user_id,
+            'motivo' => $request->motivo,
+        ]);
 
         $visitante->save();
 
 
         return redirect()->route('admin.visitante.index')->with('success', 'Entrada do Visitante criada com sucesso.');
-   
     }
 
 
-    public function exit($id){
-    
-    // Definir subtítulo e árvore de navegação
-    $this->params['subtitulo'] = 'Editar Saída Visitante';
-    $this->params['arvore'] = [
-        [
-            'url' => 'admin/visitante',
-            'titulo' => 'Controles'
-        ],
-        [
-            'url' => '',
-            'titulo' => 'Editar'
-        ]
-    ];
+    public function exit($id)
+    {
 
-    $params = $this->params;
-    $data = $this->visitante->find($id);
+        // Definir subtítulo e árvore de navegação
+        $this->params['subtitulo'] = 'Editar Saída Visitante';
+        $this->params['arvore'] = [
+            [
+                'url' => 'admin/visitante',
+                'titulo' => 'Controles'
+            ],
+            [
+                'url' => '',
+                'titulo' => 'Editar'
+            ]
+        ];
 
-    // Verificar se o visitante foi encontrado
-    if ($data) {
-        // Verificar se a hora de saída não está definida
-        if (is_null($data->hora_de_saida)) {
-            // Atualizar a hora de saída com a hora atual
-            $data->hora_de_saida = now();
-            $data->save();
+        $params = $this->params;
+        $data = $this->visitante->find($id);
 
-            // Redirecionar para a lista de visitantes com uma mensagem de sucesso
-            return redirect()->route('admin.visitante.index')->with('success', 'Hora de saída registrada com sucesso.');
+        // Verificar se o visitante foi encontrado
+        if ($data) {
+            // Verificar se a hora de saída não está definida
+            if (is_null($data->hora_de_saida)) {
+                // Atualizar a hora de saída com a hora atual
+                $data->hora_de_saida = now();
+                $data->save();
+
+                // Redirecionar para a lista de visitantes com uma mensagem de sucesso
+                return redirect()->route('admin.visitante.index')->with('success', 'Hora de saída registrada com sucesso.');
+            } else {
+                // Redirecionar com uma mensagem de erro se a hora de saída já estiver registrada
+                return redirect()->route('admin.visitante.index')->with('error', 'Hora de saída já registrada.');
+            }
         } else {
-            // Redirecionar com uma mensagem de erro se a hora de saída já estiver registrada
-            return redirect()->route('admin.visitante.index')->with('error', 'Hora de saída já registrada.');
+            // Redirecionar com uma mensagem de erro se o visitante não for encontrado
+            return redirect()->route('admin.visitante.index')->with('error', 'Visitante não encontrado.');
         }
-    } else {
-        // Redirecionar com uma mensagem de erro se o visitante não for encontrado
-        return redirect()->route('admin.visitante.index')->with('error', 'Visitante não encontrado.');
     }
-}
 
 
     public function updateexit(Request $request, $id)
     {
         $dataForm  = $request->only('hora_de_saida');
-        
-        $dataForm['hora_de_saida'] = Carbon::parse($dataForm['hora_de_saida'])->format('Y-m-d H:i:s'); 
+
+        $dataForm['hora_de_saida'] = Carbon::parse($dataForm['hora_de_saida'])->format('Y-m-d H:i:s');
         dd($dataForm);
 
-        if($this->visitante->find($id)->update($dataForm)){
-            return redirect()->route($this->params['main_route'].'.index');
-        }else{
-            return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao editar.']);
+        if ($this->visitante->find($id)->update($dataForm)) {
+            return redirect()->route($this->params['main_route'] . '.index');
+        } else {
+            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
         }
     }
 
