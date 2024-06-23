@@ -88,7 +88,14 @@ class ReservaController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+        $request->validate([
+            'area' => 'required',
+            'data_inicio' => 'required|date_format:Y-m-d H:i:s',
+            'data_fim' => 'required|date_format:Y-m-d H:i:s',
+            'limpeza' => 'required',
+            'status' => 'required',
+        ]);
+        
         $reserva = Reserva::findOrFail($id);
         $reserva->update([
             'area' => $request->input('area'),
