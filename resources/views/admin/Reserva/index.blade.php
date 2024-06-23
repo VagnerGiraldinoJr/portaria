@@ -90,13 +90,19 @@
 
                                             <td>
                                                 <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                                    data-target="#editModal" data-id="{{ $itens->id }}"
-                                                    data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
-                                                    data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
-                                                    data-data_fim="{{ \Carbon\Carbon::parse($itens->data_fim)->format('Y-m-d\TH:i') }}"
-                                                    data-limpeza="{{ $itens->limpeza }}"
-                                                    data-status="{{ $itens->status }}">
-                                                    <span class="fas fa-edit"></span> Editar
+                                                    data-target="#editModal"
+                                                   
+                                                    @if (isset($itens)) 
+                                                        data-id="{{ $itens->id }}"
+                                                        data-area="{{ $itens->area }}" 
+                                                        data-lote_id="{{ $itens->lote_id }}"
+                                                        data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
+                                                        data-data_fim="{{ \Carbon\Carbon::parse($itens->data_fim)->format('Y-m-d\TH:i') }}"
+                                                        data-limpeza="{{ $itens->limpeza }}"
+                                                        data-status="{{ $itens->status }}">
+                                                    @endif
+                                                   
+                                                        <span class="fas fa-edit"></span> Editar
                                                 </button>
                                             </td>
                                         </tr>
@@ -121,7 +127,8 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Editar Reserva</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Editar
+                                            Reserva</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -131,38 +138,37 @@
                                         <div class="form-group">
                                             <label for="edit_area">Área</label>
                                             <select name="area" id="edit_area" class="form-control" required>
-                                                <option value="ACADEMIA"
-                                                    {{ $itens->area === 'ACADEMIA' ? 'selected' : '' }}>ACADEMIA</option>
-                                                <option value="ESPAÇO GOURMET - PRINCIPAL"
-                                                    {{ $itens->area === 'ESPAÇO GOURMET - PRINCIPAL' ? 'selected' : '' }}>
-                                                    ESPAÇO GOURMET - PRINCIPAL</option>
-                                                <option value="SALÃO DE FESTAS"
-                                                    {{ $itens->area === 'SALÃO DE FESTAS' ? 'selected' : '' }}>SALÃO DE
-                                                    FESTAS</option>
+                                                <option value="ACADEMIA">ACADEMIA</option>
+                                                 <option value="ESPAÇO GOURMET - PRINCIPAL">ESPAÇO GOURMET - PRINCIPAL</option>
+                                                    <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
                                             </select>
                                         </div>
-
                                         <div class="form-group">
-                                            <label for="edit_data_inicio">Data e Hora de Início</label>
+                                            <label for="edit_data_inicio">Data e Hora de
+                                                Início</label>
                                             <input type="datetime-local" name="data_inicio" id="edit_data_inicio"
                                                 class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="edit_data_fim">Data e Hora de Término</label>
+                                            <label for="edit_data_fim">Data e Hora de
+                                                Término</label>
                                             <input type="datetime-local" name="data_fim" id="edit_data_fim"
                                                 class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="edit_limpeza">Limpeza</label>
                                             <select name="limpeza" id="edit_limpeza" class="form-control" required>
-                                                <option value="usuario">O Morador irá limpar após o uso</option>
-                                                <option value="condominio">Será limpo pelo condomínio</option>
+                                                <option value="usuario">O Morador irá limpar
+                                                    após o uso</option>
+                                                <option value="condominio">Será limpo pelo
+                                                    condomínio</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="edit_status">Status</label>
                                             <select name="status" id="edit_status" class="form-control" required>
-                                                <option value="Confirmada">Confirmada</option>
+                                                <option value="Confirmada">Confirmada
+                                                </option>
                                                 <option value="Cancelada">Cancelada</option>
                                                 <option value="Pendente">Pendente</option>
                                             </select>

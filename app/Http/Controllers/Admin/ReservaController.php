@@ -35,7 +35,7 @@ class ReservaController extends Controller
         ];
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
-
+     
         return view('admin.reserva.index', compact('params', 'data'));
     }
 
@@ -99,7 +99,7 @@ class ReservaController extends Controller
             'limpeza' => $request->input('limpeza'),
             'status' => $request->input('status')
         ]);
-      
+     
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
     }
 }
