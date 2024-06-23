@@ -76,8 +76,10 @@ class ReservaController extends Controller
         // $reserva->user_id = auth()->id();
         $reserva->unidade_id = $request->lote_id;
         $reserva->area = $request->area;
-        $reserva->data_inicio = $request->data_inicio . ' ' . $request->hora_inicio;
-        $reserva->data_fim = $request->data_fim . ' ' . $request->hora_fim;
+        $reserva->data_inicio = $request->data_inicio;
+        $reserva->data_fim = $request->data_fim;
+        // $reserva->data_inicio = $request->data_inicio . ' ' . $request->hora_inicio;
+        // $reserva->data_fim = $request->data_fim . ' ' . $request->hora_fim;
         $reserva->limpeza = $request->limpeza;
         $reserva->status = $request->status;
 
@@ -95,7 +97,7 @@ class ReservaController extends Controller
             'limpeza' => 'required',
             'status' => 'required',
         ]);
-        
+
         $reserva = Reserva::findOrFail($id);
         $reserva->update([
             'area' => $request->input('area'),
