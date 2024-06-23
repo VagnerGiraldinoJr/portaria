@@ -60,9 +60,7 @@
                                             </td>
 
                                             <td>{{ $itens->lote->descricao }} -
-                                                <a href="#"
-                                                {{-- "https://wa.me/{{ isset($item->pessoa[0]) ? $item->pessoa[0]->celular : '' }}?text=Portaria" --}}
-                                                    {{-- target="_blank" rel="noopener noreferrer" --}}
+                                                <a href="#" {{-- "https://wa.me/{{ isset($item->pessoa[0]) ? $item->pessoa[0]->celular : '' }}?text=Portaria" --}} {{-- target="_blank" rel="noopener noreferrer" --}}
                                                     class="btn btn-outline-success btn-xs"><span
                                                         class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
                                                     Enviar Mensagem
@@ -89,7 +87,6 @@
                                                     <i class="far fa-question-circle text-warning"></i> Pendente
                                                 @endif
                                             </td>
-
 
                                             <td>
                                                 <button class="btn btn-primary btn-xs" data-toggle="modal"
@@ -134,12 +131,17 @@
                                         <div class="form-group">
                                             <label for="edit_area">Área</label>
                                             <select name="area" id="edit_area" class="form-control" required>
-                                                <option value="ACADEMIA" {{ $itens->area === 'ACADEMIA' ? 'selected' : '' }}>ACADEMIA</option>
-                                                <option value="ESPAÇO GOURMET - PRINCIPAL" {{ $itens->area === 'ESPAÇO GOURMET - PRINCIPAL' ? 'selected' : '' }}>ESPAÇO GOURMET - PRINCIPAL</option>
-                                                <option value="SALÃO DE FESTAS" {{ $itens->area === 'SALÃO DE FESTAS' ? 'selected' : '' }}>SALÃO DE FESTAS</option>
+                                                <option value="ACADEMIA"
+                                                    {{ $itens->area === 'ACADEMIA' ? 'selected' : '' }}>ACADEMIA</option>
+                                                <option value="ESPAÇO GOURMET - PRINCIPAL"
+                                                    {{ $itens->area === 'ESPAÇO GOURMET - PRINCIPAL' ? 'selected' : '' }}>
+                                                    ESPAÇO GOURMET - PRINCIPAL</option>
+                                                <option value="SALÃO DE FESTAS"
+                                                    {{ $itens->area === 'SALÃO DE FESTAS' ? 'selected' : '' }}>SALÃO DE
+                                                    FESTAS</option>
                                             </select>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label for="edit_data_inicio">Data e Hora de Início</label>
                                             <input type="datetime-local" name="data_inicio" id="edit_data_inicio"
@@ -177,8 +179,6 @@
                     </div>
                     <!-- Final Modal de Edição -->
                 @endsection
-
-
 
                 @section('css')
                     <link rel="stylesheet" href="/css/admin_custom.css">
