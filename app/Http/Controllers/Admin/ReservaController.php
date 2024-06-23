@@ -35,7 +35,7 @@ class ReservaController extends Controller
         ];
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
-     
+
         return view('admin.reserva.index', compact('params', 'data'));
     }
 
@@ -69,8 +69,6 @@ class ReservaController extends Controller
     {
         $request->validate([
             'area' => 'required|string|max:255',
-            'data_inicio' => 'required|date|after_or_equal:today',
-            'data_fim' => 'required|date|after_or_equal:data_inicio',
             'limpeza' => 'required|string',
         ]);
 
@@ -90,6 +88,7 @@ class ReservaController extends Controller
 
     public function update(Request $request, $id)
     {
+       
         $reserva = Reserva::findOrFail($id);
         $reserva->update([
             'area' => $request->input('area'),
@@ -99,7 +98,7 @@ class ReservaController extends Controller
             'limpeza' => $request->input('limpeza'),
             'status' => $request->input('status')
         ]);
-     
+
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
     }
 }
