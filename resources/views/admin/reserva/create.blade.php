@@ -22,7 +22,6 @@
                             </div>
                         </div>
                     </div>
-
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="m-0">
@@ -32,12 +31,10 @@
                             </ul>
                         </div>
                     @endif
-
                     <form action="{{ route('admin.reserva.store') }}" method="POST">
                         @csrf
                         <div class="mb-4"></div>
                         <div class="container-sm">
-
                             {{-- Início Escolha áreas comuns --}}
                             <div class="form-group">
                                 <label for="area">Escolha a Área</label>
@@ -72,7 +69,6 @@
                                 </div>
                             </div>
                             {{-- Fim Escolha áreas comuns --}}
-
                             <!--Início Modal -->
                             <div class="modal fade" id="alertModal" tabindex="-1" role="dialog"
                                 aria-labelledby="alertModalLabel" aria-hidden="true">
@@ -95,13 +91,10 @@
                                 </div>
                             </div>
                             <!--Final Modal -->
-
-
                             <div class="form-group row align-items-center">
                                 <div class="col-12 col-md-4">
                                     <label for="data_inicio">Data Reserva</label>
-                                    <input type="datetime-local" name="data_inicio" id="data_inicio" class="form-control"
-                                        required>
+                                    <input type="date" name="data_inicio" id="data_inicio" class="form-control" required>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="limpeza">Limpeza</label>
@@ -110,7 +103,6 @@
                                         <option value="CobrarTaxaLimpesa">Será limpo pelo condomínio.</option>
                                     </select>
                                 </div>
-
                                 <th>
                                     <div class="col-12 col-md-4">
                                         <label for="lote_id">Unidade/Apto.</label>
@@ -127,33 +119,34 @@
                                             <option value="Cancelada">Cancelada</option>
                                         </select>
                                     </div>
-
+                                    {{-- Acessórios --}}
+                                    <div class="col-12 col-md-4">
+                                        <label for="acessorios">Itens Reserva</label>
+                                        <select name="acessorios" id="acessorios" class="form-control" required>
+                                            <option value="Grelha">Grelha</option>
+                                            <option value="N/A">N/A</option>
+                                            <option value="Talheres">Talheres</option>
+                                        </select>
+                                    </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary">Criar Reserva</button>
                             <div class="mb-4"></div>
                         </div>
                     </form>
-
-
                 </div>
             </div>
         </div>
     </section>
 @stop
-
-
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
-
 @section('js')
     <script>
         $(document).ready(function() {
             $('.form-check-input').on('change', function() {
                 let areaId = $(this).attr('id');
                 let message = '';
-
                 switch (areaId) {
                     case 'area1':
                         message = 'QUIOSQUE 01 tem custo que será vinculado a unidade no próx. fechamento.';
@@ -165,7 +158,6 @@
                         message = 'QUIOSQUE 03 tem custo que será vinculado a unidade no próx. fechamento.';
                         break;
                 }
-
                 $('#alertModalBody').text(message);
                 $('#alertModal').modal('show');
             });
@@ -174,6 +166,4 @@
     <script src="{{ asset('js/plugin/jquery.js') }}"></script>
     <script src="{{ asset('plugin/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
-
-
 @stop

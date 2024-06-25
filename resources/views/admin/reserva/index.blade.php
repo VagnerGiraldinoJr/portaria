@@ -5,7 +5,6 @@
 @stop
 @section('content')
 @section('content')
-
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -25,7 +24,6 @@
                     <!-- /.card-header -->
                     <div class="card-body table-responsive">
                         @if (isset($data) && count($data))
-
                             <table id="dataTablePortaria" class="table table-hover">
                                 <thead>
                                     <tr>
@@ -43,14 +41,11 @@
                                             @php
                                                 $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
-
                                             @endphp
-
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }}
                                                 ({{ $diaSemanaInicio }})
                                             </td>
-
                                             <td>{{ $itens->lote->descricao }} -
                                                 <a href="#" {{-- "https://wa.me/{{ isset($item->pessoa[0]) ? $item->pessoa[0]->celular : '' }}?text=Portaria" --}} {{-- target="_blank" rel="noopener noreferrer" --}}
                                                     class="btn btn-outline-success btn-xs"><span
@@ -58,9 +53,6 @@
                                                     Enviar Mensagem
                                                 </a>
                                             </td>
-
-
-
                                             {{-- Inicio Status --}}
                                             <td>
                                                 @if ($itens->status == 'Confirmada')
@@ -71,7 +63,6 @@
                                                     <i class="far fa-question-circle text-warning"></i> Pendente
                                                 @endif
                                             </td>
-
                                             <td>
                                                 <button class="btn btn-primary btn-xs" data-toggle="modal"
                                                     data-target="#editModal"
@@ -95,8 +86,6 @@
                         @endif
                     </div>
                     <!-- /.card-body -->
-
-
                     <!-- Modal de Edição -->
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                         aria-hidden="true">
@@ -127,7 +116,6 @@
                                             <input type="date" name="data_inicio" id="edit_data_inicio"
                                                 class="form-control" required>
                                         </div>
-
                                         <div class="form-group">
                                             <label for="edit_limpeza">Limpeza</label>
                                             <select name="limpeza" id="edit_limpeza" class="form-control" required>
@@ -146,6 +134,15 @@
                                                 <option value="Pendente">Pendente</option>
                                             </select>
                                         </div>
+                                        {{-- Acessórios --}}
+                                        <div class="form-group">
+                                            <label for="acessorios">Itens Reserva</label>
+                                            <select name="acessorios" id="acessorios" class="form-control" required>
+                                                <option value="Grelha">Grelha</option>
+                                                <option value="N/A">N/A</option>
+                                                <option value="Talheres">Talheres</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -158,13 +155,10 @@
                     </div>
                     <!-- Final Modal de Edição -->
                 @endsection
-
                 @section('css')
                     <link rel="stylesheet" href="/css/admin_custom.css">
                 @section('plugins.Datatables', true)
-
             @stop
-
             @section('js')
                 <script>
                     $(document).ready(function() {
@@ -176,7 +170,6 @@
                             var data_inicio = button.data('data_inicio');
                             var limpeza = button.data('limpeza');
                             var status = button.data('status');
-
                             var modal = $(this);
                             modal.find('.modal-body #edit_id').val(id);
                             modal.find('.modal-body #edit_area').val(area);
@@ -185,7 +178,6 @@
                             modal.find('.modal-body #edit_limpeza').val(limpeza);
                             modal.find('.modal-body #edit_status').val(status);
                         });
-
                         $('#editForm').on('submit', function(event) {
                             var form = $(this);
                             var action = form.attr('action').replace('edit', $('#edit_id').val());

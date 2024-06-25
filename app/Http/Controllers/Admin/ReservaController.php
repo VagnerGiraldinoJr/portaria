@@ -80,7 +80,6 @@ class ReservaController extends Controller
         $reserva->limpeza = $request->limpeza;
         $reserva->status = $request->status;
         $reserva->acessorios = $request->acessorios;
-
         $reserva->save();
 
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso.');
