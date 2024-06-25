@@ -47,7 +47,7 @@
                                             @endphp
 
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
-                                                {{ $dataInicio->format('d/m/Y H:i:s') }}
+                                                {{ $dataInicio->format('d/m/Y') }}
                                                 ({{ $diaSemanaInicio }})
                                             </td>
 
@@ -117,16 +117,14 @@
                                         <div class="form-group">
                                             <label for="edit_area">Área</label>
                                             <select name="area" id="edit_area" class="form-control" required>
-                                                <option value="ACADEMIA">ACADEMIA</option>
-                                                <option value="ESPAÇO GOURMET - PRINCIPAL">ESPAÇO GOURMET - PRINCIPAL
-                                                </option>
-                                                <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
+                                                <option value="QUIOSQUE 01">QUIOSQUE 01</option>
+                                                <option value="QUIOSQUE 02">QUIOSQUE 02</option>
+                                                <option value="QUIOSQUE 03">QUIOSQUE 03</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="edit_data_inicio">Data e Hora de
-                                                Início</label>
-                                            <input type="datetime-local" name="data_inicio" id="edit_data_inicio"
+                                            <label for="edit_data_inicio">Data Reserva</label>
+                                            <input type="date" name="data_inicio" id="edit_data_inicio"
                                                 class="form-control" required>
                                         </div>
 
