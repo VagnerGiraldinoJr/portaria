@@ -13,6 +13,7 @@ class Reserva extends Model
         'data_inicio',
         'limpeza',
         'status',
+        'acessorios'
     ];
 
     // Definindo a relação 'lote'
@@ -20,7 +21,7 @@ class Reserva extends Model
     {
         return $this->belongsTo(Lote::class, 'unidade_id');
     }
-
+    // Definindo a relação 'Unidades'
     public function unidade()
     {
         return $this->belongsTo(Unidade::class, 'unidade_id');

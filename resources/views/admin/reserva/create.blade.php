@@ -99,8 +99,8 @@
                                 <div class="col-12 col-md-4">
                                     <label for="limpeza">Limpeza</label>
                                     <select name="limpeza" id="limpeza" class="form-control" required>
-                                        <option value="IsentoTaxaLimpesa">O Morador irá limpar após o uso do local.</option>
-                                        <option value="CobrarTaxaLimpesa">Será limpo pelo condomínio.</option>
+                                        <option value="IsentoTaxaLimpeza">O Morador irá limpar após o uso do local.</option>
+                                        <option value="CobrarTaxaLimpeza">Será limpo pelo condomínio.</option>
                                     </select>
                                 </div>
                                 <th>

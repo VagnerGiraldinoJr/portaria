@@ -80,6 +80,7 @@ class ReservaController extends Controller
         $reserva->limpeza = $request->limpeza;
         $reserva->status = $request->status;
         $reserva->acessorios = $request->acessorios;
+        
         $reserva->save();
 
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso.');
@@ -93,6 +94,7 @@ class ReservaController extends Controller
             'data_fim' => 'required|date_format:Y-m-d H:i:s',
             'limpeza' => 'required',
             'status' => 'required',
+            'acessorios' => 'required',
         ]);
 
         $reserva = Reserva::findOrFail($id);
@@ -102,7 +104,8 @@ class ReservaController extends Controller
             'data_inicio' => $request->input('data_inicio'),
             'data_fim' => $request->input('data_fim'),
             'limpeza' => $request->input('limpeza'),
-            'status' => $request->input('status')
+            'status' => $request->input('status'),
+            'acessorios' => $request->input('acessorios')
         ]);
         //reserva 001
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
