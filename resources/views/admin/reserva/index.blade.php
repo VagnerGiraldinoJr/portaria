@@ -30,11 +30,8 @@
                                 <thead>
                                     <tr>
                                         <th>Área Solicitada</th>
-                                        <th>Data Ínicio</th>
-                                        <th>Data Saída</th>
-
+                                        <th>Data Reserva</th>
                                         <th>Unidade Solicitante</th>
-                                        <th>Tempo Reserva Hr.|Min.|Seg.</th>
                                         <th>Status Reserva</th>
                                         <th>Operação</th>
                                     </tr>
@@ -45,18 +42,13 @@
                                             <td>{{ $itens->area }}</td>
                                             @php
                                                 $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
-                                                $dataFim = Carbon\Carbon::parse($itens->data_fim);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
-                                                $diaSemanaFim = $dataFim->isoFormat('dddd');
+
                                             @endphp
 
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y H:i:s') }}
                                                 ({{ $diaSemanaInicio }})
-                                            </td>
-                                            <td class="{{ $diaSemanaFim == 'sábado' ? 'text-primary' : '' }}">
-                                                {{ $dataFim->format('d/m/Y H:i:s') }}
-                                                ({{ $diaSemanaFim }})
                                             </td>
 
                                             <td>{{ $itens->lote->descricao }} -
@@ -67,15 +59,7 @@
                                                 </a>
                                             </td>
 
-                                            <td>
-                                                @php
-                                                    $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
-                                                    $dataFim = Carbon\Carbon::parse($itens->data_fim);
-                                                    $tempoReserva = $dataInicio->diff($dataFim);
-                                                @endphp
-                                                <i class="text-success fas fa-clock"></i>
-                                                {{ $tempoReserva->format('%H:%I:%S') }}
-                                            </td>
+
 
                                             {{-- Inicio Status --}}
                                             <td>
@@ -95,7 +79,6 @@
                                                         data-area="{{ $itens->area }}" 
                                                         data-lote_id="{{ $itens->lote_id }}"
                                                         data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
-                                                        data-data_fim="{{ \Carbon\Carbon::parse($itens->data_fim)->format('Y-m-d\TH:i') }}"
                                                         data-limpeza="{{ $itens->limpeza }}"
                                                         data-status="{{ $itens->status }}"> @endif
                                                     <span class="fas fa-edit"></span> Editar
@@ -146,12 +129,7 @@
                                             <input type="datetime-local" name="data_inicio" id="edit_data_inicio"
                                                 class="form-control" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="edit_data_fim">Data e Hora de
-                                                Término</label>
-                                            <input type="datetime-local" name="data_fim" id="edit_data_fim"
-                                                class="form-control" required>
-                                        </div>
+
                                         <div class="form-group">
                                             <label for="edit_limpeza">Limpeza</label>
                                             <select name="limpeza" id="edit_limpeza" class="form-control" required>
@@ -198,7 +176,6 @@
                             var area = button.data('area');
                             var lote_id = button.data('lote_id');
                             var data_inicio = button.data('data_inicio');
-                            var data_fim = button.data('data_fim');
                             var limpeza = button.data('limpeza');
                             var status = button.data('status');
 
@@ -207,7 +184,6 @@
                             modal.find('.modal-body #edit_area').val(area);
                             modal.find('.modal-body #edit_lote_id').val(lote_id);
                             modal.find('.modal-body #edit_data_inicio').val(data_inicio);
-                            modal.find('.modal-body #edit_data_fim').val(data_fim);
                             modal.find('.modal-body #edit_limpeza').val(limpeza);
                             modal.find('.modal-body #edit_status').val(status);
                         });

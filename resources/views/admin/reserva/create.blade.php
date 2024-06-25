@@ -45,27 +45,27 @@
                                     <div class="col-12 col-md-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area1"
-                                                value="ACADEMIA" required>
+                                                value="QUIOSQUE 01" required>
                                             <label class="form-check-label" for="area1">
-                                                ACADEMIA
+                                                QUIOSQUE 01
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area2"
-                                                value="ESPAÇO GOURMET - PRINCIPAL" required>
+                                                value="QUIOSQUE 02" required>
                                             <label class="form-check-label" for="area2">
-                                                ESPAÇO GOURMET - PRINCIPAL
+                                                QUIOSQUE 02
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area3"
-                                                value="SALÃO DE FESTAS" required>
+                                                value="QUIOSQUE 03" required>
                                             <label class="form-check-label" for="area3">
-                                                SALÃO DE FESTAS
+                                                QUIOSQUE 03
                                             </label>
                                         </div>
                                     </div>
@@ -99,20 +99,15 @@
 
                             <div class="form-group row align-items-center">
                                 <div class="col-12 col-md-4">
-                                    <label for="data_inicio">Data e Hora de Início</label>
+                                    <label for="data_inicio">Data Reserva</label>
                                     <input type="datetime-local" name="data_inicio" id="data_inicio" class="form-control"
-                                        required>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label for="data_fim">Data e Hora de Término</label>
-                                    <input type="datetime-local" name="data_fim" id="data_fim" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="limpeza">Limpeza</label>
                                     <select name="limpeza" id="limpeza" class="form-control" required>
-                                        <option value="IsentoTaxaLimpesa">O Morador irá limpar após o uso</option>
-                                        <option value="CobrarTaxaLimpesa">Será limpo pelo condomínio</option>
+                                        <option value="IsentoTaxaLimpesa">O Morador irá limpar após o uso do local.</option>
+                                        <option value="CobrarTaxaLimpesa">Será limpo pelo condomínio.</option>
                                     </select>
                                 </div>
                               
@@ -161,13 +156,13 @@
 
                 switch (areaId) {
                     case 'area1':
-                        message = 'Para ACADEMIA tem um custo de R$ 100';
+                        message = 'Para QUIOSQUE 01 o aluguel terá um custo.';
                         break;
                     case 'area2':
-                        message = 'Para ESPAÇO GOURMET - PRINCIPAL tem um custo de R$ 100';
+                        message = 'Para QUIOSQUE 02 o aluguel terá um custo.';
                         break;
                     case 'area3':
-                        message = 'Para SALÃO DE FESTAS tem um custo de R$ 100';
+                        message = 'Para QUIOSQUE 03 o aluguel terá um custo.';
                         break;
                 }
 
