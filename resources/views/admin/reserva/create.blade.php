@@ -156,13 +156,13 @@
 
                 switch (areaId) {
                     case 'area1':
-                        message = 'Para QUIOSQUE 01 o aluguel terá um custo.';
+                        message = 'QUIOSQUE 01 tem custo que será vinculado a unidade no próx. fechamento.';
                         break;
                     case 'area2':
-                        message = 'Para QUIOSQUE 02 o aluguel terá um custo.';
+                        message = 'QUIOSQUE 02 tem custo que será vinculado a unidade no próx. fechamento.';
                         break;
                     case 'area3':
-                        message = 'Para QUIOSQUE 03 o aluguel terá um custo.';
+                        message = 'QUIOSQUE 03 tem custo que será vinculado a unidade no próx. fechamento.';
                         break;
                 }
 
