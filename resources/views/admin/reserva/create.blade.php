@@ -110,23 +110,23 @@
                                         <option value="CobrarTaxaLimpesa">Será limpo pelo condomínio.</option>
                                     </select>
                                 </div>
-                              
-                            <th>
-                                <div class="col-12 col-md-4">
-                                    <label for="lote_id">Unidade/Apto.</label>
-                                    {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
-                                        'class' => 'form-control',
-                                    ]) }}
-                                </div>
-                                {{-- Status Reserva --}}
-                                <div class="col-12 col-md-4">
-                                    <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control" required>
-                                        <option value="Pendente">Pendente</option>
-                                        <option value="Confirmada">Confirmada</option>
-                                        <option value="Cancelada">Cancelada</option>
-                                    </select>
-                                </div>
+
+                                <th>
+                                    <div class="col-12 col-md-4">
+                                        <label for="lote_id">Unidade/Apto.</label>
+                                        {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
+                                            'class' => 'form-control',
+                                        ]) }}
+                                    </div>
+                                    {{-- Status Reserva --}}
+                                    <div class="col-12 col-md-4">
+                                        <label for="status">Status</label>
+                                        <select name="status" id="status" class="form-control" required>
+                                            <option value="Pendente">Pendente</option>
+                                            <option value="Confirmada">Confirmada</option>
+                                            <option value="Cancelada">Cancelada</option>
+                                        </select>
+                                    </div>
 
                             </div>
 
