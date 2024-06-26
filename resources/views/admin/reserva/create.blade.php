@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <label for="area">Escolha a Área</label>
                                 <div class="row">
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area1"
                                                 value="QUIOSQUE 01" required>
@@ -48,7 +48,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area2"
                                                 value="QUIOSQUE 02" required>
@@ -57,12 +57,21 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="area" id="area3"
                                                 value="QUIOSQUE 03" required>
                                             <label class="form-check-label" for="area3">
                                                 QUIOSQUE 03
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="area" id="area4"
+                                                value="SALÃO DE FESTAS" required>
+                                            <label class="form-check-label" for="area4">
+                                                SALÃO DE FESTAS
                                             </label>
                                         </div>
                                     </div>
@@ -149,13 +158,16 @@
                 let message = '';
                 switch (areaId) {
                     case 'area1':
-                        message = 'QUIOSQUE 01 tem custo que será vinculado a unidade no próx. fechamento.';
+                        message = 'QUIOSQUE 01 tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                     case 'area2':
-                        message = 'QUIOSQUE 02 tem custo que será vinculado a unidade no próx. fechamento.';
+                        message = 'QUIOSQUE 02 tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                     case 'area3':
-                        message = 'QUIOSQUE 03 tem custo que será vinculado a unidade no próx. fechamento.';
+                        message = 'QUIOSQUE 03 tem custo que será vínculado a unidade no próx. fechamento.';
+                        break;
+                    case 'area4':
+                        message = 'SALÃO DE FESTA tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                 }
                 $('#alertModalBody').text(message);

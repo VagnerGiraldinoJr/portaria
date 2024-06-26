@@ -64,14 +64,18 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                {{-- modal --}}
                                                 <button class="btn btn-primary btn-xs" data-toggle="modal"
                                                     data-target="#editModal"
                                                     @if (isset($itens)) data-id="{{ $itens->id }}"
-                                                        data-area="{{ $itens->area }}" 
-                                                        data-lote_id="{{ $itens->lote_id }}"
-                                                        data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
-                                                        data-limpeza="{{ $itens->limpeza }}"
-                                                        data-status="{{ $itens->status }}"> @endif
+                                                    data-area="{{ $itens->area }}" 
+                                                    data-lote_id="{{ $itens->unidade_id }}"
+                                                    data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
+                                                    data-limpeza="{{ $itens->limpeza }}"
+                                                    data-status="{{ $itens->status }}"
+                                                    data-acessorios="{{ $itens->acessorios }}">                                                     
+                                                    @endif
+                                                    
                                                     <span class="fas fa-edit"></span> Editar
                                                 </button>
                                             </td>
@@ -86,12 +90,14 @@
                         @endif
                     </div>
                     <!-- /.card-body -->
+
                     <!-- Modal de Edição -->
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <form action="{{ route('admin.reserva.update', 'edit') }}" method="POST" id="editForm">
+                                 
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
@@ -109,6 +115,7 @@
                                                 <option value="QUIOSQUE 01">QUIOSQUE 01</option>
                                                 <option value="QUIOSQUE 02">QUIOSQUE 02</option>
                                                 <option value="QUIOSQUE 03">QUIOSQUE 03</option>
+                                                <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -134,6 +141,7 @@
                                                 <option value="Pendente">Pendente</option>
                                             </select>
                                         </div>
+                                        
                                         {{-- Acessórios --}}
                                         <div class="form-group">
                                             <label for="acessorios">Itens Reserva</label>
@@ -154,6 +162,7 @@
                         </div>
                     </div>
                     <!-- Final Modal de Edição -->
+
                 @endsection
                 @section('css')
                     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -170,6 +179,7 @@
                             var data_inicio = button.data('data_inicio');
                             var limpeza = button.data('limpeza');
                             var status = button.data('status');
+                            var acessorios = button.data('acessorios');
                             var modal = $(this);
                             modal.find('.modal-body #edit_id').val(id);
                             modal.find('.modal-body #edit_area').val(area);
@@ -177,6 +187,7 @@
                             modal.find('.modal-body #edit_data_inicio').val(data_inicio);
                             modal.find('.modal-body #edit_limpeza').val(limpeza);
                             modal.find('.modal-body #edit_status').val(status);
+                            modal.find('.modal-body #edit_acessorios').val(acessorios);
                         });
                         $('#editForm').on('submit', function(event) {
                             var form = $(this);

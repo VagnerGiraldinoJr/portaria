@@ -67,47 +67,27 @@ class ReservaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'area' => 'required|string|max:255',
-            'limpeza' => 'required|string',
-        ]);
+        $request = new Reserva([
+            'lote_id' => $request->input('lote_id'),
+            'area' => $request->input('area'),
+            'data_inicio' => $request->input('data_inicio'),
+            'limpeza' => $request->input('limpeza'),
+            'status' => $request->input('status'),
+            'acessorios' => $request->input('acessorios'),
 
-        $reserva = new Reserva();
-        $reserva->user_id = auth()->id();
-        $reserva->unidade_id = $request->lote_id;
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $reserva = Reserva::findOrFail($id);
         $reserva->area = $request->area;
         $reserva->data_inicio = $request->data_inicio;
         $reserva->limpeza = $request->limpeza;
         $reserva->status = $request->status;
         $reserva->acessorios = $request->acessorios;
-        
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso.');
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'area' => 'required',
-            'data_inicio' => 'required|date_format:Y-m-d H:i:s',
-            'data_fim' => 'required|date_format:Y-m-d H:i:s',
-            'limpeza' => 'required',
-            'status' => 'required',
-            'acessorios' => 'required',
-        ]);
-
-        $reserva = Reserva::findOrFail($id);
-        $reserva->update([
-            'area' => $request->input('area'),
-            'lote_id' => $request->input('lote_id'),
-            'data_inicio' => $request->input('data_inicio'),
-            'data_fim' => $request->input('data_fim'),
-            'limpeza' => $request->input('limpeza'),
-            'status' => $request->input('status'),
-            'acessorios' => $request->input('acessorios')
-        ]);
-        //reserva 001
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
+        return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso');
     }
 }

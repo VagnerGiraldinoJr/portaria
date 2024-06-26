@@ -44,12 +44,6 @@ class VisitanteController extends Controller
         return view('admin.visitante.index', compact('resultados', 'visitantes', 'params', 'data'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         // PARAMS DEFAULT
@@ -73,12 +67,6 @@ class VisitanteController extends Controller
         return view('admin.visitante.create', compact('unidades', 'lotes', 'params'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         // Validação dos dados

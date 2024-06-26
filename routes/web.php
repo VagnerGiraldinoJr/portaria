@@ -170,19 +170,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::delete('visitante/destroy/{id}', 'VisitanteController@destroy')->name('admin.visitante.destroy');
     Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
     Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
-    Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
-    Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
-
 
     //Controle de Reservas no Condominio
     Route::get('reserva', 'ReservaController@index')->name('admin.reserva.index');
     Route::get('reserva/create', 'ReservaController@create')->name('admin.reserva.create');
     Route::post('reserva/store', 'ReservaController@store')->name('admin.reserva.store');
     Route::get('reserva/edit/{id}', 'ReservaController@edit')->name('admin.reserva.edit');
-    Route::put('reserva/update/{id}', 'ReservaController@update')->name('admin.reserva.update');
     Route::get('reserva/show/{id}', 'ReservaController@show')->name('admin.reserva.show');
-    
-  
+    Route::get('reserva/exit/{id}', 'ReservaController@exit')->name('admin.reserva.exit');
+    Route::put('reserva/exit/{id}', 'ReservaController@updateexit')->name('admin.reserva.updateexit');
+    Route::put('/admin/reserva/{id}', 'ReservaController@update')->name('admin.reserva.update');
+
 });
 
 Auth::routes();
