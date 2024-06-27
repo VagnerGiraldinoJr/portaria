@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
+use App\Models\Unidade;
 use Illuminate\Support\Facades\Auth;
 
 class ReservaController extends Controller
@@ -39,8 +40,6 @@ class ReservaController extends Controller
         return view('admin.reserva.index', compact('params', 'data'));
     }
 
-
-
     public function create()
     {
         // PARAMS DEFAULT
@@ -57,26 +56,45 @@ class ReservaController extends Controller
         ];
 
         $params = $this->params;
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
             ->get()->pluck('descricao', 'id');
 
-
-        return view('admin.reserva.create', compact('params', 'preload'));
+        return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
     }
 
     public function store(Request $request)
     {
-        $request = new Reserva([
-            'lote_id' => $request->input('lote_id'),
-            'area' => $request->input('area'),
-            'data_inicio' => $request->input('data_inicio'),
-            'limpeza' => $request->input('limpeza'),
-            'status' => $request->input('status'),
-            'acessorios' => $request->input('acessorios'),
-
+        // Validação dos dados
+        $validatedData = $request->validate([
+            'area' => 'required|string|max:255',
+            'data_inicio' => 'required|date',
+            'limpeza' => 'required|string',
+            'status' => 'required|string',
+            'acessorios' => 'required|string',
+            'lote_id' => 'required|exists:lotes,id', // Valida que a lote_id existe na tabela lotes
         ]);
+
+        // Criação da reserva
+        $reserva = new Reserva();
+
+        $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado
+        $reserva->unidade_id = $validatedData['lote_id'];
+
+        $reserva->area = $validatedData['area'];
+
+        $reserva->data_inicio = $validatedData['data_inicio'];
+        $reserva->limpeza = $validatedData['limpeza'];
+        $reserva->status = $validatedData['status'];
+        $reserva->acessorios = $validatedData['acessorios'];
+
+        $reserva->save();
+
+        // Redireciona para a lista de reservas com uma mensagem de sucesso
+        return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
     }
+
 
     public function update(Request $request, $id)
     {

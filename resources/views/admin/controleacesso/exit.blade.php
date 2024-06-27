@@ -61,7 +61,7 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
+<link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="{{ asset('js/plugin/jquery-ui/jquery-ui.min.css')}}">
 @stop
 

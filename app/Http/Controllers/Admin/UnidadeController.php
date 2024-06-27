@@ -16,7 +16,7 @@ class UnidadeController extends Controller
     {
 
         $this->unidade = $unidades;
-        
+
         // Default values
         $this->params['titulo'] = 'Unidades';
         $this->params['main_route'] = 'admin.unidade';
@@ -32,25 +32,26 @@ class UnidadeController extends Controller
         ];
 
         $params = $this->params;
-        $data = $this->unidade->get();       
+        $data = $this->unidade->get();
         return view('admin.unidade.index', compact('params', 'data'));
     }
 
     public function show($id)
     {
-        $this->params['subtitulo']='Deletar Usuário';
-        $this->params['arvore']=[
-           [
-               'url' => 'admin/unidade',
-               'titulo' => 'Unidade'
-           ],
-           [
-               'url' => '',
-               'titulo' => 'Deletar'
-           ]];
+        $this->params['subtitulo'] = 'Deletar Usuário';
+        $this->params['arvore'] = [
+            [
+                'url' => 'admin/unidade',
+                'titulo' => 'Unidade'
+            ],
+            [
+                'url' => '',
+                'titulo' => 'Deletar'
+            ]
+        ];
         $params = $this->params;
-        $data = $this->unidade->where('id',$id)->first();
-        return view('admin.unidade.show',compact('params','data'));
+        $data = $this->unidade->where('id', $id)->first();
+        return view('admin.unidade.show', compact('params', 'data'));
     }
 
     public function create()
@@ -73,55 +74,53 @@ class UnidadeController extends Controller
 
     public function edit($id)
     {
-        $this->params['subtitulo']='Editar unidade';
-        $this->params['arvore']=[
-        [
-            'url' => 'admin/unidade',
-            'titulo' => 'Unidades'
-        ],
-        [
-            'url' => '',
-            'titulo' => 'Editar'
-        ]];
-    $params = $this->params;
-    
-  
-    $data = $this->unidade->where('id',$id)->first();
-    return view('admin.unidade.show',compact('params','data'));
-  
+        $this->params['subtitulo'] = 'Editar unidade';
+        $this->params['arvore'] = [
+            [
+                'url' => 'admin/unidade',
+                'titulo' => 'Unidades'
+            ],
+            [
+                'url' => '',
+                'titulo' => 'Editar'
+            ]
+        ];
+        $params = $this->params;
+
+
+        $data = $this->unidade->where('id', $id)->first();
+        return view('admin.unidade.show', compact('params', 'data'));
     }
 
     public function update(Request $request, $id)
     {
-        $dataForm  = $request->all();        
+        $dataForm  = $request->all();
         $unidade = $this->unidade->where('id')->find($id);
-        if($unidade->update($dataForm)){
-            return redirect()->route($this->params['main_route'].'.index');
-        }else{
-            return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao editar.']);
+        if ($unidade->update($dataForm)) {
+            return redirect()->route($this->params['main_route'] . '.index');
+        } else {
+            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
         }
     }
 
     public function destroy($id)
     {
-        
+
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Deletar Unidades - Filiais';
         $this->params['arvore'][0] = [
             'url' => 'admin/unidade ',
             'titulo' => 'Deletar Unidades'
         ];
-        
+
         $params = $this->params;
-        $data = $this->unidade->where('id',$id)->first();
-        
-       
-        if($data->delete()){
-            return redirect()->route($this->params['main_route'].'.index');
-        }else{
-            return redirect()->route($this->params['main_route'].'.create')->withErrors(['Falha ao deletar.']);
+        $data = $this->unidade->where('id', $id)->first();
+
+
+        if ($data->delete()) {
+            return redirect()->route($this->params['main_route'] . '.index');
+        } else {
+            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao deletar.']);
         }
     }
-
-
 }

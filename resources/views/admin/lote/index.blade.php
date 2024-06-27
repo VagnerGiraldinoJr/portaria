@@ -68,7 +68,7 @@
     </section>
 @stop
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
+<link rel="stylesheet" href="/css/style.css">
 @section('plugins.Datatables', true)
 @stop
 @section('js')

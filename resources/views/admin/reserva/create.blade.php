@@ -37,7 +37,7 @@
                         <div class="container-sm">
                             {{-- Início Escolha áreas comuns --}}
                             <div class="form-group">
-                                <label for="area">Escolha a Área</label>
+                                <label for="area" class="mb-2">Escolha a Área</label>
                                 <div class="row">
                                     <div class="col-12 col-md-3">
                                         <div class="form-check">
@@ -100,46 +100,55 @@
                                 </div>
                             </div>
                             <!--Final Modal -->
+                            {{-- Inicio Campos Imput --}}
+
                             <div class="form-group row align-items-center">
-                                <div class="col-12 col-md-4">
-                                    <label for="data_inicio">Data Reserva</label>
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="data_inicio" class="mb-2">Data Reserva</label>
                                     <input type="date" name="data_inicio" id="data_inicio" class="form-control" required>
                                 </div>
-                                <div class="col-12 col-md-4">
-                                    <label for="limpeza">Limpeza</label>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="limpeza" class="mb-2">Limpeza</label>
                                     <select name="limpeza" id="limpeza" class="form-control" required>
                                         <option value="IsentoTaxaLimpeza">O Morador irá limpar após o uso do local.</option>
                                         <option value="CobrarTaxaLimpeza">Será limpo pelo condomínio.</option>
                                     </select>
                                 </div>
-                                <th>
-                                    <div class="col-12 col-md-4">
-                                        <label for="lote_id">Unidade/Apto.</label>
-                                        {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
-                                            'class' => 'form-control',
-                                        ]) }}
-                                    </div>
-                                    {{-- Status Reserva --}}
-                                    <div class="col-12 col-md-4">
-                                        <label for="status">Status</label>
-                                        <select name="status" id="status" class="form-control" required>
-                                            <option value="Pendente">Pendente</option>
-                                            <option value="Confirmada">Confirmada</option>
-                                            <option value="Cancelada">Cancelada</option>
-                                        </select>
-                                    </div>
-                                    {{-- Acessórios --}}
-                                    <div class="col-12 col-md-4">
-                                        <label for="acessorios">Itens Reserva</label>
-                                        <select name="acessorios" id="acessorios" class="form-control" required>
-                                            <option value="Grelha">Grelha</option>
-                                            <option value="N/A">N/A</option>
-                                            <option value="Talheres">Talheres</option>
-                                        </select>
-                                    </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="lote_id" class="mb-2">Lote</label>
+                                    <select name="lote_id" id="lote_id" class="form-control" required>
+                                        @foreach ($lotes as $lote)
+                                            <option value="{{ $lote->id }}">{{ $lote->descricao }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="status" class="mb-2">Status</label>
+                                    <select name="status" id="status" class="form-control" required>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Confirmada">Confirmada</option>
+                                        <option value="Cancelada">Cancelada</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="acessorios" class="mb-2">Itens Reserva</label>
+                                    <select name="acessorios" id="acessorios" class="form-control" required>
+                                        <option value="Grelha">Grelha</option>
+                                        <option value="N/A">N/A</option>
+                                        <option value="Talheres">Talheres</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Criar Reserva</button>
-                            <div class="mb-4"></div>
+
+
+                            {{-- Fim Campos Imput --}}
+                            <button type="submit" class="btn btn-primary mt-3 mb-3">Criar Reserva</button>
+
+
                         </div>
                     </form>
                 </div>
@@ -148,7 +157,7 @@
     </section>
 @stop
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="/css/style.css">
 @stop
 @section('js')
     <script>
@@ -167,7 +176,8 @@
                         message = 'QUIOSQUE 03 tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                     case 'area4':
-                        message = 'SALÃO DE FESTA tem custo que será vínculado a unidade no próx. fechamento.';
+                        message =
+                            'SALÃO DE FESTA tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                 }
                 $('#alertModalBody').text(message);

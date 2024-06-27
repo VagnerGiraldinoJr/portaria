@@ -41,6 +41,7 @@
                                             @php
                                                 $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
+                                                // @dd($itens);
                                             @endphp
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }}
@@ -69,13 +70,11 @@
                                                     data-target="#editModal"
                                                     @if (isset($itens)) data-id="{{ $itens->id }}"
                                                     data-area="{{ $itens->area }}" 
-                                                    data-lote_id="{{ $itens->unidade_id }}"
+                                                    data-lote_id="{{ $itens->lote_id }}"
                                                     data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
                                                     data-limpeza="{{ $itens->limpeza }}"
                                                     data-status="{{ $itens->status }}"
-                                                    data-acessorios="{{ $itens->acessorios }}">                                                     
-                                                    @endif
-                                                    
+                                                    data-acessorios="{{ $itens->acessorios }}"> @endif
                                                     <span class="fas fa-edit"></span> Editar
                                                 </button>
                                             </td>
@@ -97,7 +96,6 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <form action="{{ route('admin.reserva.update', 'edit') }}" method="POST" id="editForm">
-                                 
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
@@ -141,7 +139,7 @@
                                                 <option value="Pendente">Pendente</option>
                                             </select>
                                         </div>
-                                        
+
                                         {{-- Acessórios --}}
                                         <div class="form-group">
                                             <label for="acessorios">Itens Reserva</label>
@@ -162,10 +160,9 @@
                         </div>
                     </div>
                     <!-- Final Modal de Edição -->
-
                 @endsection
                 @section('css')
-                    <link rel="stylesheet" href="/css/admin_custom.css">
+                    <link rel="stylesheet" href="/css/style.css">
                 @section('plugins.Datatables', true)
             @stop
             @section('js')

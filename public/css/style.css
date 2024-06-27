@@ -1,4 +1,7 @@
 
+
+
+
 #modalOrcamentos .row, #modalOrcamentos .row > div{
     border: 1px solid #e9ecef;
     border-collapse: collapse;
@@ -18,6 +21,18 @@ body{
     height: auto;
 }
 
+.spacing-div {
+    margin-bottom: 1rem; /* Espaçamento entre divs */
+}
+
+.spacing-label {
+    margin-bottom: 0.5rem; /* Espaçamento abaixo do label */
+    display: block; /* Garantir que o label ocupe a largura total */
+}
+.spacing-button {
+    margin-top: 0.5rem; /* Adiciona margem superior */
+    margin-bottom: 1rem; /* Adiciona margem inferior */
+}
 
 .cabecalho-colunas{
     width: 70%;
