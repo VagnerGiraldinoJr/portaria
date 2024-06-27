@@ -133,20 +133,29 @@
                                         <option value="Cancelada">Cancelada</option>
                                     </select>
                                 </div>
-
+                                
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label for="acessorios" class="mb-2">Itens Reserva</label>
+                                    <label for="acessorios" class="mb-2"><i class="fas fa-plus"></i>
+                                        Itens Reserva</label>
                                     <select name="acessorios" id="acessorios" class="form-control" required>
                                         <option value="Grelha">Grelha</option>
                                         <option value="N/A">N/A</option>
                                         <option value="Talheres">Talheres</option>
                                     </select>
                                 </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label for="celular_responsavel" class="mb-2">
+                                        <i class="fas fa-mobile-alt"></i> Celular Responsável Reserva
+                                    </label>
+                                    <input type="text" name="celular_responsavel" id="celular_responsavel"
+                                        class="form-control" placeholder="(DDD) 9 9999-9999" required>
+                                </div>
                             </div>
 
-
                             {{-- Fim Campos Imput --}}
-                            <button type="submit" class="btn btn-primary mt-3 mb-3">Criar Reserva</button>
+
+                            <button type="submit" class="btn btn-success mt-3 mb-3">Criar Reserva</button>
 
 
                         </div>
@@ -161,6 +170,10 @@
 @stop
 @section('js')
     <script>
+        $(document).ready(function() {
+            $('#celular_responsavel').mask('(00) 0 0000-0000');
+        });
+
         $(document).ready(function() {
             $('.form-check-input').on('change', function() {
                 let areaId = $(this).attr('id');

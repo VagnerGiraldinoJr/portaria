@@ -13,7 +13,8 @@ class Reserva extends Model
         'data_inicio',
         'limpeza',
         'status',
-        'acessorios'
+        'acessorios',
+        'celular_responsavel'
     ];
 
     // Definindo a relação 'lote'

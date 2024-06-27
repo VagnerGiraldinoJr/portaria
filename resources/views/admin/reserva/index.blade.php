@@ -30,7 +30,9 @@
                                         <th>Área Solicitada</th>
                                         <th>Data Reserva</th>
                                         <th>Unidade Solicitante</th>
+                                        <th>Contato Resp. Reserva</th>
                                         <th>Status Reserva</th>
+                                        <th>Status Chaves</th>
                                         <th>Operação</th>
                                     </tr>
                                 </thead>
@@ -41,33 +43,49 @@
                                             @php
                                                 $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
-                                                // @dd($itens);
                                             @endphp
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }}
                                                 ({{ $diaSemanaInicio }})
                                             </td>
-                                            <td>{{ $itens->lote->descricao }} -
-                                                <a href="#" {{-- "https://wa.me/{{ isset($item->pessoa[0]) ? $item->pessoa[0]->celular : '' }}?text=Portaria" --}} {{-- target="_blank" rel="noopener noreferrer" --}}
-                                                    class="btn btn-outline-success btn-xs"><span
-                                                        class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
+                                            <td>{{ $itens->lote->descricao }} </td>
+
+                                            {{-- Inicio Whats --}}
+                                            <td>
+                                                <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->dataInicio)->format('d/m/Y') }}.%20Dominare%20Portaria%20Agradece%20Obrigado!"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="btn btn-outline-success btn-xs">
+                                                    <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
                                                     Enviar Mensagem
                                                 </a>
                                             </td>
+
                                             {{-- Inicio Status --}}
                                             <td>
                                                 @if ($itens->status == 'Confirmada')
-                                                    <i class="fas fa-calendar-check text-success"></i> Confirmada
+                                                    <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
+                                                    Confirmada
                                                 @elseif($itens->status == 'Cancelada')
-                                                    <i class="fas fa-ban text-danger"></i> Cancelada
+                                                    <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
                                                 @else
-                                                    <i class="far fa-question-circle text-warning"></i> Pendente
+                                                    <i class="far fa-question-circle text-warning" aria-hidden="true"></i>
+                                                    Pendente
                                                 @endif
                                             </td>
                                             <td>
+                                                <a href="#" {{-- {{ route($params['main_route'].'.exit', $item->id) }}" --}} class="btn btn-outline-secondary btn-xs"
+                                                    aria-hidden="true"><span class="fas fa-unlock"></span> Entrega das
+                                                    Chaves
+                                                </a>
+                                                <a href="#" {{-- {{ route($params['main_route'].'.exit', $item->id) }}" --}} class="btn btn-outline-info btn-xs"
+                                                    aria-hidden="true"><span class="fas fa-lock"></span> Devolução
+                                                    Chaves
+                                                </a>
+                                                <td>
+
                                                 {{-- modal --}}
-                                                <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                                    data-target="#editModal"
+                                            <button class="btn btn-primary btn-xs" aria-pressed="false"
+                                                    data-toggle="modal" data-target="#editModal"
                                                     @if (isset($itens)) data-id="{{ $itens->id }}"
                                                     data-area="{{ $itens->area }}" 
                                                     data-lote_id="{{ $itens->lote_id }}"
@@ -75,8 +93,11 @@
                                                     data-limpeza="{{ $itens->limpeza }}"
                                                     data-status="{{ $itens->status }}"
                                                     data-acessorios="{{ $itens->acessorios }}"> @endif
-                                                    <span class="fas fa-edit"></span> Editar
+                                                    <span class="fas fa-edit" aria-hidden="true"></span> Editar
+
                                                 </button>
+                                            </td>
+
                                             </td>
                                         </tr>
                                     @endforeach

@@ -74,6 +74,7 @@ class ReservaController extends Controller
             'status' => 'required|string',
             'acessorios' => 'required|string',
             'lote_id' => 'required|exists:lotes,id', // Valida que a lote_id existe na tabela lotes
+            'celular_responsavel' => 'required|string'
         ]);
 
         // Criação da reserva
@@ -88,6 +89,12 @@ class ReservaController extends Controller
         $reserva->limpeza = $validatedData['limpeza'];
         $reserva->status = $validatedData['status'];
         $reserva->acessorios = $validatedData['acessorios'];
+       
+        $celularResponsavel = $request->input('celular_responsavel');
+        $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
+        $reserva->celular_responsavel = $celularLimpo;
+
+       
 
         $reserva->save();
 
@@ -104,6 +111,7 @@ class ReservaController extends Controller
         $reserva->limpeza = $request->limpeza;
         $reserva->status = $request->status;
         $reserva->acessorios = $request->acessorios;
+        $reserva->celular_responsavel = $request->input('celular_responsavel');
         $reserva->save();
 
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso');
