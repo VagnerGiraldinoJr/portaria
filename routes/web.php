@@ -172,7 +172,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
 
     //Controle de Reservas no Condominio
-    Route::get('reservas', [ReservaController::class, 'index'])->name('admin.reserva.index');
+    Route::get('reserva', [ReservaController::class, 'index'])->name('admin.reserva.index');
     Route::get('reserva/create', [ReservaController::class, 'create'])->name('admin.reserva.create');
     Route::post('reserva/store', [ReservaController::class, 'store'])->name('admin.reserva.store');
     Route::get('reserva/edit/{id}', [ReservaController::class, 'edit'])->name('admin.reserva.edit');
@@ -180,6 +180,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('reserva/exit/{id}', [ReservaController::class, 'exit'])->name('admin.reserva.exit');
     Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
+    //Rota para retirar as chaves na portaria
+    Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');
+    //Rota para devolver as chaves na portaria
+    Route::put('reserva/return/{id}', [ReservaController::class, 'return'])->name('admin.reserva.return');
 
 });
 

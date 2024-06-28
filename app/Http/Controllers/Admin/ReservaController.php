@@ -76,7 +76,7 @@ class ReservaController extends Controller
         // Criação da reserva
         $reserva = new Reserva();
         $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado
-        $reserva->lote_id = $validatedData['lote_id'];
+        $reserva->unidade_id = $validatedData['descricao'];
         $reserva->area = $validatedData['area'];
         $reserva->data_inicio = $validatedData['data_inicio'];
         $reserva->limpeza = $validatedData['limpeza'];

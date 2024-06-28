@@ -46,8 +46,9 @@
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
-                                            <td>{{ $itens->lote->descricao }}</td>
-
+                                            
+                                            <td>{{ $itens->lote->descricao }}</td>                                            
+                                        
                                             {{-- Inicio Whats --}}
                                             <td>
                                                 <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->data_inicio)->format('d/m/Y') }}.%20Dominare%20Portaria%20Agradece%20Obrigado!"
@@ -57,6 +58,7 @@
                                                     Enviar Mensagem
                                                 </a>
                                             </td>
+                                         
 
                                             {{-- Inicio Status --}}
                                             <td>
@@ -82,7 +84,7 @@
 
                                             <td>
                                                 {{-- modal --}}
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
                                                     data-target="#editModal" data-id="{{ $itens->id }}"
                                                     data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
                                                     data-data_inicio="{{ $itens->data_inicio }}"
@@ -99,7 +101,7 @@
                             </table>
                         @else
                             <div class="alert alert-success m-2" role="alert">
-                                Nasdasdasdasdasdcadastrada.
+                                Sem registros.
                             </div>
                         @endif
                     </div>
@@ -107,7 +109,7 @@
 
 
                     <!-- Modal de Edição -->
-                    {{-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -173,7 +175,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <!-- Final Modal de Edição -->
 
 
