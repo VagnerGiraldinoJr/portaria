@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Lote;
-use Illuminate\Http\Request;
 use App\Models\Reserva;
-use App\Models\Unidade;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReservaController extends Controller
 {
     private $params = [];
-    private $reserva = [];
-    private $lote = [];
+    private $reserva;
+    private $lote;
 
     public function __construct(Reserva $reservas, Lote $lotes)
     {
@@ -31,12 +29,11 @@ class ReservaController extends Controller
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastro de Reserva';
         $this->params['arvore'][0] = [
-            'url' => 'admin/reserva ',
+            'url' => 'admin/reserva',
             'titulo' => 'Cadastro Reserva'
         ];
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
-
         return view('admin.reserva.index', compact('params', 'data'));
     }
 
@@ -58,9 +55,8 @@ class ReservaController extends Controller
         $params = $this->params;
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
+            ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
             ->get()->pluck('descricao', 'id');
-
         return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
     }
 
@@ -79,41 +75,50 @@ class ReservaController extends Controller
 
         // Criação da reserva
         $reserva = new Reserva();
-
         $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado
-        $reserva->unidade_id = $validatedData['lote_id'];
-
+        $reserva->lote_id = $validatedData['lote_id'];
         $reserva->area = $validatedData['area'];
-
         $reserva->data_inicio = $validatedData['data_inicio'];
         $reserva->limpeza = $validatedData['limpeza'];
         $reserva->status = $validatedData['status'];
-        $reserva->acessorios = $validatedData['acessorios'];
-       
+        $reserva->acessorios = $validatedData['acessorios'];       
         $celularResponsavel = $request->input('celular_responsavel');
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
-
-       
-
         $reserva->save();
 
         // Redireciona para a lista de reservas com uma mensagem de sucesso
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
     }
 
-
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'area' => 'required|string|max:255',
+            'data_inicio' => 'required|date',
+            'limpeza' => 'required|string',
+            'status' => 'required|string',
+            'acessorios' => 'required|string',
+            'celular_responsavel' => 'required|string|max:15',
+        ]);
+    
         $reserva = Reserva::findOrFail($id);
-        $reserva->area = $request->area;
-        $reserva->data_inicio = $request->data_inicio;
-        $reserva->limpeza = $request->limpeza;
-        $reserva->status = $request->status;
-        $reserva->acessorios = $request->acessorios;
-        $reserva->celular_responsavel = $request->input('celular_responsavel');
+    
+        $reserva->area = $validatedData['area'];
+        $reserva->data_inicio = $validatedData['data_inicio'];
+        $reserva->limpeza = $validatedData['limpeza'];
+        $reserva->status = $validatedData['status'];
+        $reserva->acessorios = $validatedData['acessorios'];
+        $celularResponsavel = $validatedData['celular_responsavel'];
+        $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
+        $reserva->celular_responsavel = $celularLimpo;
+    
         $reserva->save();
-
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso');
+    
+        return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
     }
-}
+    
+
+
+
+    }

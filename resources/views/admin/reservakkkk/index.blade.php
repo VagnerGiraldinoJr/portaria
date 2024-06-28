@@ -4,7 +4,6 @@
     @include('admin.layouts.header')
 @stop
 @section('content')
-@section('content')
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -15,9 +14,9 @@
                                 <h3 class="card-title">{{ $params['subtitulo'] }}</h3>
                             </div>
                             <div class="col-6 text-right">
-                                <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-xs"><span
-                                        class="fas fa-plus"></span> Nova
-                                    Reserva</a>
+                                <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-xs">
+                                    <span class="fas fa-plus"></span> Nova Reserva
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -45,14 +44,13 @@
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
                                             @endphp
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
-                                                {{ $dataInicio->format('d/m/Y') }}
-                                                ({{ $diaSemanaInicio }})
+                                                {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
-                                            <td>{{ $itens->lote->descricao }} </td>
+                                            <td>{{ $itens->lote->descricao }}</td>
 
                                             {{-- Inicio Whats --}}
                                             <td>
-                                                <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->dataInicio)->format('d/m/Y') }}.%20Dominare%20Portaria%20Agradece%20Obrigado!"
+                                                <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->data_inicio)->format('d/m/Y') }}.%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                     target="_blank" rel="noopener noreferrer"
                                                     class="btn btn-outline-success btn-xs">
                                                     <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
@@ -73,31 +71,27 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" {{-- {{ route($params['main_route'].'.exit', $item->id) }}" --}} class="btn btn-outline-secondary btn-xs"
-                                                    aria-hidden="true"><span class="fas fa-unlock"></span> Entrega das
-                                                    Chaves
+                                                <a href="#" class="btn btn-outline-secondary btn-xs"
+                                                    aria-hidden="true">
+                                                    <span class="fas fa-unlock"></span> Entrega das Chaves
                                                 </a>
-                                                <a href="#" {{-- {{ route($params['main_route'].'.exit', $item->id) }}" --}} class="btn btn-outline-info btn-xs"
-                                                    aria-hidden="true"><span class="fas fa-lock"></span> Devolução
-                                                    Chaves
+                                                <a href="#" class="btn btn-outline-info btn-xs" aria-hidden="true">
+                                                    <span class="fas fa-lock"></span> Devolução Chaves
                                                 </a>
-                                                <td>
-
-                                                {{-- modal --}}
-                                            <button class="btn btn-primary btn-xs" aria-pressed="false"
-                                                    data-toggle="modal" data-target="#editModal"
-                                                    @if (isset($itens)) data-id="{{ $itens->id }}"
-                                                    data-area="{{ $itens->area }}" 
-                                                    data-lote_id="{{ $itens->lote_id }}"
-                                                    data-data_inicio="{{ \Carbon\Carbon::parse($itens->data_inicio)->format('Y-m-d\TH:i') }}"
-                                                    data-limpeza="{{ $itens->limpeza }}"
-                                                    data-status="{{ $itens->status }}"
-                                                    data-acessorios="{{ $itens->acessorios }}"> @endif
-                                                    <span class="fas fa-edit" aria-hidden="true"></span> Editar
-
-                                                </button>
                                             </td>
 
+                                            <td>
+                                                {{-- modal --}}
+                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#editModal" data-id="{{ $itens->id }}"
+                                                    data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
+                                                    data-data_inicio="{{ $itens->data_inicio }}"
+                                                    data-limpeza="{{ $itens->limpeza }}"
+                                                    data-status="{{ $itens->status }}"
+                                                    data-acessorios="{{ $itens->acessorios }}"
+                                                    data-celular_responsavel="{{ $itens->celular_responsavel }}">
+                                                    Editar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -105,14 +99,15 @@
                             </table>
                         @else
                             <div class="alert alert-success m-2" role="alert">
-                                Nenhuma informação cadastrada.
+                                Nasdasdasdasdasdcadastrada.
                             </div>
                         @endif
                     </div>
                     <!-- /.card-body -->
 
+
                     <!-- Modal de Edição -->
-                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                    {{-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -120,8 +115,7 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Editar
-                                            Reserva</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Editar Reserva</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -145,30 +139,30 @@
                                         <div class="form-group">
                                             <label for="edit_limpeza">Limpeza</label>
                                             <select name="limpeza" id="edit_limpeza" class="form-control" required>
-                                                <option value="usuario">O Morador irá limpar
-                                                    após o uso</option>
-                                                <option value="condominio">Será limpo pelo
-                                                    condomínio</option>
+                                                <option value="usuario">O Morador irá limpar após o uso</option>
+                                                <option value="condominio">Será limpo pelo condomínio</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="edit_status">Status</label>
                                             <select name="status" id="edit_status" class="form-control" required>
-                                                <option value="Confirmada">Confirmada
-                                                </option>
+                                                <option value="Confirmada">Confirmada</option>
                                                 <option value="Cancelada">Cancelada</option>
                                                 <option value="Pendente">Pendente</option>
                                             </select>
                                         </div>
-
-                                        {{-- Acessórios --}}
                                         <div class="form-group">
-                                            <label for="acessorios">Itens Reserva</label>
-                                            <select name="acessorios" id="acessorios" class="form-control" required>
+                                            <label for="edit_acessorios">Itens Reserva</label>
+                                            <select name="acessorios" id="edit_acessorios" class="form-control" required>
                                                 <option value="Grelha">Grelha</option>
                                                 <option value="N/A">N/A</option>
                                                 <option value="Talheres">Talheres</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit_celular_responsavel">Celular Responsável Reserva</label>
+                                            <input type="text" id="edit_celular_responsavel"
+                                                name="celular_responsavel" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -179,65 +173,77 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Final Modal de Edição -->
-                @endsection
-                @section('css')
-                    <link rel="stylesheet" href="/css/style.css">
-                @section('plugins.Datatables', true)
-            @stop
-            @section('js')
-                <script>
-                    $(document).ready(function() {
-                        $('#editModal').on('show.bs.modal', function(event) {
-                            var button = $(event.relatedTarget);
-                            var id = button.data('id');
-                            var area = button.data('area');
-                            var lote_id = button.data('lote_id');
-                            var data_inicio = button.data('data_inicio');
-                            var limpeza = button.data('limpeza');
-                            var status = button.data('status');
-                            var acessorios = button.data('acessorios');
-                            var modal = $(this);
-                            modal.find('.modal-body #edit_id').val(id);
-                            modal.find('.modal-body #edit_area').val(area);
-                            modal.find('.modal-body #edit_lote_id').val(lote_id);
-                            modal.find('.modal-body #edit_data_inicio').val(data_inicio);
-                            modal.find('.modal-body #edit_limpeza').val(limpeza);
-                            modal.find('.modal-body #edit_status').val(status);
-                            modal.find('.modal-body #edit_acessorios').val(acessorios);
-                        });
-                        $('#editForm').on('submit', function(event) {
-                            var form = $(this);
-                            var action = form.attr('action').replace('edit', $('#edit_id').val());
-                            form.attr('action', action);
-                        });
-                    });
-                    //    DataTable
-                    $(document).ready(function() {
-                        var table = $('#dataTablePortaria').DataTable({
-                            "pageLength": 25,
-                            "language": {
-                                "decimal": "",
-                                "emptyTable": "Dados Indisponiveis na Tabela",
-                                "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
-                                "infoEmpty": "Mostrando 0 linhas",
-                                "infoFiltered": "(filtrando _MAX_ total de linhas)",
-                                "infoPostFix": "",
-                                "thousands": ",",
-                                "lengthMenu": "Mostrando _MENU_ linhas",
-                                "loadingRecords": "Carregando...",
-                                "processing": "Processando...",
-                                "search": "Busca:",
-                                "zeroRecords": "Nenhum resultado encontrado",
-                                "paginate": {
-                                    "first": "Primeiro",
-                                    "last": "Ultimo",
-                                    "next": "Proximo",
-                                    "previous": "Anterior"
-                                },
-                            }
-                        });
-                    });
-                </script>
-            @stop
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+@stop
+@section('css')
+    <link rel="stylesheet" href="/css/style.css">
+@stop
+@section('plugins.Datatables', true)
+@section('js')
+    <script>
+        //Modal
+        $(document).ready(function() {
+            $('#editModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var area = button.data('area');
+                var lote_id = button.data('lote_id');
+                var data_inicio = button.data('data_inicio');
+                var limpeza = button.data('limpeza');
+                var status = button.data('status');
+                var acessorios = button.data('acessorios');
+                var celular_responsavel = button.data('celular_responsavel');
+
+                var modal = $(this);
+                modal.find('.modal-body #edit_id').val(id);
+                modal.find('.modal-body #edit_area').val(area);
+                modal.find('.modal-body #edit_lote_id').val(lote_id);
+                modal.find('.modal-body #edit_data_inicio').val(data_inicio);
+                modal.find('.modal-body #edit_limpeza').val(limpeza);
+                modal.find('.modal-body #edit_status').val(status);
+                modal.find('.modal-body #edit_acessorios').val(acessorios);
+                modal.find('.modal-body #edit_celular_responsavel').val(celular_responsavel);
+            });
+
+            $('#editForm').on('submit', function(event) {
+                var form = $(this);
+                var action = form.attr('action').replace('edit', $('#edit_id').val());
+                form.attr('action', action);
+            });
+        });
+
+        // DataTable
+        $(document).ready(function() {
+            var table = $('#dataTablePortaria').DataTable({
+                "pageLength": 25,
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "Dados Indisponiveis na Tabela",
+                    "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
+                    "infoEmpty": "Mostrando 0 linhas",
+                    "infoFiltered": "(filtrando _MAX_ total de linhas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrando _MENU_ linhas",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Busca:",
+                    "zeroRecords": "Nenhum resultado encontrado",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Ultimo",
+                        "next": "Proximo",
+                        "previous": "Anterior"
+                    },
+                }
+            });
+        });
+    </script>
+@stop

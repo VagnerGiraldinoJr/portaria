@@ -9,7 +9,7 @@ class Reserva extends Model
     protected $fillable = [
         'user_id',
         'area',
-        'unidade_id',
+        'lote_id',
         'data_inicio',
         'limpeza',
         'status',
@@ -20,8 +20,9 @@ class Reserva extends Model
     // Definindo a relação 'lote'
     public function lote()
     {
-        return $this->belongsTo(Lote::class, 'unidade_id');
+        return $this->belongsTo(Lote::class, 'lote_id');
     }
+
     // Definindo a relação 'Unidades'
     public function unidade()
     {
