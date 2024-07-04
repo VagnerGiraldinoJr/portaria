@@ -53,10 +53,6 @@ class ReservaController extends Controller
         }
 
 
-
-
-
-
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
     }
 
@@ -123,8 +119,10 @@ class ReservaController extends Controller
             'status' => 'required|string',
             'acessorios' => 'required|string',
             'celular_responsavel' => 'required|string|max:15',
-            'dt_entrega_chaves' => 'nullable|date',
-            'dt_devolucao_chaves' => 'nullable|date',
+            'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
+            'retirado_por' => 'required|string|max:255',
+            'devolvido_por' => 'required|string|max:255',
+            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
         ]);
 
         $reserva = Reserva::findOrFail($id);
@@ -137,6 +135,12 @@ class ReservaController extends Controller
         $celularResponsavel = $validatedData['celular_responsavel'];
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
+
+        $reserva->dt_entrega_chaves = \Carbon\Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_entrega_chaves']);
+        $reserva->retirado_por = $validatedData['retirado_por'];
+        $reserva->status = 'Confirmada'; // Atualiza o status para 'Confirmada' após entrega das chaves
+
+
 
         // Atualiza os campos dt_entrega_chaves e dt_devolucao_chaves se presentes no request
         if (isset($validatedData['dt_entrega_chaves'])) {
@@ -201,7 +205,7 @@ class ReservaController extends Controller
     public function retire(Request $request, $id)
     {
         // Validar os dados do formulário
-        $request->validate([
+        $validatedData = $request->validate([
             'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
             'retirado_por' => 'required|string|max:100',
         ]);
@@ -210,20 +214,23 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
 
         // Atualizar os campos
-        $reserva->dt_entrega_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $request->dt_entrega_chaves)->toDateTimeString();
-        $reserva->retirado_por = $request->retirado_por;
+        $reserva->dt_entrega_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_entrega_chaves'])->toDateTimeString();
+        $reserva->retirado_por = $validatedData['retirado_por'];
+
+        // Atualiza o status para 'Confirmada' após entrega das chaves
+        $reserva->status = 'Confirmada';
 
         // Salvar as alterações
         $reserva->save();
 
         // Redirecionar com uma mensagem de sucesso
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves Reserva retirada com sucesso.');
+        return redirect()->route('admin.reserva.index')->with('success', 'Chaves da reserva foram retiradas e status atualizado para Confirmada.');
     }
 
     public function return(Request $request, $id)
     {
         // Validar os dados do formulário
-        $request->validate([
+        $validatedData = $request->validate([
             'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
             'devolvido_por' => 'required|string|max:100',
         ]);
@@ -232,14 +239,19 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
 
         // Atualizar os campos
-        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $request->dt_devolucao_chaves)->toDateTimeString();
-        $reserva->devolvido_por = $request->devolvido_por;
+        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_devolucao_chaves'])->toDateTimeString();
+        $reserva->devolvido_por = $validatedData['devolvido_por'];
+
+        // Atualiza o status para 'Encerrado' após a devolução das chaves
+        if (!empty($reserva->dt_entrega_chaves) && $reserva->status != 'Encerrado') {
+            $reserva->status = 'Encerrado';
+        }
 
         // Salvar as alterações
         $reserva->save();
 
         // Redirecionar com uma mensagem de sucesso
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso.');
+        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
     }
 
     public function updateReturn(Request $request, $id)
