@@ -36,6 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach ($data as $itens)
                                         <tr>
                                             <td>{{ $itens->area }}</td>
@@ -46,44 +47,57 @@
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
-                                            
-                                            <td>{{ $itens->lote->descricao }}</td>                                            
-                                        
-                                            {{-- Inicio Whats --}}
+                                            <td>{{ $itens->lote->descricao }}</td>
                                             <td>
                                                 <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                     target="_blank" rel="noopener noreferrer"
                                                     class="btn btn-outline-success btn-xs">
-                                                    <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
-                                                    Enviar Mensagem
+                                                    <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span> Enviar
+                                                    Mensagem
                                                 </a>
                                             </td>
-                                        
-
-                                            {{-- Inicio Status --}}
                                             <td>
                                                 @if ($itens->status == 'Confirmada')
                                                     <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
                                                     Confirmada
                                                 @elseif($itens->status == 'Cancelada')
                                                     <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
+                                                @elseif($itens->status == 'Encerrado')
+                                                    <i class="fas fa-check-double text-success" aria-hidden="true"></i>
+                                                    Encerrado
                                                 @else
                                                     <i class="far fa-question-circle text-warning" aria-hidden="true"></i>
                                                     Pendente
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-outline-secondary btn-xs"
-                                                    aria-hidden="true">
-                                                    <span class="fas fa-unlock"></span> Entrega das Chaves
-                                                </a>
-                                                <a href="#" class="btn btn-outline-info btn-xs" aria-hidden="true">
-                                                    <span class="fas fa-lock"></span> Devolução Chaves
-                                                </a>
-                                            </td>
+                                                {{-- Verifica se dt_entrega_chaves está preenchido --}}
+                                                @if (!empty($itens->dt_entrega_chaves))
+                                                    {{-- Se estiver preenchido, não exibe o botão --}}
+                                                @else
+                                                    {{-- Se não estiver preenchido, exibe o botão --}}
+                                                    <form action="{{ route('admin.reserva.showRetireForm', $itens->id) }}"
+                                                        method="GET" style="display: inline;">
+                                                        <button type="submit" class="btn btn-outline-secondary btn-xs">
+                                                            <span class="fas fa-unlock"></span> Entrega das Chaves
+                                                        </button>
+                                                    </form>
+                                                @endif
 
+                                                {{-- Botao Devolução --}}
+                                                @if (!empty($itens->dt_devolucao_chaves))
+                                                    <i class="fas fa-check-double text-success" aria-hidden="true"></i>
+                                                    Confirmada
+                                                @else
+                                                    <form action="{{ route('admin.reserva.showReturnForm', $itens->id) }}"
+                                                        method="GET" style="display: inline;">
+                                                        <button type="submit" class="btn btn-outline-info btn-xs">
+                                                            <span class="fas fa-lock"></span> Devolução Chaves
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </td>
                                             <td>
-                                                {{-- modal --}}
                                                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
                                                     data-target="#editModal" data-id="{{ $itens->id }}"
                                                     data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
@@ -91,12 +105,16 @@
                                                     data-limpeza="{{ $itens->limpeza }}"
                                                     data-status="{{ $itens->status }}"
                                                     data-acessorios="{{ $itens->acessorios }}"
-                                                    data-celular_responsavel="{{ $itens->celular_responsavel }}">
+                                                    data-celular_responsavel="{{ $itens->celular_responsavel }}"
+                                                    {{ in_array($itens->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
                                                     Editar
                                                 </button>
                                             </td>
                                         </tr>
                                     @endforeach
+
+
+
                                 </tbody>
                             </table>
                         @else
@@ -106,7 +124,6 @@
                         @endif
                     </div>
                     <!-- /.card-body -->
-
 
                     <!-- Modal de Edição -->
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
@@ -177,8 +194,6 @@
                         </div>
                     </div>
                     <!-- Final Modal de Edição -->
-
-
                 </div>
             </div>
         </div>
@@ -190,7 +205,7 @@
 @section('plugins.Datatables', true)
 @section('js')
     <script>
-        //Modal
+        // Modal
         $(document).ready(function() {
             $('#editModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
@@ -227,7 +242,7 @@
                 "pageLength": 25,
                 "language": {
                     "decimal": "",
-                    "emptyTable": "Dados Indisponiveis na Tabela",
+                    "emptyTable": "Dados Indisponíveis na Tabela",
                     "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
                     "infoEmpty": "Mostrando 0 linhas",
                     "infoFiltered": "(filtrando _MAX_ total de linhas)",
@@ -240,8 +255,8 @@
                     "zeroRecords": "Nenhum resultado encontrado",
                     "paginate": {
                         "first": "Primeiro",
-                        "last": "Ultimo",
-                        "next": "Proximo",
+                        "last": "Último",
+                        "next": "Próximo",
                         "previous": "Anterior"
                     },
                 }

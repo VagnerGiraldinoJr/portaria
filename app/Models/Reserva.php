@@ -9,12 +9,16 @@ class Reserva extends Model
     protected $fillable = [
         'user_id',
         'area',
-        'lote_id',
         'data_inicio',
         'limpeza',
+        'unidade_id',
         'status',
         'acessorios',
-        'celular_responsavel'
+        'celular_responsavel',
+        'dt_entrega_chaves',
+        'retirado_por',
+        'dt_devolucao_chaves',
+        'devolvido_por',
     ];
 
     // Definindo a relação 'lote'

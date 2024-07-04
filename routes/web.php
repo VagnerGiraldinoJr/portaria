@@ -180,11 +180,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('reserva/exit/{id}', [ReservaController::class, 'exit'])->name('admin.reserva.exit');
     Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
+
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');
+    Route::get('reserva/retire/{id}', [ReservaController::class, 'showRetireForm'])->name('admin.reserva.showRetireForm');
+
     //Rota para devolver as chaves na portaria
     Route::put('reserva/return/{id}', [ReservaController::class, 'return'])->name('admin.reserva.return');
-
+    Route::get('reserva/return/{id}', [ReservaController::class, 'showReturnForm'])->name('admin.reserva.showReturnForm');
+    Route::get('reserva/update/{id}', [ReservaController::class, 'updateReturn'])->name('admin.reserva.updateReturn');
 });
 
 Auth::routes();
