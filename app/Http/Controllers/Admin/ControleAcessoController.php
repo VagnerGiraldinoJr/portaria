@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ControleAcessosExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ControleAcesso\ControleAcessoRequest;
 use App\Models\TableCode;
 use App\Models\ControleAcesso;
 use App\Models\Lote;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class ControleAcessoController extends Controller
 {
@@ -26,7 +29,7 @@ class ControleAcessoController extends Controller
         $this->params['main_route'] = 'admin.controleacesso';
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Controle de Acesso da Portaria';
@@ -35,8 +38,9 @@ class ControleAcessoController extends Controller
             'titulo' => 'Controle de Acessos'
         ];
         $params = $this->params;
+        
+        // Dados atuais
         $data = $this->controle_acesso
-
             ->where('unidade_id', Auth::user()->unidade_id)
             ->with('lote')
             ->with('veiculo')
@@ -45,6 +49,48 @@ class ControleAcessoController extends Controller
 
         return view('admin.controleacesso.index', compact('params', 'data'));
     }
+
+    public function relatorio(Request $request)
+    {
+        // PARAMS DEFAULT
+        $this->params['subtitulo'] = 'Relatório de Controle de Acessos';
+        $this->params['arvore'][0] = [
+            'url' => 'admin/controleacesso/relatorio',
+            'titulo' => 'Relatório de Controle de Acessos'
+        ];
+        $params = $this->params;
+
+        // Relatorio
+        $query = ControleAcesso::query();
+
+        // Filtros do relatório
+        if ($request->filled('unidade_id')) {
+            $query->where('unidade_id', $request->unidade_id);
+        }
+
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        if ($request->filled('data_entrada')) {
+            $query->whereDate('data_entrada', $request->data_entrada);
+        }
+
+        if ($request->filled('data_saida')) {
+            $query->whereDate('data_saida', $request->data_saida);
+        }
+
+        $controleAcessos = $query->get();
+
+        if ($request->has('export_pdf')) {
+            $pdf = PDF::loadView('admin.controleacesso.pdf', compact('controleAcessos'));
+            return $pdf->download('controle_acessos.pdf');
+        }
+
+        // Renderizar a view com os resultados do relatório
+        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
+    }
+
     public function create(TableCode $codes)
     {
         // PARAMS DEFAULT

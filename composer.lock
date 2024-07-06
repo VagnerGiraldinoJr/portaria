@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14aefecb4a7a06f26a8d6167ed7e90e9",
+    "content-hash": "3a3864af3b1fc323f78bfce5a599d919",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1851,6 +1851,65 @@
             "time": "2023-03-05T08:55:45+00:00"
         },
         {
+            "name": "maatwebsite/excel",
+            "version": "v1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
+                "reference": "0c67aba8387726458d42461eae91a3415593bbc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/0c67aba8387726458d42461eae91a3415593bbc4",
+                "reference": "0c67aba8387726458d42461eae91a3415593bbc4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "phpoffice/phpexcel": "~1.8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "~2.2.0@dev",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maatwebsite\\Excel\\": "src/"
+                },
+                "classmap": [
+                    "src/Maatwebsite/Excel",
+                    "tests/TestCase.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maatwebsite.nl",
+                    "email": "patrick@maatwebsite.nl"
+                }
+            ],
+            "description": "An eloquent way of importing and exporting Excel and CSV in Laravel 4 with the power of PHPExcel",
+            "keywords": [
+                "PHPExcel",
+                "batch",
+                "csv",
+                "excel",
+                "export",
+                "import",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/Maatwebsite/Laravel-Excel/issues",
+                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/master"
+            },
+            "time": "2014-07-10T09:06:07+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.9.3",
             "source": {
@@ -2061,16 +2120,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.0.2",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13"
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/139676794dc1e9231bf7bcd123cfc0c99182cb13",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/683130c2ff8c2739f4822ff7ac5c873ec529abd1",
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1",
                 "shasum": ""
             },
             "require": {
@@ -2081,7 +2140,7 @@
             },
             "require-dev": {
                 "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -2113,9 +2172,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.1.0"
             },
-            "time": "2024-03-05T20:51:40+00:00"
+            "time": "2024-07-01T20:03:41+00:00"
         },
         {
             "name": "opis/closure",
@@ -2320,6 +2379,68 @@
                 "source": "https://github.com/PhenX/php-svg-lib/tree/0.3.4"
             },
             "time": "2021-10-18T02:13:32+00:00"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPOffice/PHPExcel/issues",
+                "source": "https://github.com/PHPOffice/PHPExcel/tree/master"
+            },
+            "abandoned": "phpoffice/phpspreadsheet",
+            "time": "2015-05-01T07:00:55+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -2774,16 +2895,16 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "v8.5.1",
+            "version": "v8.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MyIntervals/PHP-CSS-Parser.git",
-                "reference": "4a3d572b0f8b28bb6fd016ae8bbfc445facef152"
+                "reference": "d2fb94a9641be84d79c7548c6d39bbebba6e9a70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/4a3d572b0f8b28bb6fd016ae8bbfc445facef152",
-                "reference": "4a3d572b0f8b28bb6fd016ae8bbfc445facef152",
+                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/d2fb94a9641be84d79c7548c6d39bbebba6e9a70",
+                "reference": "d2fb94a9641be84d79c7548c6d39bbebba6e9a70",
                 "shasum": ""
             },
             "require": {
@@ -2833,9 +2954,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.5.1"
+                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.6.0"
             },
-            "time": "2024-02-15T16:41:13+00:00"
+            "time": "2024-07-01T07:33:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3749,16 +3870,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v5.4.40",
+            "version": "v5.4.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "8c6dc1fb0b1f990aa15086abcde66dbde3a9bdad"
+                "reference": "c71c7a1aeed60b22d05e738197e31daf2120bd42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/8c6dc1fb0b1f990aa15086abcde66dbde3a9bdad",
-                "reference": "8c6dc1fb0b1f990aa15086abcde66dbde3a9bdad",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/c71c7a1aeed60b22d05e738197e31daf2120bd42",
+                "reference": "c71c7a1aeed60b22d05e738197e31daf2120bd42",
                 "shasum": ""
             },
             "require": {
@@ -3814,7 +3935,7 @@
                 "mime-type"
             ],
             "support": {
-                "source": "https://github.com/symfony/mime/tree/v5.4.40"
+                "source": "https://github.com/symfony/mime/tree/v5.4.41"
             },
             "funding": [
                 {
@@ -3830,7 +3951,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:33:22+00:00"
+            "time": "2024-06-28T09:36:24+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

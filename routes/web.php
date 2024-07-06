@@ -112,6 +112,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('controleacesso/create', 'ControleAcessoController@create')->name('admin.controleacesso.create');
     Route::post('controleacesso/store', 'ControleAcessoController@store')->name('admin.controleacesso.store');
     Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
+    Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('controleacesso.relatorio');
 
     // Route::get('controleacesso/buscar/{id}', 'ControleAcessoController@EncomendasNaoEntregues')->name('admin.controleacesso.buscar');
     Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');

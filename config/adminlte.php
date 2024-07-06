@@ -311,7 +311,7 @@ return [
             'url'  => '#',
             'can'  => 'manage-blog',
         ],
-        
+
         ['header' => 'Módulos'],
         [
             'text'       => 'Gestão Portaria',
@@ -321,66 +321,71 @@ return [
         ],
         [
             'text'       => 'Reservas - Áreas Comuns',
-            'icon'        => 'far fa-address-card',           
+            'icon'        => 'far fa-address-card',
             'icon_color' => 'yellow',
             'url'        => 'admin/reserva',
         ],
 
-        
-// Sidebar items: Aplicações
-['header' => 'Aplicações'],
-[
-    'text'    => 'Cadastros',
-    'icon'    => 'fas fa-wrench',
-    'submenu' => [
+        // Sidebar items: Aplicações
+        ['header' => 'Aplicações'],
         [
-            'text' => 'Cadastro Pessoas',
-            'icon' => 'far fa-window-minimize',
-            'url'  => 'admin/pessoa',
-            'icon_color' => 'red',
+            'text'    => 'Cadastros',
+            'icon'    => 'fas fa-wrench',
+            'submenu' => [
+                [
+                    'text' => 'Cadastro Pessoas',
+                    'icon' => 'far fa-window-minimize',
+                    'url'  => 'admin/pessoa',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'text' => 'Cadastro Lotes/Unidades',
+                    'icon' => 'far fa-window-minimize',
+                    'url'  => 'admin/lote',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'text' => 'Cadastro Veículos',
+                    'icon' => 'far fa-window-minimize',
+                    'url'  => 'admin/veiculo',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'text' => 'Cadastro Condomínios',
+                    'icon' => 'far fa-window-minimize',
+                    'url'  => 'admin/unidade',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'text' => 'Cadastro Usuários',
+                    'icon' => 'far fa-window-minimize',
+                    'url'  => 'admin/user',
+                    'icon_color' => 'red',
+                ],
+                [
+                    'text' => 'Perfil Usuário',
+                    'url'  => 'admin/user',
+                    'icon_color' => 'blue',
+                    'icon' => 'fas fa-fw fa-user',
+                ],
+                [
+                    'text' => 'change_password',
+                    'url'  => '#',
+                    'icon_color' => 'blue',
+                    'icon' => 'fas fa-fw fa-lock',
+                ],
+            ],
+
         ],
-        [
-            'text' => 'Cadastro Lotes/Unidades',
-            'icon' => 'far fa-window-minimize',
-            'url'  => 'admin/lote',
-            'icon_color' => 'red',
-        ],
-        [
-            'text' => 'Cadastro Veículos',
-            'icon' => 'far fa-window-minimize',
-            'url'  => 'admin/veiculo',
-            'icon_color' => 'red',
-        ],
-        [
-            'text' => 'Cadastro Condomínios',
-            'icon' => 'far fa-window-minimize',
-            'url'  => 'admin/unidade',
-            'icon_color' => 'red',
-        ],
-        [
-            'text' => 'Cadastro Usuários',
-            'icon' => 'far fa-window-minimize',
-            'url'  => 'admin/user',
-            'icon_color' => 'red',
-        ],
-        [
-            'text' => 'Perfil Usuário',
-            'url'  => 'admin/user',
-            'icon_color' => 'blue',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => '#',
-            'icon_color' => 'blue',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-    ],
-    
-],
 
 
-
+        ['header' => 'Relatórios'],
+        [
+            'text'       => ' Encomendas',
+            'icon'        => 'far fa-file',
+            'icon_color' => 'green',
+            'url'        => 'admin/controleacesso/relatorio',
+        ],
 
         ['header' => 'Informações'],
         [
@@ -390,8 +395,7 @@ return [
             'icon_color' => 'light',
             'label'       => 'V1.1.G3',
             'label_color' => 'primary',
-        ]
-        ,
+        ],
         [
             'text'        => 'Ambiente',
             'url'        => '#',
@@ -399,7 +403,7 @@ return [
             'icon'        => 'fab fa-skyatlas',
             'label'       => 'Online - Produção',
             'label_color' => 'success',
-            
+
         ],
         [
             'text'        => 'Suporte',
@@ -408,7 +412,7 @@ return [
             'icon'        => 'fab fa-whatsapp',
             'label'       => 'Abrir chamado',
             'label_color' => 'warning',
-            
+
         ],
     ],
 
