@@ -26,7 +26,7 @@
                                 <input type="hidden" name="tipo" value="{{ request('tipo') }}">
                                 <input type="hidden" name="data_entrada" value="{{ request('data_entrada') }}">
                                 <input type="hidden" name="data_saida" value="{{ request('data_saida') }}">
-                              
+                            
                             </form>
                             <form method="GET" action="{{ route('controleacesso.relatorio') }}" class="d-inline">
                                 <!-- Manter os filtros ao exportar -->
@@ -34,9 +34,9 @@
                                 <input type="hidden" name="tipo" value="{{ request('tipo') }}">
                                 <input type="hidden" name="data_entrada" value="{{ request('data_entrada') }}">
                                 <input type="hidden" name="data_saida" value="{{ request('data_saida') }}">
-                                <button type="submit" name="export_pdf" class="btn btn-danger btn-xs">
+                                {{-- <button type="submit" name="export_pdf" class="btn btn-danger btn-xs">
                                     <span class="fas fa-file-pdf"></span> Exportar PDF
-                                </button>
+                                </button> --}}
                             </form>
                         </div>
                     </div>
