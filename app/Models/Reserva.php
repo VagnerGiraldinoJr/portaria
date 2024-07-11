@@ -24,7 +24,8 @@ class Reserva extends Model
     // Definindo a relação 'lote'
     public function lote()
     {
-        return $this->belongsTo(Lote::class, 'id');
+        
+        return $this->belongsTo(Lote::class, 'unidade_id');
     }
 
     // Definindo a relação 'Unidades'

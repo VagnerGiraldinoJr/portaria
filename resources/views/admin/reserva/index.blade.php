@@ -36,7 +36,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach ($data as $itens)
                                         <tr>
                                             <td>{{ $itens->area }}</td>
@@ -57,7 +56,6 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                dd($data);
                                                 @if ($itens->status == 'Confirmada')
                                                     <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
                                                     Confirmada
@@ -100,7 +98,7 @@
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
-                                                    data-target="#editModal" data-id="{{ $itens->id }}"
+                                                    data-target="#editModal" data-id="{{ $itens->unidade_id }}"
                                                     data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
                                                     data-data_inicio="{{ $itens->data_inicio }}"
                                                     data-limpeza="{{ $itens->limpeza }}"
@@ -149,8 +147,8 @@
                                                 <option value="QUIOSQUE 02">QUIOSQUE 02</option>
                                                 <option value="QUIOSQUE 03">QUIOSQUE 03</option>
                                                 <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
-                                                <option value="SALÃO DE FESTAS">PISCINA - MANHÃ</option>
-                                                <option value="SALÃO DE FESTAS">PISCINA - TARDE</option>
+                                                <option value="PISCINA - MANHÃ">PISCINA - MANHÃ</option>
+                                                <option value="PISCINA - TARDE">PISCINA - TARDE</option>
                                             </select>
                                         </div>
                                         <div class="form-group">

@@ -35,6 +35,7 @@ class ReservaController extends Controller
         ];
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         $reservas = Reserva::all();
 
@@ -76,6 +77,7 @@ class ReservaController extends Controller
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
             ->get()->pluck('descricao', 'id');
+            
         return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
     }
 
@@ -100,7 +102,7 @@ class ReservaController extends Controller
         if ($existingReserva) {
             return redirect()->back()->withErrors(['data_inicio' => 'Já existe uma reserva para esta área nesta data.']);
         }
-        
+
         // Criação da reserva
         $reserva = new Reserva();
         $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado
