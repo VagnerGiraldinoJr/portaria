@@ -39,58 +39,17 @@
                             <div class="form-group">
                                 <label for="area" class="mb-2">Escolha a Área</label>
                                 <div class="row">
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area1"
-                                                value="QUIOSQUE 01" required>
-                                            <label class="form-check-label" for="area1">
-                                                QUIOSQUE 01
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area2"
-                                                value="QUIOSQUE 02" required>
-                                            <label class="form-check-label" for="area2">
-                                                QUIOSQUE 02
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area3"
-                                                value="QUIOSQUE 03" required>
-                                            <label class="form-check-label" for="area3">
-                                                QUIOSQUE 03
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area4"
-                                                value="SALÃO DE FESTAS" required>
-                                            <label class="form-check-label" for="area4">
-                                                SALÃO DE FESTAS
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area5"
-                                                value="PISCINA - MANHÃ" required>
-                                            <label class="form-check-label" for="area5">
-                                                PISCINA - MANHÃ
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="area" id="area6"
-                                                value="PISCINA - TARDE" required>
-                                            <label class="form-check-label" for="area6">
-                                                PISCINA - TARDE
-                                            </label>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="area">Área</label>
+                                            <select class="form-control" name="area" id="area" required>
+                                                <option value="QUIOSQUE 01">QUIOSQUE 01</option>
+                                                <option value="QUIOSQUE 02">QUIOSQUE 02</option>
+                                                <option value="QUIOSQUE 03">QUIOSQUE 03</option>
+                                                <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
+                                                <option value="PISCINA - MANHÃ">PISCINA - MANHÃ</option>
+                                                <option value="PISCINA - TARDE">PISCINA - TARDE</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
