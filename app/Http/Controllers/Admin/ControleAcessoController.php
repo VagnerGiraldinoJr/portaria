@@ -38,7 +38,7 @@ class ControleAcessoController extends Controller
             'titulo' => 'Controle de Acessos'
         ];
         $params = $this->params;
-        
+
         // Dados atuais
         $data = $this->controle_acesso
             ->where('unidade_id', Auth::user()->unidade_id)
@@ -82,13 +82,18 @@ class ControleAcessoController extends Controller
 
         $controleAcessos = $query->get();
 
+        // Formate as datas usando Carbon
+        $dataEntrada = $request->filled('data_entrada') ? Carbon::parse($request->data_entrada)->format('d/m/Y H:i:s') : '';
+        $dataSaida = $request->filled('data_saida') ? Carbon::parse($request->data_saida)->format('d/m/Y H:i:s') : '';
+
+
         if ($request->has('export_pdf')) {
             $pdf = PDF::loadView('admin.controleacesso.pdf', compact('controleAcessos'));
             return $pdf->download('controle_acessos.pdf');
         }
 
         // Renderizar a view com os resultados do relatório
-        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
+        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos', 'dataEntrada', 'dataSaida'));
     }
 
     public function create(TableCode $codes)

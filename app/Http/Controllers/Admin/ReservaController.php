@@ -92,6 +92,15 @@ class ReservaController extends Controller
             'celular_responsavel' => 'required|string'
         ]);
 
+        // Verificação da existência de reserva com a mesma data e área
+        $existingReserva = Reserva::where('data_inicio', $validatedData['data_inicio'])
+            ->where('area', $validatedData['area'])
+            ->first();
+
+        if ($existingReserva) {
+            return redirect()->back()->withErrors(['data_inicio' => 'Já existe uma reserva para esta área nesta data.']);
+        }
+        
         // Criação da reserva
         $reserva = new Reserva();
         $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado

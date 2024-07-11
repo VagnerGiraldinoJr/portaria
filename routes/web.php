@@ -12,7 +12,6 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' => 'Admin'], function () {
     Route::get('/', 'IndexController@index')->name('admin');
     Route::get('/home', 'IndexController@index')->name('home');
-
     //Cliente
     Route::any('cliente', [ClienteController::class, 'index'])->name('admin.cliente.index');
     Route::get('cliente/create', 'ClienteController@create')->name('admin.cliente.create');
