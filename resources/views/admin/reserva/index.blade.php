@@ -57,6 +57,7 @@
                                                 </a>
                                             </td>
                                             <td>
+                                                dd($data);
                                                 @if ($itens->status == 'Confirmada')
                                                     <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
                                                     Confirmada
