@@ -37,18 +37,19 @@
                         <div class="container-sm">
                             {{-- Início Escolha áreas comuns --}}
                             <div class="form-group">
-                                <label for="area" class="mb-2">Escolha a Área</label>
                                 <div class="row">
                                     <div class="col-12 col-md-6">
-                                        <div class="form-group">
-                                            <label for="area">Área</label>
+                                        <div class="form-group align-items-center">
+                                            <label for="area" class="mb-2">Área</label>
                                             <select class="form-control" name="area" id="area" required>
-                                                <option value="QUIOSQUE 01">QUIOSQUE 01</option>
-                                                <option value="QUIOSQUE 02">QUIOSQUE 02</option>
-                                                <option value="QUIOSQUE 03">QUIOSQUE 03</option>
+                                                <option value="QUIOSQUE 01">QUIOSQUE Nrº 01</option>
+                                                <option value="QUIOSQUE 02">QUIOSQUE Nrº 02</option>
+                                                <option value="QUIOSQUE 03">QUIOSQUE Nrº 03</option>
                                                 <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
-                                                <option value="PISCINA - MANHÃ">PISCINA - MANHÃ</option>
-                                                <option value="PISCINA - TARDE">PISCINA - TARDE</option>
+                                                <option value="PISCINA - MANHÃ">PISCINA - PERÍODO MANHÃ (08:00 às 14:00(PM))
+                                                </option>
+                                                <option value="PISCINA - TARDE">PISCINA - TARDE (14:00 às 20:00(PM))
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -110,7 +111,7 @@
                                         <option value="Cancelada">Cancelada</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-12 col-md-4 mb-3">
                                     <label for="acessorios" class="mb-2"><i class="fas fa-plus"></i>
                                         Itens Reserva</label>
@@ -133,8 +134,6 @@
                             {{-- Fim Campos Imput --}}
 
                             <button type="submit" class="btn btn-success mt-3 mb-3">Criar Reserva</button>
-
-
                         </div>
                     </form>
                 </div>
@@ -149,38 +148,6 @@
     <script>
         $(document).ready(function() {
             $('#celular_responsavel').mask('(00) 0 0000-0000');
-        });
-
-        $(document).ready(function() {
-            $('.form-check-input').on('change', function() {
-                let areaId = $(this).attr('id');
-                let message = '';
-                switch (areaId) {
-                    case 'area1':
-                        message = 'QUIOSQUE 01 tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                    case 'area2':
-                        message = 'QUIOSQUE 02 tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                    case 'area3':
-                        message = 'QUIOSQUE 03 tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                    case 'area4':
-                        message =
-                            'SALÃO DE FESTA tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                    case 'area5':
-                        message =
-                            'PISCINA - MANHÃ tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                    case 'area6:
-                        message =
-                            'PISCINA - TARDE tem custo que será vínculado a unidade no próx. fechamento.';
-                        break;
-                }
-                $('#alertModalBody').text(message);
-                $('#alertModal').modal('show');
-            });
         });
     </script>
     <script src="{{ asset('js/plugin/jquery.js') }}"></script>
