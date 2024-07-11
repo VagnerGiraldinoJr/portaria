@@ -75,6 +75,24 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="area" id="area5"
+                                                value="PISCINA - MANHÃ" required>
+                                            <label class="form-check-label" for="area5">
+                                                PISCINA - MANHÃ
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="area" id="area6"
+                                                value="PISCINA - TARDE" required>
+                                            <label class="form-check-label" for="area6">
+                                                PISCINA - TARDE
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {{-- Fim Escolha áreas comuns --}}
@@ -191,6 +209,14 @@
                     case 'area4':
                         message =
                             'SALÃO DE FESTA tem custo que será vínculado a unidade no próx. fechamento.';
+                        break;
+                    case 'area5':
+                        message =
+                            'PISCINA - MANHÃ tem custo que será vínculado a unidade no próx. fechamento.';
+                        break;
+                    case 'area6:
+                        message =
+                            'PISCINA - TARDE tem custo que será vínculado a unidade no próx. fechamento.';
                         break;
                 }
                 $('#alertModalBody').text(message);

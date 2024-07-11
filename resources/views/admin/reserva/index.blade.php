@@ -148,6 +148,8 @@
                                                 <option value="QUIOSQUE 02">QUIOSQUE 02</option>
                                                 <option value="QUIOSQUE 03">QUIOSQUE 03</option>
                                                 <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
+                                                <option value="SALÃO DE FESTAS">PISCINA - MANHÃ</option>
+                                                <option value="SALÃO DE FESTAS">PISCINA - TARDE</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
