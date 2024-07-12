@@ -52,10 +52,8 @@
                         <div class="d-flex justify-content-center">
                             {{ $controleAcessos->links() }}
                         </div>
-                    @else                  
-                    <div>
-                        <p class="mt-2">Por favor, utilize os filtros acima para buscar os registros.</p>                 
-                    </div>
+                    @else
+                        <p class="mt-4">Por favor, utilize os filtros acima para buscar os registros.</p>
                     @endif
                 </div>
             </div>

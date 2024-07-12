@@ -233,7 +233,7 @@ class ControleAcessoController extends Controller
             }
 
             // Adicione paginação
-            $controleAcessos = $query->paginate(10);
+            $controleAcessos = $query->paginate(25);
         }
         // Renderizar a view com os resultados do relatório
         return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
