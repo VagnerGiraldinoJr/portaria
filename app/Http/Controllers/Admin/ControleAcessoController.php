@@ -50,7 +50,7 @@ class ControleAcessoController extends Controller
         return view('admin.controleacesso.index', compact('params', 'data'));
     }
 
-
+    
     public function create(TableCode $codes)
     {
         // PARAMS DEFAULT
@@ -75,7 +75,7 @@ class ControleAcessoController extends Controller
             ->pluck('descricao', 'id');
 
         $params = $this->params;
-
+        
         return view('admin.controleacesso.create', compact('params', 'preload'));
     }
 
@@ -110,8 +110,8 @@ class ControleAcessoController extends Controller
         $data = $this->controle_acesso->with('pessoa')->with('veiculo')->find($id);
         $data = $this->controle_acesso->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
         $preload['tipo'] = $codes->select(5);
-
-
+        
+        
         return view('admin.controleacesso.show', compact('params', 'data', 'preload'));
     }
 
@@ -126,8 +126,8 @@ class ControleAcessoController extends Controller
             [
                 'url' => '',
                 'titulo' => 'Editar'
-            ]
-        ];
+                ]
+            ];
         $params = $this->params;
 
         $data = $this->controle_acesso->with('pessoa')->with('veiculo')->find($id);
@@ -135,7 +135,7 @@ class ControleAcessoController extends Controller
         $preload['tipo'] = $codes->select(5);
         return view('admin.controleacesso.create', compact('params', 'data', 'preload'));
     }
-
+    
     public function exit($id, TableCode $codes)
     {
         $this->params['subtitulo'] = 'Editar Controle de Acesso';
@@ -162,14 +162,14 @@ class ControleAcessoController extends Controller
         $dataForm  = $request->all();
         //Pull
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
-
+        
         if ($this->controle_acesso->find($id)->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
         }
     }
-
+    
 
     public function updateexit(Request $request, $id)
     {
@@ -187,7 +187,7 @@ class ControleAcessoController extends Controller
     public function destroy($id)
     {
         $data = $this->controle_acesso->find($id);
-
+        
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
@@ -199,7 +199,7 @@ class ControleAcessoController extends Controller
     {
         $data  = $this->controle_acesso('data_saida');
     }
-
+    
 
     public function relatorio(Request $request)
     {
@@ -211,13 +211,11 @@ class ControleAcessoController extends Controller
         ];
         $params = $this->params;
 
+        
         $query = ControleAcesso::query();
 
         // Filtro obrigatório: unidade_id do usuário autenticado
         $query->where('unidade_id', Auth::user()->unidade_id);
-
-        // Quantidade de itens por página
-        $perPage = $request->input('per_page', 10);
 
         // Inicialize controleAcessos como uma coleção vazia
         $controleAcessos = collect();
@@ -236,15 +234,12 @@ class ControleAcessoController extends Controller
             }
 
             // Adicione paginação
-            $controleAcessos = $query->paginate($perPage)->appends($request->except('page'));
-        } else {
-            // Retorne um paginador vazio se não houver filtros aplicados
-            $controleAcessos = $query->paginate($perPage, ['*'], 'page', 1);
-            $controleAcessos->setCollection(collect());
-          
+            $controleAcessos = $query->paginate(10);
         }
 
-        // Renderizar a view com os resultados do relatório
-        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
+        // Retorne a view com os dados filtrados
+        return view('admin.controleacesso.relatorio', compact('params','controleAcessos' ));
     }
+
+
 }

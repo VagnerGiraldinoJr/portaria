@@ -11,7 +11,14 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <!-- Logo do Cliente -->
+                    <div>
+                        <img src="{{ asset(config('adminlte.logo_img')) }}" alt="Logo do Cliente" style="height: 50px;">
+                    </div>
+
+                </div>
+                <div class="card-body">
                     <form method="GET" action="{{ route('admin.controleacesso.relatorio') }}" class="form-inline">
                         <div class="form-group mb-2 mr-2">
                             <label for="data_entrada" class="mr-2">Data de Entrada</label>
@@ -21,20 +28,16 @@
                             <label for="data_saida" class="mr-2">Data de Saída</label>
                             <input type="date" name="data_saida" id="data_saida" class="form-control" value="{{ request('data_saida') }}">
                         </div>
-                        <div class="form-group mb-2 mr-2">
-                            <label for="per_page" class="mr-2">Itens por página</label>
-                            <select name="per_page" id="per_page" class="form-control">
-                                <option value="10"{{ request('per_page') == 10 ? ' selected' : '' }}>10</option>
-                                <option value="25"{{ request('per_page') == 25 ? ' selected' : '' }}>25</option>
-                                <option value="50"{{ request('per_page') == 50 ? ' selected' : '' }}>50</option>
-                                <option value="100"{{ request('per_page') == 100 ? ' selected' : '' }}>100</option>
-                            </select>
+                        <button type="submit" class="btn btn-primary btn-sm-custom mb-2 mr-2">Filtrar</button> <!-- Espaçamento adicionado aqui -->
+                        
+                        <!-- Botão de impressão -->
+                        <div>
+                            <button onclick="window.print();" class="btn btn-secondary btn-sm-custom mb-2">Imprimir Relatório</button>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm-custom mb-2">Filtrar</button>
                     </form>
 
                     @if($controleAcessos->isNotEmpty())
-                        <table id="dataTablePortaria" class="table table-bordered table-striped mt-4">
+                        <table class="table table-bordered table-striped mt-4">
                             <thead>
                                 <tr>
                                     <th>Data de Entrada</th>
@@ -59,7 +62,7 @@
 
                         <!-- Paginação -->
                         <div class="d-flex justify-content-center">
-                            {{ $controleAcessos->appends(request()->except('page'))->links() }}
+                            {{ $controleAcessos->links() }}
                         </div>
                     @else
                         <p class="mt-4">Por favor, utilize os filtros acima para buscar os registros.</p>
@@ -80,7 +83,7 @@
 <script>
     $(document).ready(function() {
         $('#dataTablePortaria').DataTable({
-            "pageLength": {{ request('per_page', 10) }},
+            "pageLength": 25,
             "language": {
                 "decimal": "",
                 "emptyTable": "Dados Indisponíveis na Tabela",
