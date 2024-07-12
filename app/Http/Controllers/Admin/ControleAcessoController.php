@@ -210,36 +210,33 @@ class ControleAcessoController extends Controller
             'titulo' => 'Relatório de Controle de Acessos'
         ];
         $params = $this->params;
-
-        
+    
         $query = ControleAcesso::query();
-
+    
         // Filtro obrigatório: unidade_id do usuário autenticado
         $query->where('unidade_id', Auth::user()->unidade_id);
-
+    
         // Inicialize controleAcessos como uma coleção vazia
         $controleAcessos = collect();
-
+    
         // Verifique se há filtros aplicados
         if ($request->hasAny(['data_entrada', 'data_saida'])) {
             $data_entrada = $request->input('data_entrada');
             $data_saida = $request->input('data_saida');
-
+    
             if ($data_entrada) {
                 $query->whereDate('data_entrada', '>=', $data_entrada);
             }
-
+    
             if ($data_saida) {
                 $query->whereDate('data_saida', '<=', $data_saida);
             }
-
-            // Adicione paginação
-            $controleAcessos = $query->paginate(10);
+    
+            // Execute a consulta sem paginação
+            $controleAcessos = $query->get();
         }
-
+    
         // Retorne a view com os dados filtrados
-        return view('admin.controleacesso.relatorio', compact('params','controleAcessos' ));
+        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
     }
-
-
 }
