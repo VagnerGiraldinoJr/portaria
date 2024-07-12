@@ -216,6 +216,9 @@ class ControleAcessoController extends Controller
         // Filtro obrigatório: unidade_id do usuário autenticado
         $query->where('unidade_id', Auth::user()->unidade_id);
 
+        // Quantidade de itens por página
+        $perPage = $request->input('per_page', 10);
+
         // Inicialize controleAcessos como uma coleção vazia
         $controleAcessos = collect();
 
@@ -233,8 +236,14 @@ class ControleAcessoController extends Controller
             }
 
             // Adicione paginação
-            $controleAcessos = $query->paginate(25);
+            $controleAcessos = $query->paginate($perPage)->appends($request->except('page'));
+        } else {
+            // Retorne um paginador vazio se não houver filtros aplicados
+            $controleAcessos = $query->paginate($perPage, ['*'], 'page', 1);
+            $controleAcessos->setCollection(collect());
+          
         }
+
         // Renderizar a view com os resultados do relatório
         return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
     }

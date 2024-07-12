@@ -21,11 +21,20 @@
                             <label for="data_saida" class="mr-2">Data de Saída</label>
                             <input type="date" name="data_saida" id="data_saida" class="form-control" value="{{ request('data_saida') }}">
                         </div>
+                        <div class="form-group mb-2 mr-2">
+                            <label for="per_page" class="mr-2">Itens por página</label>
+                            <select name="per_page" id="per_page" class="form-control">
+                                <option value="10"{{ request('per_page') == 10 ? ' selected' : '' }}>10</option>
+                                <option value="25"{{ request('per_page') == 25 ? ' selected' : '' }}>25</option>
+                                <option value="50"{{ request('per_page') == 50 ? ' selected' : '' }}>50</option>
+                                <option value="100"{{ request('per_page') == 100 ? ' selected' : '' }}>100</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary btn-sm-custom mb-2">Filtrar</button>
                     </form>
 
                     @if($controleAcessos->isNotEmpty())
-                        <table class="table table-bordered table-striped mt-4">
+                        <table id="dataTablePortaria" class="table table-bordered table-striped mt-4">
                             <thead>
                                 <tr>
                                     <th>Data de Entrada</th>
@@ -50,7 +59,7 @@
 
                         <!-- Paginação -->
                         <div class="d-flex justify-content-center">
-                            {{ $controleAcessos->links() }}
+                            {{ $controleAcessos->appends(request()->except('page'))->links() }}
                         </div>
                     @else
                         <p class="mt-4">Por favor, utilize os filtros acima para buscar os registros.</p>
@@ -71,7 +80,7 @@
 <script>
     $(document).ready(function() {
         $('#dataTablePortaria').DataTable({
-            "pageLength": 25,
+            "pageLength": {{ request('per_page', 10) }},
             "language": {
                 "decimal": "",
                 "emptyTable": "Dados Indisponíveis na Tabela",
