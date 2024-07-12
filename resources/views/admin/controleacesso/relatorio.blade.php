@@ -25,7 +25,6 @@
                     </form>
 
                     @if($controleAcessos->isNotEmpty())
-                    
                         <table class="table table-bordered table-striped mt-4">
                             <thead>
                                 <tr>
@@ -53,8 +52,10 @@
                         <div class="d-flex justify-content-center">
                             {{ $controleAcessos->links() }}
                         </div>
-                    @else
-                        <p class="mt-4">Por favor, utilize os filtros acima para buscar os registros.</p>
+                    @else                  
+                    <div>
+                        <p class="mt-2">Por favor, utilize os filtros acima para buscar os registros.</p>                 
+                    </div>
                     @endif
                 </div>
             </div>

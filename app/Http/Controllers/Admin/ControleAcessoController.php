@@ -211,37 +211,31 @@ class ControleAcessoController extends Controller
         ];
         $params = $this->params;
 
-        // Relatorio
         $query = ControleAcesso::query();
+
+        // Filtro obrigatório: unidade_id do usuário autenticado
+        $query->where('unidade_id', Auth::user()->unidade_id);
 
         // Inicialize controleAcessos como uma coleção vazia
         $controleAcessos = collect();
 
-        // Filtros do relatório
-        if ($request->filled('unidade_id')) {
-            $query->where('unidade_id', $request->unidade_id);
+        // Verifique se há filtros aplicados
+        if ($request->hasAny(['data_entrada', 'data_saida'])) {
+            $data_entrada = $request->input('data_entrada');
+            $data_saida = $request->input('data_saida');
+
+            if ($data_entrada) {
+                $query->whereDate('data_entrada', '>=', $data_entrada);
+            }
+
+            if ($data_saida) {
+                $query->whereDate('data_saida', '<=', $data_saida);
+            }
+
+            // Adicione paginação
+            $controleAcessos = $query->paginate(10);
         }
-
-        if ($request->filled('tipo')) {
-            $query->where('tipo', $request->tipo);
-        }
-
-        if ($request->filled('data_entrada')) {
-            $query->whereDate('data_entrada', $request->data_entrada);
-        }
-
-        if ($request->filled('data_saida')) {
-            $query->whereDate('data_saida', $request->data_saida);
-        }
-
-        // Formate as datas usando Carbon
-        $dataEntrada = $request->filled('data_entrada') ? Carbon::parse($request->data_entrada)->format('d/m/Y H:i:s') : '';
-        $dataSaida = $request->filled('data_saida') ? Carbon::parse($request->data_saida)->format('d/m/Y H:i:s') : '';
-
-        $controleAcessos = $query->where('unidade_id', Auth::user()->unidade_id)->get();
-        // Adicione paginação
-        $controleAcessos = $query->paginate(10);
         // Renderizar a view com os resultados do relatório
-        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos', 'dataEntrada', 'dataSaida'));
+        return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
     }
 }
