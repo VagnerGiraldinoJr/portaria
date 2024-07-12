@@ -21,6 +21,13 @@ body{
     height: auto;
 }
 
+.btn-sm-custom {
+    padding: 7px 20px; /* Ajuste o padding para diminuir a altura */
+    font-size: 18; /* Ajuste o tamanho da fonte, se necessário */
+    line-height: 18px; /* Ajuste a altura da linha, se necessário */ 
+    width: 94;
+}
+
 .spacing-div {
     margin-bottom: 1rem; /* Espaçamento entre divs */
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ClienteController;
+use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -111,7 +112,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('controleacesso/create', 'ControleAcessoController@create')->name('admin.controleacesso.create');
     Route::post('controleacesso/store', 'ControleAcessoController@store')->name('admin.controleacesso.store');
     Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
-    Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('controleacesso.relatorio');
+    Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('admin.controleacesso.relatorio');
+    // Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('admin.controleacesso.relatorio');
 
     // Route::get('controleacesso/buscar/{id}', 'ControleAcessoController@EncomendasNaoEntregues')->name('admin.controleacesso.buscar');
     Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');
