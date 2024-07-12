@@ -214,6 +214,8 @@ class ControleAcessoController extends Controller
         // Relatorio
         $query = ControleAcesso::query();
 
+        // Inicialize controleAcessos como uma coleção vazia
+        $controleAcessos = collect();
 
         // Filtros do relatório
         if ($request->filled('unidade_id')) {
@@ -235,9 +237,10 @@ class ControleAcessoController extends Controller
         // Formate as datas usando Carbon
         $dataEntrada = $request->filled('data_entrada') ? Carbon::parse($request->data_entrada)->format('d/m/Y H:i:s') : '';
         $dataSaida = $request->filled('data_saida') ? Carbon::parse($request->data_saida)->format('d/m/Y H:i:s') : '';
-        
-        $controleAcessos = $query->where('unidade_id', Auth::user()->unidade_id)->get();
 
+        $controleAcessos = $query->where('unidade_id', Auth::user()->unidade_id)->get();
+        // Adicione paginação
+        $controleAcessos = $query->paginate(10);
         // Renderizar a view com os resultados do relatório
         return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos', 'dataEntrada', 'dataSaida'));
     }

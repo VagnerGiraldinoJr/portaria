@@ -24,28 +24,38 @@
                         <button type="submit" class="btn btn-primary btn-sm-custom mb-2">Filtrar</button>
                     </form>
 
-                    <table class="table table-bordered table-striped mt-4">
-                        <thead>
-                            <tr>
-                                <th>Data de Entrada</th>
-                                <th>Data de Saída</th>
-                                <th>Motivo</th>
-                                <th>Observação</th>
-                                <th>Retirado por:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($controleAcessos as $acesso)
+                    @if($controleAcessos->isNotEmpty())
+                    
+                        <table class="table table-bordered table-striped mt-4">
+                            <thead>
                                 <tr>
-                                    <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($acesso->data_saida)->format('d/m/Y H:i:s') }}</td>
-                                    <td>{{ $acesso->motivo }}</td>
-                                    <td>{{ $acesso->observacao }}</td>
-                                    <td>{{ $acesso->retirado_por }}</td>
+                                    <th>Data de Entrada</th>
+                                    <th>Data de Saída</th>
+                                    <th>Motivo</th>
+                                    <th>Observação</th>
+                                    <th>Retirado por:</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($controleAcessos as $acesso)
+                                    <tr>
+                                        <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($acesso->data_saida)->format('d/m/Y H:i:s') }}</td>
+                                        <td>{{ $acesso->motivo }}</td>
+                                        <td>{{ $acesso->observacao }}</td>
+                                        <td>{{ $acesso->retirado_por }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <!-- Paginação -->
+                        <div class="d-flex justify-content-center">
+                            {{ $controleAcessos->links() }}
+                        </div>
+                    @else
+                        <p class="mt-4">Por favor, utilize os filtros acima para buscar os registros.</p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -61,7 +71,7 @@
 @section('js')
 <script>
     $(document).ready(function() {
-        var table = $('#dataTablePortaria').DataTable({
+        $('#dataTablePortaria').DataTable({
             "pageLength": 25,
             "language": {
                 "decimal": "",
