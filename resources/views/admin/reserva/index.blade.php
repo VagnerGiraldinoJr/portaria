@@ -46,7 +46,9 @@
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
-                                            <td>{{ $itens->lote->descricao }}</td>
+                                            <td>
+                                            {{-- @dd($itens->unidade_id); --}}
+                                            <td>{{ $itens->unidade_id }}</td>
                                             <td>
                                                 <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                     target="_blank" rel="noopener noreferrer"

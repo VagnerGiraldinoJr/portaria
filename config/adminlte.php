@@ -381,10 +381,16 @@ return [
 
         ['header' => 'Relatórios'],
         [
-            'text'       => ' Encomendas',
+            'text'       => ' Rel. Encomendas',
             'icon'        => 'far fa-file',
             'icon_color' => 'green',
             'url'        => 'admin/controleacesso/relatorio',
+        ],
+        [
+            'text'       => ' Rel. Reservas',
+            'icon'        => 'far fa-address-book',
+            'icon_color' => 'green',
+            'url'        => '#',
         ],
 
         ['header' => 'Informações'],

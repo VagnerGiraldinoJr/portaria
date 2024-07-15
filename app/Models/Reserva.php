@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Reserva extends Model
 {
@@ -33,4 +34,6 @@ class Reserva extends Model
     {
         return $this->belongsTo(Unidade::class, 'unidade_id');
     }
+
+       
 }

@@ -11,6 +11,7 @@ use App\Models\Produto;
 use App\Models\ControleAcesso;
 use App\Models\Pessoa;
 use App\Models\Lote;
+use App\Models\Reserva;
 use App\Models\Visitante;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class IndexController extends Controller
     private $pessoa = [];
     private $visitante = [];
     private $lote = [];
+    private $reserva = [];
     public function __construct(
         User $administradores,
         ControleAcesso $controleacessos,
@@ -35,7 +37,9 @@ class IndexController extends Controller
         Orcamento $orcamentos, 
         Lote $lotes,
         Pessoa $pessoas,
-        Visitante $visitantes)
+        Visitante $visitantes,
+        Reserva $reservas,
+        )
     {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
@@ -44,6 +48,7 @@ class IndexController extends Controller
         $this->pessoa = $pessoas;
         $this->lote = $lotes; 
         $this->visitante = $visitantes; 
+        $this->reserva = $reservas;
 
         // Default values
         $this->params['titulo']='Indicadores - Portaria';
@@ -67,6 +72,7 @@ class IndexController extends Controller
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
+       
         $unidadeId = Auth::user()->unidade_id;
 
         $dataresults = DB::table('pessoas')
@@ -78,7 +84,7 @@ class IndexController extends Controller
             ->first();
     
         $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
-                 
+               
       
         return view('admin.index',compact('params','data', 'totalPessoas'));
     }

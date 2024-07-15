@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Auth;
 class ReservaController extends Controller
 {
     private $params = [];
-    private $reserva;
-    private $lote;
+    private $reserva = [];
+    private $lote = [];
+    
 
     public function __construct(Reserva $reservas, Lote $lotes)
     {
@@ -35,7 +36,9 @@ class ReservaController extends Controller
         ];
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
+
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
+       
 
         $reservas = Reserva::all();
 
@@ -74,15 +77,18 @@ class ReservaController extends Controller
 
         $params = $this->params;
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
+
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
             ->get()->pluck('descricao', 'id');
-            
+
         return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
     }
 
     public function store(Request $request)
     {
+       
+
         // Validação dos dados
         $validatedData = $request->validate([
             'area' => 'required|string|max:255',
@@ -123,6 +129,7 @@ class ReservaController extends Controller
 
     public function update(Request $request, $id)
     {
+       
         $validatedData = $request->validate([
             'area' => 'required|string|max:255',
             'data_inicio' => 'required|date',
@@ -135,7 +142,7 @@ class ReservaController extends Controller
             'devolvido_por' => 'required|string|max:255',
             'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
         ]);
-
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $reserva = Reserva::findOrFail($id);
 
         $reserva->area = $validatedData['area'];
@@ -178,7 +185,7 @@ class ReservaController extends Controller
 
     public function showRetireForm($id)
     {
-        $reserva = Reserva::findOrFail($id);
+
         $this->params['subtitulo'] = 'Entrega das Chaves da reserva';
         $this->params['arvore'] = [
             [
@@ -191,12 +198,13 @@ class ReservaController extends Controller
             ]
         ];
         $params = $this->params;
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
+        $reserva = Reserva::findOrFail($id);
         return view('admin.reserva.retire', compact('reserva', 'params'));
     }
 
     public function showReturnForm($id)
     {
-        $reserva = Reserva::findOrFail($id);
         $this->params['subtitulo'] = 'Devolução das Chaves da reserva';
         $this->params['arvore'] = [
             [
@@ -210,6 +218,9 @@ class ReservaController extends Controller
         ];
 
         $params = $this->params;
+        $reserva = Reserva::findOrFail($id);
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
+
         return view('admin.reserva.return', compact('reserva', 'params'));
     }
 
@@ -220,7 +231,7 @@ class ReservaController extends Controller
             'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
             'retirado_por' => 'required|string|max:100',
         ]);
-
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         // Encontrar a reserva pelo ID
         $reserva = Reserva::findOrFail($id);
 
@@ -248,7 +259,7 @@ class ReservaController extends Controller
 
         // Encontrar a reserva pelo ID
         $reserva = Reserva::findOrFail($id);
-
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         // Atualizar os campos
         $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_devolucao_chaves'])->toDateTimeString();
         $reserva->devolvido_por = $validatedData['devolvido_por'];
@@ -268,6 +279,7 @@ class ReservaController extends Controller
     public function updateReturn(Request $request, $id)
     {
         // Validação dos dados
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
         $request->validate([
             'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
             'devolvido_por' => 'required|string|max:255',

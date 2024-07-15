@@ -21,7 +21,7 @@
                                     <div class="small-box bg-info">
                                         <div class="inner">
 
-                                            <h3>{{ $data['admin'] }}</h3>
+                                            {{ $data['admin'] }}</h3>
 
                                             <p>Administradores</p>
                                         </div>
@@ -103,18 +103,23 @@
                                 </div>
                             </div>
 
-
-
-
-
-
+                            {{-- Card-Reservas --}}
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info"><i class="far fa-bookmark"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Reservas 0- Áreas Comuns</span>
+                                    <span class="info-box-number">41,410</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-info" style="width: 70%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        70% Increase in 30 Days
+                                    </span>
+                                </div>
+                            </div>
                             <div class="col-lg-3 col-6">
-
-
-
                                 <!-- ./col -->
                             </div>
-
                         </div>
 
                         <!-- Main node for this component -->
