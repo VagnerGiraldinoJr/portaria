@@ -135,7 +135,8 @@
                                     <span class="time"><i class="fas fa-clock"></i> 14:00</span>
                                     <!-- Header. Optional -->
                                     <h3 class="timeline-header">
-                                        <a href="https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria" target="_blank">Suporte</a>
+                                        <a href="https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria"
+                                            target="_blank">Suporte</a>
                                         Última atualização
                                     </h3>
                                     <!-- Body -->
@@ -143,7 +144,7 @@
                                         #Criação card reserva;
                                     </div>
                                     <!-- Placement of additional controls. Optional -->
-                                    
+
                                 </div>
                             </div>
                             <!-- The last icon means the story is complete -->

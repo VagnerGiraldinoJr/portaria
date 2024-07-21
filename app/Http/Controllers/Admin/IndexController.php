@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Cliente;
 use App\Models\Orcamento;
 use App\Models\Produto;
 use App\Models\ControleAcesso;
@@ -15,7 +13,6 @@ use App\Models\Reserva;
 use App\Models\Visitante;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
 
 //use App\Models\Atendimento;
 
@@ -26,40 +23,34 @@ class IndexController extends Controller
     private $produto = [];
     private $orcamento = [];
     private $params = [];
-    private $pessoa = [];
     private $visitante = [];
-    private $lote = [];
     private $reserva = [];
-    public function __construct(
-        User $administradores,
-        ControleAcesso $controleacessos,
-        Produto $produtos, 
-        Orcamento $orcamentos, 
-        Lote $lotes,
-        Pessoa $pessoas,
-        Visitante $visitantes,
-        Reserva $reservas,
-        )
+    private $pessoas = [];
+    private $lotes = [];
+
+
+    public function __construct (User $administradores,ControleAcesso $controleacessos,Produto $produtos,Orcamento $orcamentos,
+        Lote $lotes,Pessoa $pessoas,Visitante $visitantes,Reserva $reservas)
+
     {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
         $this->produto = $produtos;
         $this->orcamento = $orcamentos;
-        $this->pessoa = $pessoas;
-        $this->lote = $lotes; 
-        $this->visitante = $visitantes; 
+        $this->visitante = $visitantes;
         $this->reserva = $reservas;
+        $this->pessoas = $pessoas;
+        $this->lotes = $lotes;
 
         // Default values
-        $this->params['titulo']='Indicadores - Portaria';
-        $this->params['main_route']='admin';
-
+        $this->params['titulo'] = 'Indicadores - Portaria';
+        $this->params['main_route'] = 'admin';
     }
 
     public function index()
     {
         // PARAMS DEFAULT
-        $this->params['subtitulo']='';      
+        $this->params['subtitulo'] = '';
 
         $params = $this->params;
         $data['admin'] = $this->administrador->where('unidade_id', Auth::user()->unidade_id)->count();
@@ -73,7 +64,7 @@ class IndexController extends Controller
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
         $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', Auth::user()->unidade_id)->whereNull('dt_entrega_chaves')->count();
-       
+
         $unidadeId = Auth::user()->unidade_id;
 
         $dataresults = DB::table('pessoas')
@@ -83,11 +74,10 @@ class IndexController extends Controller
             ->where('lotes.unidade_id', $unidadeId)
             ->groupBy('unidades.id')
             ->first();
-    
-        $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
-               
-      
-        return view('admin.index',compact('params','data', 'totalPessoas'));
-    }
 
+        $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
+
+
+        return view('admin.index', compact('params', 'data', 'totalPessoas'));
+    }
 }
