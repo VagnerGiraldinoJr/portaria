@@ -134,23 +134,25 @@
 </script>
 
 @php
-function formatarCelular($numero) {
-    // Remover todos os caracteres não numéricos
-    $numeroLimpo = preg_replace('/\D/', '', $numero);
+    function formatarCelular($numero)
+    {
+        // Remover todos os caracteres não numéricos
+        $numeroLimpo = preg_replace('/\D/', '', $numero);
 
-    // Verificar se o número tem pelo menos 11 dígitos (considerando DDD e o número de celular)
-    if (strlen($numeroLimpo) === 11) {
-        // Formatando para o formato (DDD) X XXXX XXXX
-        return sprintf('(%s) %s %s-%s',
-            substr($numeroLimpo, 0, 2), // DDD
-            substr($numeroLimpo, 2, 1), // Primeiro dígito do celular
-            substr($numeroLimpo, 3, 4), // Próximos 4 dígitos
-            substr($numeroLimpo, 7)     // Últimos 4 dígitos
-        );
+        // Verificar se o número tem pelo menos 11 dígitos (considerando DDD e o número de celular)
+        if (strlen($numeroLimpo) === 11) {
+            // Formatando para o formato (DDD) X XXXX XXXX
+            return sprintf(
+                '(%s) %s %s-%s',
+                substr($numeroLimpo, 0, 2), // DDD
+                substr($numeroLimpo, 2, 1), // Primeiro dígito do celular
+                substr($numeroLimpo, 3, 4), // Próximos 4 dígitos
+                substr($numeroLimpo, 7), // Últimos 4 dígitos
+            );
+        }
+
+        // Retorna o número original caso não tenha 11 dígitos
+        return $numero;
     }
-
-    // Retorna o número original caso não tenha 11 dígitos
-    return $numero;
-}
 @endphp
 @stop
