@@ -390,7 +390,7 @@ return [
             'text'       => ' Rel. Reservas',
             'icon'        => 'far fa-address-book',
             'icon_color' => 'green',
-            'url'        => '#',
+            'url'        => 'admin/reserva/relatorio',
         ],
 
         ['header' => 'Informações'],

@@ -182,6 +182,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('reserva/exit/{id}', [ReservaController::class, 'exit'])->name('admin.reserva.exit');
     Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
+    Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
 
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');

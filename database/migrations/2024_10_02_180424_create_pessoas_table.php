@@ -13,21 +13,22 @@ class CreatePessoasTable extends Migration
      */
     public function up()
     {
+
         Schema::create('pessoas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('lote_id')->unsigned();            
+            $table->bigInteger('lote_id')->unsigned();
             $table->string('nome_completo');
-            $table->string('rg',15);
-            $table->string('celular',11)->nullable();
+            $table->string('rg', 15);
+            $table->string('celular', 11)->nullable();
             $table->integer('tipo');
             //  2. Create foreign key column
             // 3. Create foreign key constraints            
-            $table  ->foreign('lote_id')
-                            ->references('id')
-                            ->on('lotes');
+            $table->foreign('lote_id')
+                ->references('id')
+                ->on('lotes');
 
             $table->timestamps();
-         });
+        });
     }
 
     /**

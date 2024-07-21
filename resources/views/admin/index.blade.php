@@ -104,49 +104,46 @@
                             </div>
 
                             {{-- Card-Reservas --}}
-                            <div class="info-box">
-                                <span class="info-box-icon bg-info"><i class="far fa-bookmark"></i></span>
+
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Reservas 0- Áreas Comuns</span>
-                                    <span class="info-box-number">41,410</span>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" style="width: 70%"></div>
-                                    </div>
-                                    <span class="progress-description">
-                                        70% Increase in 30 Days
-                                    </span>
+                                    <span class="info-box-text">Novas Reservas</span>
+                                    <span class="info-box-number">{{ $data['QuantidadesReservas'] }}</span>
+                                    <a href="{{ route($params['main_route'] . '.reserva.index') }}"
+                                        class="small-box-footer">Abrir Reservas</a>
                                 </div>
+
                             </div>
-                            <div class="col-lg-3 col-6">
-                                <!-- ./col -->
-                            </div>
+
+                            {{-- Fim Card-Reservas --}}
+
                         </div>
 
                         <!-- Main node for this component -->
                         <div class="timeline">
                             <!-- Timeline time label -->
                             <div class="time-label">
-                                <span class="bg-green">21 Junho 2024</span>
+                                <span class="bg-gray">21 Julho 2024</span>
                             </div>
                             <div>
                                 <!-- Before each timeline item corresponds to one icon on the left scale -->
-                                <i class="fas fa-envelope bg-blue"></i>
+                                <i class="fab fa-whatsapp bg-green"></i>
                                 <!-- Timeline item -->
                                 <div class="timeline-item">
                                     <!-- Time -->
-                                    <span class="time"><i class="fas fa-clock"></i> 17:10</span>
+                                    <span class="time"><i class="fas fa-clock"></i> 14:00</span>
                                     <!-- Header. Optional -->
-                                    <h3 class="timeline-header"><a href="#">Suporte Dev.</a> Última atualização
+                                    <h3 class="timeline-header">
+                                        <a href="https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria" target="_blank">Suporte</a>
+                                        Última atualização
                                     </h3>
                                     <!-- Body -->
                                     <div class="timeline-body">
-                                        Ordenação dos registros;
+                                        #Criação card reserva;
                                     </div>
                                     <!-- Placement of additional controls. Optional -->
-                                    {{-- <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-sm">Ler mais</a>
-                                        <a class="btn btn-danger btn-sm">Delete</a>
-                                    </div> --}}
+                                    
                                 </div>
                             </div>
                             <!-- The last icon means the story is complete -->

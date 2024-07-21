@@ -14,7 +14,7 @@ class ReservaController extends Controller
     private $params = [];
     private $reserva = [];
     private $lote = [];
-    
+
 
     public function __construct(Reserva $reservas, Lote $lotes)
     {
@@ -38,7 +38,7 @@ class ReservaController extends Controller
         $data = $this->reserva->with('lote')->get();
 
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
-       
+
 
         $reservas = Reserva::all();
 
@@ -87,7 +87,7 @@ class ReservaController extends Controller
 
     public function store(Request $request)
     {
-       
+
 
         // Validação dos dados
         $validatedData = $request->validate([
@@ -129,7 +129,7 @@ class ReservaController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+
         $validatedData = $request->validate([
             'area' => 'required|string|max:255',
             'data_inicio' => 'required|date',
@@ -303,4 +303,35 @@ class ReservaController extends Controller
             return back()->withErrors(['message' => 'Erro ao atualizar os dados de devolução.']);
         }
     }
+
+    public function relatorio(Request $request)
+    {
+        // PARAMS DEFAULT
+        $this->params['subtitulo'] = 'Relatório ref. as reservas';
+        $this->params['arvore'][0] = [
+            'url' => 'admin/reserva/relatorio',
+            'titulo' => 'Relatório de Reservas'
+        ];
+        $params = $this->params;
+    
+        $query = Reserva::query();
+    
+        // Filtro obrigatório: unidade_id do usuário autenticado
+        $query->where('unidade_id', Auth::user()->unidade_id);
+    
+        // Inicialize reserva como uma coleção vazia
+        $reserva = collect();
+    
+        // Verifique se há filtros aplicados
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+    
+        // Execute a consulta sem paginação
+        $reserva = $query->get();
+    
+        // Retorne a view com os dados filtrados
+        return view('admin.reserva.relatorio', compact('params', 'reserva'));
+    }
+    
 }

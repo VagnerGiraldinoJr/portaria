@@ -7,18 +7,17 @@ use App\Http\Requests\Admin\Pessoa\PessoaRequest;
 use App\Models\Lote;
 use App\Models\Pessoa;
 use App\Models\TableCode;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class PessoaController extends Controller
 {
-    
+
     private $params = [];
     private $lote = [];
     private $pessoa = [];
-    public function __construct(Pessoa $pessoas , Lote $lotes)
+    public function __construct(Pessoa $pessoas, Lote $lotes)
     {
 
         $this->pessoa = $pessoas;
@@ -39,11 +38,11 @@ class PessoaController extends Controller
         ];
 
         $params = $this->params;
-       
-        $data = $this->pessoa->select('pessoas.*','lotes.descricao as lote')
-                                ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                                ->where('unidade_id', Auth::user()->unidade_id) 
-                                ->get();                    
+
+        $data = $this->pessoa->select('pessoas.*', 'lotes.descricao as lote')
+            ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+            ->where('unidade_id', Auth::user()->unidade_id)
+            ->get();
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 
@@ -63,9 +62,9 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
         $preload['tipo'] = $codes->select(4);
-        $preload['lote_id'] = $this ->lote->where('unidade_id', Auth::user()->unidade_id)
-                                            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
-                                            ->get()->pluck('descricao','id');
+        $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
+            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
+            ->get()->pluck('descricao', 'id');
         return view('admin.pessoa.create', compact('params', 'preload'));
     }
 
@@ -95,14 +94,14 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-        $data = $this->pessoa ->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                            ->where('lotes.unidade_id', Auth::user()->unidade_id)
-                            ->where('pessoas.id',$id)->first();
+        $data = $this->pessoa->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+            ->where('lotes.unidade_id', Auth::user()->unidade_id)
+            ->where('pessoas.id', $id)->first();
 
-        $preload['lote_id'] = $this ->lote->where('unidade_id', Auth::user()->unidade_id)
-                                            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
-                                            ->get()->pluck('descricao','id');
-        
+        $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
+            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
+            ->get()->pluck('descricao', 'id');
+
         $preload['tipo'] = $codes->select(4);
 
         return view('admin.pessoa.show', compact('params', 'data', 'preload'));
@@ -123,13 +122,13 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->pessoa  ->select('pessoas.*') ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                                ->where('lotes.unidade_id', Auth::user()->unidade_id)
-                                ->where('pessoas.id',$id)->first();
-       
-        $preload['lote_id'] = $this ->lote->where('unidade_id', Auth::user()->unidade_id)
-                                            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
-                                            ->get()->pluck('descricao','id');
+        $data = $this->pessoa->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+            ->where('lotes.unidade_id', Auth::user()->unidade_id)
+            ->where('pessoas.id', $id)->first();
+
+        $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
+            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
+            ->get()->pluck('descricao', 'id');
 
         $preload['tipo'] = $codes->select(4);
         return view('admin.pessoa.create', compact('params', 'data', 'preload'));
@@ -141,9 +140,9 @@ class PessoaController extends Controller
         $dataForm  = $request->all();
 
         //ajustar no veículo
-        $pessoa = $this->pessoa ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                                ->where('lotes.unidade_id', Auth::user()->unidade_id)
-                                ->where('pessoas.id',$id)->first();
+        $pessoa = $this->pessoa->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+            ->where('lotes.unidade_id', Auth::user()->unidade_id)
+            ->where('pessoas.id', $id)->first();
 
         if (($pessoa != null) && $this->pessoa->find($id)->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
@@ -154,9 +153,9 @@ class PessoaController extends Controller
 
     public function destroy($id)
     {
-        $pessoa = $this->pessoa ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-                                ->where('lotes.unidade_id', Auth::user()->unidade_id)
-                                ->where('pessoas.id',$id)->first();
+        $pessoa = $this->pessoa->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
+            ->where('lotes.unidade_id', Auth::user()->unidade_id)
+            ->where('pessoas.id', $id)->first();
 
         if (($pessoa != null) && $this->pessoa->find($id)->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
