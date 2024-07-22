@@ -51,9 +51,9 @@ class IndexController extends Controller
         $unidadeId = Auth::user()->unidade_id;
 
         // Obter a descrição da unidade
-        $descricaoUnidade = DB::table('lotes')
-            ->where('unidade_id', $unidadeId)
-            ->value('descricao');
+        $descricaoUnidade = DB::table('unidades')
+            ->where('id', $unidadeId)
+            ->value('titulo');
             // Adicionar a descrição da unidade aos parâmetros
             $this->params['unidade_descricao'] = $descricaoUnidade;
             
