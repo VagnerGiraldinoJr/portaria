@@ -64,7 +64,7 @@ class IndexController extends Controller
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
         $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', Auth::user()->unidade_id)->whereNull('dt_entrega_chaves')->count();
-
+        dd($data['QuantidadesReservas']);
         $unidadeId = Auth::user()->unidade_id;
 
         $dataresults = DB::table('pessoas')
