@@ -9,8 +9,7 @@ use App\Models\Visitante;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
+use Illuminate\Support\Facades\DB;
 
 class VisitanteController extends Controller
 {
@@ -30,17 +29,27 @@ class VisitanteController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastro de Visitantes';
+        $this->params['unidade_descricao']= '';
         $this->params['arvore'][0] = [
             'url' => 'admin/visitante ',
             'titulo' => 'Cadastro Visitantes'
         ];
+        
+        // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('lotes')
+            ->where('unidade_id', $unidadeId)
+            ->value('descricao');
+            // Adicionar a descrição da unidade aos parâmetros
+            $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Final do bloco da descricao
 
+        
         $params = $this->params;
         $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
         $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
         $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
-
-
+       
         return view('admin.visitante.index', compact('resultados', 'visitantes', 'params', 'data'));
     }
 

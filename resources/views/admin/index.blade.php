@@ -1,7 +1,5 @@
 @extends('adminlte::page')
-
 @section('title', config('admin.title'))
-
 @section('content_header')
     @include('admin.layouts.header')
 @stop
@@ -32,9 +30,10 @@
                                             class="small-box-footer">Ver
                                             Mais <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-
+                                    
                                 </div>
-                            @endrole
+                                @endrole
+                                
                             <!-- ./col -->
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->

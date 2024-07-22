@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -33,10 +34,21 @@ class ControleAcessoController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Controle de Acesso da Portaria';
+        $this->params['unidade_descricao']='';
         $this->params['arvore'][0] = [
             'url' => 'admin/controleacesso',
             'titulo' => 'Controle de Acessos'
         ];
+
+        // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('lotes')
+            ->where('unidade_id', $unidadeId)
+            ->value('descricao');
+            // Adicionar a descrição da unidade aos parâmetros
+            $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Final do bloco da descricao
+
         $params = $this->params;
 
         // Dados atuais

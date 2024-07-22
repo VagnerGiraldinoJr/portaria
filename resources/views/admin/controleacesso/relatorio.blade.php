@@ -1,5 +1,3 @@
-<!-- resources/views/controle_acessos/relatorio.blade.php -->
-
 @extends('adminlte::page')
 @section('title', config('admin.title'))
 @section('content_header')

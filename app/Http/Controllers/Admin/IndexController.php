@@ -14,8 +14,6 @@ use App\Models\Visitante;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-//use App\Models\Atendimento;
-
 class IndexController extends Controller
 {
     private $administrador = [];
@@ -28,10 +26,8 @@ class IndexController extends Controller
     private $pessoas = [];
     private $lotes = [];
 
-
-    public function __construct (User $administradores,ControleAcesso $controleacessos,Produto $produtos,Orcamento $orcamentos,
-        Lote $lotes,Pessoa $pessoas,Visitante $visitantes,Reserva $reservas)
-
+    public function __construct(User $administradores, ControleAcesso $controleacessos, Produto $produtos, Orcamento $orcamentos,
+        Lote $lotes, Pessoa $pessoas, Visitante $visitantes, Reserva $reservas)
     {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
@@ -43,29 +39,38 @@ class IndexController extends Controller
         $this->lotes = $lotes;
 
         // Default values
-        $this->params['titulo'] = 'Indicadores - Portaria';
+        $this->params['titulo']= 'Controle de Acesso da Portaria' ;
         $this->params['main_route'] = 'admin';
     }
-
+    
     public function index()
     {
         // PARAMS DEFAULT
-        $this->params['subtitulo'] = '';
+        $this->params['subtitulo'] = '';        
+        $this->params['unidade_descricao']= 'admin' ;
+        $unidadeId = Auth::user()->unidade_id;
 
+        // Obter a descrição da unidade
+        $descricaoUnidade = DB::table('lotes')
+            ->where('unidade_id', $unidadeId)
+            ->value('descricao');
+            // Adicionar a descrição da unidade aos parâmetros
+            $this->params['unidade_descricao'] = $descricaoUnidade;
+            
+           
         $params = $this->params;
-        $data['admin'] = $this->administrador->where('unidade_id', Auth::user()->unidade_id)->count();
-        $data['controleacesso'] = $this->controleacesso->where('unidade_id', Auth::user()->unidade_id)->count();
-        $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', Auth::user()->unidade_id)->whereNull('data_saida')->count();
-        $data['EncomendasEntregues'] = $this->controleacesso->where('unidade_id', Auth::user()->unidade_id)->whereNotNull('data_saida')->count();
+        
+        $data['admin'] = $this->administrador->where('unidade_id', $unidadeId)->count();
+        $data['controleacesso'] = $this->controleacesso->where('unidade_id', $unidadeId)->count();
+        $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNull('data_saida')->count();
+        $data['EncomendasEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNotNull('data_saida')->count();
         $data['produto'] = $this->produto->count();
         $data['orcamento'] = $this->orcamento->count();
         $data['pedido'] = $this->orcamento->has('getPedido')->count();
         $data['pedido_producao'] = $this->orcamento->has('getStatusEmProducao')->count();
         $data['pedido_finalizado'] = $this->orcamento->has('getStatusEmProducao')->count();
-        $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->whereNull('hora_de_saida')->count();
-        $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', Auth::user()->unidade_id)->whereNull('dt_entrega_chaves')->count();
-        dd($data['QuantidadesReservas']);
-        $unidadeId = Auth::user()->unidade_id;
+        $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->whereNull('hora_de_saida')->count();
+        $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', $unidadeId)->whereNull('dt_entrega_chaves')->count();
 
         $dataresults = DB::table('pessoas')
             ->join('lotes', 'pessoas.lote_id', '=', 'lotes.id')
@@ -76,7 +81,6 @@ class IndexController extends Controller
             ->first();
 
         $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
-
 
         return view('admin.index', compact('params', 'data', 'totalPessoas'));
     }

@@ -8,6 +8,7 @@ use App\Models\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
@@ -25,15 +26,27 @@ class ReservaController extends Controller
         $this->params['titulo'] = 'Reserva de áreas comuns';
         $this->params['main_route'] = 'admin.reserva';
     }
-
+    
     public function index()
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastro de Reserva';
+        $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
             'url' => 'admin/reserva',
             'titulo' => 'Cadastro Reserva'
         ];
+
+        // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('lotes')
+            ->where('unidade_id', $unidadeId)
+            ->value('descricao');
+            // Adicionar a descrição da unidade aos parâmetros
+            $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Final do bloco da descricao
+
+
         $params = $this->params;
         $data = $this->reserva->with('lote')->get();
 
@@ -308,10 +321,22 @@ class ReservaController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Relatório ref. as reservas';
+        $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
             'url' => 'admin/reserva/relatorio',
             'titulo' => 'Relatório de Reservas'
         ];
+
+         // Obter a descrição da unidade dentro do params['unidade_descricao']
+         $unidadeId = Auth::user()->unidade_id;
+         $descricaoUnidade = DB::table('lotes')
+             ->where('unidade_id', $unidadeId)
+             ->value('descricao');
+             // Adicionar a descrição da unidade aos parâmetros
+             $this->params['unidade_descricao'] = $descricaoUnidade;
+         // Final do bloco da descricao
+
+
         $params = $this->params;
     
         $query = Reserva::query();
