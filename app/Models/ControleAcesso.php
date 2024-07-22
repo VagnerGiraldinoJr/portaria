@@ -11,7 +11,7 @@ class ControleAcesso extends Model
     
     // id, unidade_id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at
 
-    protected $fillable = ["id","tipo","lote_id","unidade_id","veiculo_id","motorista","data_entrada","data_saida","observacao","retirado_por","motivo","desc_tipo"];
+    protected $fillable = ["id","tipo","lote_id","unidade_id","veiculo_id","motorista","data_entrada","data_saida","entregador","observacao","retirado_por","motivo","desc_tipo"];
 
 
     public function lote(): HasMany

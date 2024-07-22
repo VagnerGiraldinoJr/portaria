@@ -103,6 +103,11 @@
                                 {{ Form::text('rg_pessoa', null, ['class' => 'form-control', 'placeholder' => 'Documento', 'readonly' => 'readonly']) }}
                             </div>
 
+                            <!-- {{-- ENTREGADOR --}} -->
+                            <div id="div_entregador" class="form-group col-6 col-md-6 col-lg-6">
+                                {{ Form::label('entregador', 'Nome do Entregador ou Empresa') }}
+                                {{ Form::text('entregador', null, ['class' => 'form-control', 'placeholder' => 'Informe o nome entregador ou empresa']) }}
+                            </div>
                             <!-- {{-- MOTIVO --}} -->
                             <div id="div_motivo" class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('motivo', 'Motivo') }}
@@ -161,6 +166,7 @@
                 document.getElementById('div_lote').style.display = "block";
                 document.getElementById('div_nome_pessoa').style.display = "block";
                 document.getElementById('div_rg_pessoa').style.display = "block";
+                document.getElementById('entregador').style.display = "block";
                 document.getElementById('div_motivo').style.display = "block";
                 buscarLote();
 
@@ -173,6 +179,7 @@
                 document.getElementById('div_lote').style.display = "none";
                 document.getElementById('div_nome_pessoa').style.display = "none";
                 document.getElementById('div_rg_pessoa').style.display = "none";
+                document.getElementById('entregador').style.display = "none";
                 document.getElementById('div_motivo').style.display = "none";
             }
         };

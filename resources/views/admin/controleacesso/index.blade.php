@@ -32,6 +32,7 @@
                                         <th>Apto / Placa</th>
                                         <th>Data Entrada</th>
                                         <th>Data Saída</th>
+                                        <th>Entregador/Empresa</th>
                                         <th>Retirado Por:</th>
                                         <th>Operação</th>
                                     </tr>
@@ -51,6 +52,7 @@
                                                 @if ($item->data_saida != null)
                                                     {{ Carbon\Carbon::parse($item->data_saida)->format('d/m/Y H:i:s') }}
                                                 @endif
+                                            <td>{{ $item->entregador }}</td>
                                             <td>{{ $item->retirado_por }}</td>
                                             <td>
                                                 <!-- <a href="{{ route($params['main_route'] . '.show', $item->id) }}" class="btn btn-outline-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a> -->

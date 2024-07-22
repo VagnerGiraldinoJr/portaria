@@ -314,16 +314,22 @@ return [
 
         ['header' => 'Módulos'],
         [
-            'text'       => 'Gestão Portaria',
+            'text'       => 'Encomendas',
             'icon' => 'fas fa-user-shield',
             'icon_color' => 'yellow',
             'url'        => 'admin/controleacesso',
         ],
         [
             'text'       => 'Reservas - Áreas Comuns',
-            'icon'        => 'far fa-address-card',
+            'icon'        => 'fa fa-birthday-cake',
             'icon_color' => 'yellow',
             'url'        => 'admin/reserva',
+        ],
+        [
+            'text'       => 'Ent./Saída - Visitantes',
+            'icon'        => 'far fa-address-card',
+            'icon_color' => 'yellow',
+            'url'        => 'admin/visitante',
         ],
 
         // Sidebar items: Aplicações

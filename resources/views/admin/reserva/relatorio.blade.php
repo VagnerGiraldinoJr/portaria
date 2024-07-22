@@ -46,6 +46,7 @@
                         </form>
 
                         @if ($reserva->isNotEmpty())
+
                             <table class="table table-bordered table-striped mt-4">
                                 <thead>
                                     <tr>
@@ -65,9 +66,7 @@
                                 <tbody>
                                     @foreach ($reserva as $acesso)
                                         <tr>
-
-                                            <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
-                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}</td>
                                             <td>{{ $acesso->area }}</td>
                                             <td>{{ $acesso->limpeza }}</td>
                                             <td>{{ $acesso->acessorios }}</td>
@@ -79,7 +78,7 @@
                                             </td>
 
                                             <td>{{ $acesso->retirado_por }}</td>
-
+                                            
                                             <td>{{ \Carbon\Carbon::parse($acesso->dt_devolucao_chaves)->format('d/m/Y H:i:s') }}
                                             </td>
 

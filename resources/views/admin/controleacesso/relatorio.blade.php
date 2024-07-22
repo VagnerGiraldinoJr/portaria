@@ -46,6 +46,7 @@
                                     <tr>
                                         <th>Data de Entrada</th>
                                         <th>Data de Saída</th>
+                                        <th>Nome Entregador/Empresa</th>
                                         <th>Motivo</th>
                                         <th>Observação</th>
                                         <th>Retirado por:</th>
@@ -57,6 +58,7 @@
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_saida)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ $acesso->entregador }}</td>
                                             <td>{{ $acesso->motivo }}</td>
                                             <td>{{ $acesso->observacao }}</td>
                                             <td>{{ $acesso->retirado_por }}</td>

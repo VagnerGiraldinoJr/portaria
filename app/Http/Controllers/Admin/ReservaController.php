@@ -322,11 +322,12 @@ class ReservaController extends Controller
         // Inicialize reserva como uma coleção vazia
         $reserva = collect();
     
+
         // Verifique se há filtros aplicados
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-    
+        
         // Execute a consulta sem paginação
         $reserva = $query->get();
     
