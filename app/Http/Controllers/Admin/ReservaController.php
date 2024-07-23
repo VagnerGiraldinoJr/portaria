@@ -46,12 +46,13 @@ class ReservaController extends Controller
         $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
-        $reservas = Reserva::all();
+        $reservas = Reserva::where('unidade_id', Auth::user()->unidade_id)->get();
+    
         $params = $this->params;
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         $data = $this->reserva
-            ->with('lote')
+            ->with('lote')->where('unidade_id', Auth::user()->unidade_id)
             ->orderByRaw("CASE WHEN status = 'Pendente' THEN 1 ELSE 0 END DESC")
             ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
             ->get();
@@ -70,8 +71,6 @@ class ReservaController extends Controller
                 $reserva->save();
             }
         }
-
-
 
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
     }
