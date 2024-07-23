@@ -22,7 +22,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive">
-                        @if (isset($data) && count($data))
+                        @if (isset($data) && $data->count())
                             <table id="dataTablePortaria" class="table table-hover">
                                 <thead>
                                     <tr>
@@ -36,19 +36,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $itens)
+                                    @foreach ($data as $item)
                                         <tr>
-                                            <td>{{ $itens->area }}</td>
+                                            <td>{{ $item->area }}</td>
                                             @php
-                                                $dataInicio = Carbon\Carbon::parse($itens->data_inicio);
+                                                $dataInicio = Carbon\Carbon::parse($item->data_inicio);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
                                             @endphp
                                             <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
                                                 {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
-                                            <td>{{ $itens->lote->descricao }}</td>
+                                            <td>{{ $item->lote->descricao }}</td>
                                             <td>
-                                                <a href="https://wa.me/55{{ $itens->celular_responsavel }}?text=Olá%20{{ $itens->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($itens->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
+                                                <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ $item->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($item->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                     target="_blank" rel="noopener noreferrer"
                                                     class="btn btn-outline-success btn-xs">
                                                     <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span> Enviar
@@ -56,12 +56,12 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                @if ($itens->status == 'Confirmada')
+                                                @if ($item->status == 'Confirmada')
                                                     <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
                                                     Confirmada
-                                                @elseif($itens->status == 'Cancelada')
+                                                @elseif($item->status == 'Cancelada')
                                                     <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
-                                                @elseif($itens->status == 'Encerrado')
+                                                @elseif($item->status == 'Encerrado')
                                                     <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                     Encerrado
                                                 @else
@@ -71,11 +71,11 @@
                                             </td>
                                             <td>
                                                 {{-- Verifica se dt_entrega_chaves está preenchido --}}
-                                                @if (!empty($itens->dt_entrega_chaves))
+                                                @if (!empty($item->dt_entrega_chaves))
                                                     {{-- Se estiver preenchido, não exibe o botão --}}
                                                 @else
                                                     {{-- Se não estiver preenchido, exibe o botão --}}
-                                                    <form action="{{ route('admin.reserva.showRetireForm', $itens->id) }}"
+                                                    <form action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
                                                         method="GET" style="display: inline;">
                                                         <button type="submit" class="btn btn-outline-secondary btn-xs">
                                                             <span class="fas fa-unlock"></span> Entrega das Chaves
@@ -84,11 +84,11 @@
                                                 @endif
 
                                                 {{-- Botao Devolução --}}
-                                                @if (!empty($itens->dt_devolucao_chaves))
+                                                @if (!empty($item->dt_devolucao_chaves))
                                                     <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                     Confirmada
                                                 @else
-                                                    <form action="{{ route('admin.reserva.showReturnForm', $itens->id) }}"
+                                                    <form action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
                                                         method="GET" style="display: inline;">
                                                         <button type="submit" class="btn btn-outline-info btn-xs">
                                                             <span class="fas fa-lock"></span> Devolução Chaves
@@ -98,14 +98,14 @@
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
-                                                    data-target="#editModal" data-id="{{ $itens->unidade_id }}"
-                                                    data-area="{{ $itens->area }}" data-lote_id="{{ $itens->lote_id }}"
-                                                    data-data_inicio="{{ $itens->data_inicio }}"
-                                                    data-limpeza="{{ $itens->limpeza }}"
-                                                    data-status="{{ $itens->status }}"
-                                                    data-acessorios="{{ $itens->acessorios }}"
-                                                    data-celular_responsavel="{{ $itens->celular_responsavel }}"
-                                                    {{ in_array($itens->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
+                                                    data-target="#editModal" data-id="{{ $item->unidade_id }}"
+                                                    data-area="{{ $item->area }}" data-lote_id="{{ $item->lote_id }}"
+                                                    data-data_inicio="{{ $item->data_inicio }}"
+                                                    data-limpeza="{{ $item->limpeza }}"
+                                                    data-status="{{ $item->status }}"
+                                                    data-acessorios="{{ $item->acessorios }}"
+                                                    data-celular_responsavel="{{ $item->celular_responsavel }}"
+                                                    {{ in_array($item->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
                                                     Editar
                                                 </button>
                                             </td>

@@ -29,5 +29,6 @@ class Visitante extends Model
     {
         return $this->belongsTo(Lote::class, 'lote_id');
     }
-   
+
+
 }
