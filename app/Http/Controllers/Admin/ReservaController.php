@@ -46,14 +46,15 @@ class ReservaController extends Controller
         $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
-
-        $params = $this->params;
-        $data = $this->reserva->with('lote')->get();
-
-        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
-
-
         $reservas = Reserva::all();
+        $params = $this->params;
+
+        $data = $this->reserva
+            ->with('lote')
+            ->where('unidade_id', Auth::user()->unidade_id)->orderByRaw('dt_entrega_chaves IS NULL desc, dt_devolucao_chaves IS NULL desc')
+            ->get();
+            
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         foreach ($reservas as $reserva) {
             // Verifica se dt_entrega_chaves está preenchido e o status não é 'Confirmada'
@@ -69,7 +70,7 @@ class ReservaController extends Controller
             }
         }
 
-   
+
 
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
     }
