@@ -38,7 +38,6 @@ class ReservaController extends Controller
 
         // Obter a descrição da unidade dentro do params['unidade_descricao']
         $unidadeId = Auth::user()->unidade_id;
-        
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
@@ -50,7 +49,7 @@ class ReservaController extends Controller
 
         // Aplicar filtro de unidade_id
         $reservas = Reserva::where('unidade_id', Auth::user()->unidade_id)->get();
-    
+
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         $data = $this->reserva
@@ -60,19 +59,19 @@ class ReservaController extends Controller
             ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
             ->get();
 
-        foreach ($reservas as $reserva) {
-            // Verifica se dt_entrega_chaves está preenchido e o status não é 'Confirmada'
-            if (!empty($reserva->dt_entrega_chaves) && $reserva->status != 'Confirmada') {
-                $reserva->status = 'Confirmada';
-                $reserva->save();
-            }
+        // foreach ($reservas as $reserva) {
+        //     // Verifica se dt_entrega_chaves está preenchido e o status não é 'Confirmada'
+        //     if (!empty($reserva->dt_entrega_chaves) && $reserva->status != 'Confirmada') {
+        //         $reserva->status = 'Confirmada';
+        //         $reserva->save();
+        //     }
 
-            // Verifica se dt_devolucao_chaves está preenchido e o status não é 'Encerrado'
-            if (!empty($reserva->dt_devolucao_chaves) && $reserva->status != 'Encerrado') {
-                $reserva->status = 'Encerrado';
-                $reserva->save();
-            }
-        }
+        //     // Verifica se dt_devolucao_chaves está preenchido e o status não é 'Encerrado'
+        //     if (!empty($reserva->dt_devolucao_chaves) && $reserva->status != 'Encerrado') {
+        //         $reserva->status = 'Encerrado';
+        //         $reserva->save();
+        //     }
+        // }
 
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
     }
@@ -95,11 +94,11 @@ class ReservaController extends Controller
         $params = $this->params;
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
-        $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
-            ->get()->pluck('descricao', 'id');
+        // $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
+        //     ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
+        //     ->get()->pluck('descricao', 'id');
 
-        return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
+        return view('admin.reserva.create', compact('params', 'lotes'));
     }
 
     public function store(Request $request)
@@ -156,7 +155,7 @@ class ReservaController extends Controller
             'devolvido_por' => 'required|string|max:255',
             'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
         ]);
-        
+
         $reserva = Reserva::findOrFail($id);
 
         $reserva->area = $validatedData['area'];
