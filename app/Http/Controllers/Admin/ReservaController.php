@@ -51,7 +51,7 @@ class ReservaController extends Controller
 
         $data = $this->reserva
             ->with('lote')
-            ->where('unidade_id', Auth::user()->unidade_id)->orderByRaw('dt_entrega_chaves IS NULL desc, dt_devolucao_chaves IS NULL desc')
+            ->orderByRaw('dt_entrega_chaves IS NULL desc, dt_devolucao_chaves IS NULL desc')
             ->get();
             
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
