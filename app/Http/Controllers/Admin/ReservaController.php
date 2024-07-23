@@ -69,13 +69,7 @@ class ReservaController extends Controller
             }
         }
 
-        // Dados atuais
-        $data = $this->reserva
-            ->where('unidade_id', Auth::user()->unidade_id)
-            ->orderBy('status', 'desc')  // Ordena pelo campo 'status' de forma descendente (pendente primeiro)
-            ->orderByRaw('dt_entrega_chaves IS NULL desc') // Ordena por 'dt_entrega_chaves' sendo NULL
-            ->get();
-
+   
 
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
     }
