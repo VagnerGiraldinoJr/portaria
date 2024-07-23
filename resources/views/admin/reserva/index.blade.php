@@ -39,6 +39,7 @@
                                     @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $item->area }}</td>
+                                           
                                             @php
                                                 $dataInicio = Carbon\Carbon::parse($item->data_inicio);
                                                 $diaSemanaInicio = $dataInicio->isoFormat('dddd');
@@ -47,7 +48,7 @@
                                                 {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                             </td>
                                             <td>{{ $item->lote->descricao }}</td>
-                                          
+                                            @dump($item->lote)
                                             <td>
                                                 <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ $item->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($item->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                     target="_blank" rel="noopener noreferrer"
