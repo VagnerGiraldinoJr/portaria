@@ -26,7 +26,7 @@ class ReservaController extends Controller
         $this->params['titulo'] = 'Reserva de áreas comuns';
         $this->params['main_route'] = 'admin.reserva';
     }
-    
+
     public function index()
     {
         // PARAMS DEFAULT
@@ -42,8 +42,8 @@ class ReservaController extends Controller
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-            // Adicionar a descrição da unidade aos parâmetros
-            $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Adicionar a descrição da unidade aos parâmetros
+        $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
 
@@ -68,6 +68,13 @@ class ReservaController extends Controller
                 $reserva->save();
             }
         }
+
+        // Dados atuais
+        $data = $this->reserva
+            ->where('unidade_id', Auth::user()->unidade_id)
+            ->orderBy('status', 'desc')  // Ordena pelo campo 'status' de forma descendente (pendente primeiro)
+            ->orderByRaw('dt_entrega_chaves IS NULL desc') // Ordena por 'dt_entrega_chaves' sendo NULL
+            ->get();
 
 
         return view('admin.reserva.index', compact('params', 'data', 'reservas'));
@@ -327,37 +334,36 @@ class ReservaController extends Controller
             'titulo' => 'Relatório de Reservas'
         ];
 
-         // Obter a descrição da unidade dentro do params['unidade_descricao']
-         $unidadeId = Auth::user()->unidade_id;
-         $descricaoUnidade = DB::table('unidades')
+        // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-             // Adicionar a descrição da unidade aos parâmetros
-             $this->params['unidade_descricao'] = $descricaoUnidade;
-         // Final do bloco da descricao
+        // Adicionar a descrição da unidade aos parâmetros
+        $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Final do bloco da descricao
 
 
         $params = $this->params;
-    
+
         $query = Reserva::query();
-    
+
         // Filtro obrigatório: unidade_id do usuário autenticado
         $query->where('unidade_id', Auth::user()->unidade_id);
-    
+
         // Inicialize reserva como uma coleção vazia
         $reserva = collect();
-    
+
 
         // Verifique se há filtros aplicados
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-        
+
         // Execute a consulta sem paginação
         $reserva = $query->get();
-    
+
         // Retorne a view com os dados filtrados
         return view('admin.reserva.relatorio', compact('params', 'reserva'));
     }
-    
 }

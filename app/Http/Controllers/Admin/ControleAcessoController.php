@@ -34,7 +34,7 @@ class ControleAcessoController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Controle de Acesso da Portaria';
-        $this->params['unidade_descricao']='';
+        $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
             'url' => 'admin/controleacesso',
             'titulo' => 'Controle de Acessos'
@@ -45,8 +45,8 @@ class ControleAcessoController extends Controller
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-            // Adicionar a descrição da unidade aos parâmetros
-            $this->params['unidade_descricao'] = $descricaoUnidade;
+        // Adicionar a descrição da unidade aos parâmetros
+        $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
         $params = $this->params;
@@ -62,7 +62,7 @@ class ControleAcessoController extends Controller
         return view('admin.controleacesso.index', compact('params', 'data'));
     }
 
-    
+
     public function create(TableCode $codes)
     {
         // PARAMS DEFAULT
@@ -87,7 +87,7 @@ class ControleAcessoController extends Controller
             ->pluck('descricao', 'id');
 
         $params = $this->params;
-        
+
         return view('admin.controleacesso.create', compact('params', 'preload'));
     }
 
@@ -122,8 +122,8 @@ class ControleAcessoController extends Controller
         $data = $this->controle_acesso->with('pessoa')->with('veiculo')->find($id);
         $data = $this->controle_acesso->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
         $preload['tipo'] = $codes->select(5);
-        
-        
+
+
         return view('admin.controleacesso.show', compact('params', 'data', 'preload'));
     }
 
@@ -138,8 +138,8 @@ class ControleAcessoController extends Controller
             [
                 'url' => '',
                 'titulo' => 'Editar'
-                ]
-            ];
+            ]
+        ];
         $params = $this->params;
 
         $data = $this->controle_acesso->with('pessoa')->with('veiculo')->find($id);
@@ -147,7 +147,7 @@ class ControleAcessoController extends Controller
         $preload['tipo'] = $codes->select(5);
         return view('admin.controleacesso.create', compact('params', 'data', 'preload'));
     }
-    
+
     public function exit($id, TableCode $codes)
     {
         $this->params['subtitulo'] = 'Editar Controle de Acesso';
@@ -174,14 +174,14 @@ class ControleAcessoController extends Controller
         $dataForm  = $request->all();
         //Pull
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
-        
+
         if ($this->controle_acesso->find($id)->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
         }
     }
-    
+
 
     public function updateexit(Request $request, $id)
     {
@@ -199,7 +199,7 @@ class ControleAcessoController extends Controller
     public function destroy($id)
     {
         $data = $this->controle_acesso->find($id);
-        
+
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
@@ -211,7 +211,7 @@ class ControleAcessoController extends Controller
     {
         $data  = $this->controle_acesso('data_saida');
     }
-    
+
 
     public function relatorio(Request $request)
     {
@@ -222,32 +222,32 @@ class ControleAcessoController extends Controller
             'titulo' => 'Relatório de Controle de Acessos'
         ];
         $params = $this->params;
-    
+
         $query = ControleAcesso::query();
-    
+
         // Filtro obrigatório: unidade_id do usuário autenticado
         $query->where('unidade_id', Auth::user()->unidade_id);
-    
+
         // Inicialize controleAcessos como uma coleção vazia
         $controleAcessos = collect();
-    
+
         // Verifique se há filtros aplicados
         if ($request->hasAny(['data_entrada', 'data_saida'])) {
             $data_entrada = $request->input('data_entrada');
             $data_saida = $request->input('data_saida');
-    
+
             if ($data_entrada) {
                 $query->whereDate('data_entrada', '>=', $data_entrada);
             }
-    
+
             if ($data_saida) {
                 $query->whereDate('data_saida', '<=', $data_saida);
             }
-    
+
             // Execute a consulta sem paginação
             $controleAcessos = $query->get();
         }
-    
+
         // Retorne a view com os dados filtrados
         return view('admin.controleacesso.relatorio', compact('params', 'controleAcessos'));
     }
