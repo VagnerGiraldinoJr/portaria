@@ -38,6 +38,7 @@ class ReservaController extends Controller
 
         // Obter a descrição da unidade dentro do params['unidade_descricao']
         $unidadeId = Auth::user()->unidade_id;
+        
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
@@ -45,10 +46,11 @@ class ReservaController extends Controller
         $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
+        $params = $this->params;
+
         // Aplicar filtro de unidade_id
         $reservas = Reserva::where('unidade_id', Auth::user()->unidade_id)->get();
-
-        $params = $this->params;
+    
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         $data = $this->reserva
