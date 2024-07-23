@@ -48,14 +48,14 @@ class ReservaController extends Controller
 
         $reservas = Reserva::all();
         $params = $this->params;
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         $data = $this->reserva
             ->with('lote')
-            ->orderByRaw("CASE WHEN status = 'pendente' THEN 1 ELSE 0 END DESC")
-            ->orderByRaw('dt_entrega_chaves IS NULL desc, dt_devolucao_chaves IS NULL desc')
+            ->orderByRaw("CASE WHEN status = 'Pendente' THEN 1 ELSE 0 END DESC")
+            ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
             ->get();
 
-        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
 
         foreach ($reservas as $reserva) {
             // Verifica se dt_entrega_chaves está preenchido e o status não é 'Confirmada'
