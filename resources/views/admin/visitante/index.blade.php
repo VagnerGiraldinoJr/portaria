@@ -46,15 +46,14 @@
                                             <td>{{ $visitante->nome }}</td>
                                             <td>{{ $visitante->documento }}</td>
                                             <td>{{ $visitante->placa_do_veiculo }}</td>
-                                            <td>{{ $visitante->lote->descricao }}</td>
-                                            
-                                            <!-- Formatar hora de entrada -->
-                                            <td>{{ $visitante->hora_de_entrada ? \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') : 'Não registrada' }}
+                                            <td>{{ $visitante->lote ? $visitante->lote->descricao : 'Sem lote associado' }}
+                                            </td>
+                                            {{-- <td>{{ $visitante->lote->descricao }}</td> --}}
+
+                                            <td>{{ $visitante->hora_de_entrada->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ $visitante->hora_de_saida ? $visitante->hora_de_saida->format('d/m/Y H:i:s') : '-' }}
                                             </td>
 
-                                            <!-- Formatar hora de saída -->
-                                            <td>{{ $visitante->hora_de_saida ? \Carbon\Carbon::parse($visitante->hora_de_saida)->format('d/m/Y H:i:s') : 'Não registrada' }}
-                                            </td>
 
                                             <td>{{ $visitante->motivo }}</td>
                                             <td>

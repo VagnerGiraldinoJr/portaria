@@ -45,12 +45,12 @@ class VisitanteController extends Controller
 
         $params = $this->params;
 
-        // Obter os visitantes com a ordenação correta
         $visitantes = Visitante::with('unidade', 'lote')
             ->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByRaw('hora_de_saida IS NULL DESC') // Priorizar registros com hora_de_saida null
-            ->orderBy('created_at', 'desc') // Em seguida, ordenar por created_at em ordem decrescente
+            ->orderByRaw('hora_de_saida IS NULL DESC')
+            ->orderBy('created_at', 'DESC') // Ordenar por created_at em ordem decrescente
             ->get();
+
         // Obter os lotes com os usuários da unidade
         $resultados = Lote::with(['unidade.users'])
             ->where('unidade_id', $unidadeId)
