@@ -25,9 +25,9 @@
                     <!-- /.card-header -->
                     <div class="card-body table-responsive">
                         @if (isset($data) && count($data))
-                        
+
                             <table id="dataTablePortaria" class="table table-hover">
-                                
+
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
@@ -47,18 +47,25 @@
                                             <td>{{ $visitante->documento }}</td>
                                             <td>{{ $visitante->placa_do_veiculo }}</td>
                                             <td>{{ $visitante->lote->descricao }}</td>
-                                            <td>{{ $visitante->hora_de_entrada }}</td>
-                                            <td>{{ $visitante->hora_de_saida }}</td>
+                                            
+                                            <!-- Formatar hora de entrada -->
+                                            <td>{{ $visitante->hora_de_entrada ? \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') : 'Não registrada' }}
+                                            </td>
+
+                                            <!-- Formatar hora de saída -->
+                                            <td>{{ $visitante->hora_de_saida ? \Carbon\Carbon::parse($visitante->hora_de_saida)->format('d/m/Y H:i:s') : 'Não registrada' }}
+                                            </td>
+
                                             <td>{{ $visitante->motivo }}</td>
                                             <td>
-                                                
+
                                                 @if ($visitante->hora_de_saida == null)
                                                     <a href="{{ route($params['main_route'] . '.exit', $visitante->id) }}"
                                                         class="btn btn-outline-primary btn-xs"><span
                                                             class="fas fa-check"></span> Marcar
                                                         Saída</a>
                                                 @endif
-                                                
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -115,12 +122,11 @@
             "order": [
                 [7, "asc"],
                 [7, "asc"]
-            ], 
-            "columnDefs": [{
-                    "orderable": true,
-                    "targets": [7]
-                } 
             ],
+            "columnDefs": [{
+                "orderable": true,
+                "targets": [7]
+            }],
         });
     });
 </script>

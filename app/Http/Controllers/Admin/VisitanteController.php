@@ -29,27 +29,37 @@ class VisitanteController extends Controller
     {
         // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastro de Visitantes';
-        $this->params['unidade_descricao']= '';
+        $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
-            'url' => 'admin/visitante ',
+            'url' => 'admin/visitante',
             'titulo' => 'Cadastro Visitantes'
         ];
-        
+
         // Obter a descrição da unidade dentro do params['unidade_descricao']
         $unidadeId = Auth::user()->unidade_id;
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-            // Adicionar a descrição da unidade aos parâmetros
-            $this->params['unidade_descricao'] = $descricaoUnidade;
+        $this->params['unidade_descricao'] = $descricaoUnidade;
         // Final do bloco da descricao
 
-
         $params = $this->params;
-        $visitantes = Visitante::with('unidade', 'lote')->where('unidade_id', Auth::user()->unidade_id)->get();
-        $resultados = Lote::with(['unidade.users'])->where('unidade_id', Auth::user()->unidade_id)->get();
-        $data = $this->visitante->where('unidade_id', Auth::user()->unidade_id)->get();
-       
+
+        // Obter os visitantes com a ordenação correta
+        $visitantes = Visitante::with('unidade', 'lote')
+            ->where('unidade_id', $unidadeId)
+            ->orderBy('hora_de_entrada', 'desc') // Ordenar por data de criação (mais recente primeiro)
+            ->orderByRaw('hora_de_saida IS NULL DESC') // Colocar registros com hora_de_saida NULL no início
+            ->get();
+
+        // Obter os lotes com os usuários da unidade
+        $resultados = Lote::with(['unidade.users'])
+            ->where('unidade_id', $unidadeId)
+            ->get();
+
+        // Obter dados dos visitantes, pode ser redundante com a consulta acima
+        $data = Visitante::where('unidade_id', $unidadeId)->get();
+
         return view('admin.visitante.index', compact('resultados', 'visitantes', 'params', 'data'));
     }
 
