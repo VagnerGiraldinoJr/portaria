@@ -233,16 +233,20 @@ class ReservaController extends Controller
 
     public function retire(Request $request, $id)
     {
+        // Validação da entrada
         $validatedData = $request->validate([
-            'dt_entrega_chaves' => 'required|date_format:Y-m-d H:i:s',
+            'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
             'retirado_por' => 'required|string|max:100',
         ]);
 
+        // Encontrar a reserva
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        $reserva->dt_entrega_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $validatedData['dt_entrega_chaves'])->toDateTimeString();
-        $reserva->retirado_por = $validatedData['retirado_por'];
+        // Converter data para o formato Y-m-d H:i:s
+        $reserva->dt_entrega_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_entrega_chaves'])->format('Y-m-d H:i:s');
 
+        // Atualizar outros campos
+        $reserva->retirado_por = $validatedData['retirado_por'];
         $reserva->status = 'Confirmada';
         $reserva->save();
 
@@ -251,20 +255,25 @@ class ReservaController extends Controller
 
     public function return(Request $request, $id)
     {
+        // Validação da entrada
         $validatedData = $request->validate([
-            'dt_devolucao_chaves' => 'required|date_format:Y-m-d H:i:s',
+            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
             'devolvido_por' => 'required|string|max:100',
         ]);
 
+        // Encontrar a reserva
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $validatedData['dt_devolucao_chaves'])->toDateTimeString();
+        // Converter data para o formato Y-m-d H:i:s
+        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_devolucao_chaves'])->format('Y-m-d H:i:s');
         $reserva->devolvido_por = $validatedData['devolvido_por'];
 
+        // Atualizar o status se necessário
         if (!empty($reserva->dt_entrega_chaves) && $reserva->status != 'Encerrado') {
             $reserva->status = 'Encerrado';
         }
 
+        // Salvar as alterações
         $reserva->save();
 
         return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
@@ -272,17 +281,21 @@ class ReservaController extends Controller
 
     public function updateReturn(Request $request, $id)
     {
-        $request->validate([
-            'dt_devolucao_chaves' => 'required|date_format:Y-m-d H:i:s',
+        // Validação da entrada
+        $validatedData = $request->validate([
+            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
             'devolvido_por' => 'required|string|max:255',
         ]);
 
         try {
+            // Encontrar a reserva
             $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-            $reserva->dt_devolucao_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $request->dt_devolucao_chaves)->format('Y-m-d H:i:s');
-            $reserva->devolvido_por = $request->devolvido_por;
+            // Converter a data para o formato Y-m-d H:i:s
+            $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_devolucao_chaves'])->format('Y-m-d H:i:s');
+            $reserva->devolvido_por = $validatedData['devolvido_por'];
 
+            // Salvar as alterações
             $reserva->save();
 
             return redirect()->route('admin.reserva.index')->with('success', 'Dados de devolução atualizados com sucesso.');
@@ -307,7 +320,7 @@ class ReservaController extends Controller
         $this->params['unidade_descricao'] = $descricaoUnidade;
 
         $params = $this->params;
-       
+
         $query = Reserva::with('lote')->where('unidade_id', $unidadeId);
 
         if ($request->has('status') && $request->status != '') {
