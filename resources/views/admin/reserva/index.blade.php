@@ -1,8 +1,11 @@
 @extends('adminlte::page')
+
 @section('title', config('admin.title'))
+
 @section('content_header')
     @include('admin.layouts.header')
 @stop
+
 @section('content')
     <section class="content">
         <div class="row">
@@ -37,86 +40,83 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr>
-                                            <td>{{ $item->area }}</td>
+                                        @if ($item)
+                                            <tr>
+                                                <td>{{ $item->area }}</td>
+                                                @php
+                                                    $dataInicio = Carbon\Carbon::parse($item->data_inicio);
+                                                    $diaSemanaInicio = $dataInicio->isoFormat('dddd');
+                                                @endphp
+                                                <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
+                                                    {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
+                                                </td>
+                                                <td>{{ $item->lote->descricao }}</td>
+                                                <td>
+                                                    <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ optional($item->lote)->descricao ?? 'Unidade' }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ $dataInicio->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        class="btn btn-outline-success btn-xs">
+                                                        <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span> Enviar
+                                                        Mensagem
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if ($item->status == 'Confirmada')
+                                                        <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
+                                                        Confirmada
+                                                    @elseif($item->status == 'Cancelada')
+                                                        <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
+                                                    @elseif($item->status == 'Encerrado')
+                                                        <i class="fas fa-check-double text-success" aria-hidden="true"></i>
+                                                        Encerrado
+                                                    @else
+                                                        <i class="far fa-question-circle text-warning" aria-hidden="true"></i>
+                                                        Pendente
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (!empty($item->dt_entrega_chaves))
+                                                        {{-- Chaves entregues --}}
+                                                    @else
+                                                        <form action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
+                                                            method="GET" style="display: inline;">
+                                                            <button type="submit" class="btn btn-outline-secondary btn-xs">
+                                                                <span class="fas fa-unlock"></span> Entrega das Chaves
+                                                            </button>
+                                                        </form>
+                                                    @endif
 
-                                            @php
-                                                $dataInicio = Carbon\Carbon::parse($item->data_inicio);
-                                                $diaSemanaInicio = $dataInicio->isoFormat('dddd');
-                                            @endphp
-                                            <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
-                                                {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
-                                            </td>
-                                            <td>{{ $item->lote->descricao }}</td>
-
-                                            <td>
-                                                <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ $item->lote->descricao }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ \Carbon\Carbon::parse($item->data_inicio)->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
-                                                    target="_blank" rel="noopener noreferrer"
-                                                    class="btn btn-outline-success btn-xs">
-                                                    <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span> Enviar
-                                                    Mensagem
-                                                </a>
-                                            </td>
-                                            <td>
-                                                @if ($item->status == 'Confirmada')
-                                                    <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
-                                                    Confirmada
-                                                @elseif($item->status == 'Cancelada')
-                                                    <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
-                                                @elseif($item->status == 'Encerrado')
-                                                    <i class="fas fa-check-double text-success" aria-hidden="true"></i>
-                                                    Encerrado
-                                                @else
-                                                    <i class="far fa-question-circle text-warning" aria-hidden="true"></i>
-                                                    Pendente
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{-- Verifica se dt_entrega_chaves está preenchido --}}
-                                                @if (!empty($item->dt_entrega_chaves))
-                                                    {{-- Se estiver preenchido, não exibe o botão --}}
-                                                @else
-                                                    {{-- Se não estiver preenchido, exibe o botão --}}
-                                                    <form action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
-                                                        method="GET" style="display: inline;">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-xs">
-                                                            <span class="fas fa-unlock"></span> Entrega das Chaves
-                                                        </button>
-                                                    </form>
-                                                @endif
-
-                                                {{-- Botao Devolução --}}
-                                                @if (!empty($item->dt_devolucao_chaves))
-                                                    <i class="fas fa-check-double text-success" aria-hidden="true"></i>
-                                                    Confirmada
-                                                @else
-                                                    <form action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
-                                                        method="GET" style="display: inline;">
-                                                        <button type="submit" class="btn btn-outline-info btn-xs">
-                                                            <span class="fas fa-lock"></span> Devolução Chaves
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
-                                                    data-target="#editModal" data-id="{{ $item->unidade_id }}"
-                                                    data-area="{{ $item->area }}" data-lote_id="{{ $item->lote_id }}"
-                                                    data-data_inicio="{{ $item->data_inicio }}"
-                                                    data-limpeza="{{ $item->limpeza }}" data-status="{{ $item->status }}"
-                                                    data-acessorios="{{ $item->acessorios }}"
-                                                    data-celular_responsavel="{{ $item->celular_responsavel }}"
-                                                    {{ in_array($item->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
-                                                    Editar
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                    @if (!empty($item->dt_devolucao_chaves))
+                                                        <i class="fas fa-check-double text-success" aria-hidden="true"></i>
+                                                        Confirmada
+                                                    @else
+                                                        <form action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
+                                                            method="GET" style="display: inline;">
+                                                            <button type="submit" class="btn btn-outline-info btn-xs">
+                                                                <span class="fas fa-lock"></span> Devolução Chaves
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
+                                                        data-target="#editModal" data-id="{{ $item->unidade_id }}"
+                                                        data-area="{{ $item->area }}" data-lote_id="{{ $item->lote_id }}"
+                                                        data-data_inicio="{{ $item->data_inicio }}"
+                                                        data-limpeza="{{ $item->limpeza }}" data-status="{{ $item->status }}"
+                                                        data-acessorios="{{ $item->acessorios }}"
+                                                        data-celular_responsavel="{{ $item->celular_responsavel }}"
+                                                        {{ in_array($item->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
+                                                        Editar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
                         @else
                             <div class="alert alert-success m-2" role="alert">
-                                Sem registros.
+                                Nenhuma informação cadastrada.
                             </div>
                         @endif
                     </div>
@@ -198,13 +198,15 @@
         </div>
     </section>
 @stop
+
 @section('css')
     <link rel="stylesheet" href="/css/style.css">
 @stop
+
 @section('plugins.Datatables', true)
+
 @section('js')
     <script>
-        // Modal
         $(document).ready(function() {
             $('#editModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
@@ -235,7 +237,6 @@
             });
         });
 
-        // DataTable
         $(document).ready(function() {
             var table = $('#dataTablePortaria').DataTable({
                 "pageLength": 25,

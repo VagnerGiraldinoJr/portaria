@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Reserva extends Model
 {
@@ -12,7 +11,8 @@ class Reserva extends Model
         'area',
         'data_inicio',
         'limpeza',
-        'unidade_id',
+        'unidade_id', // Chave estrangeira para Lote
+        'lote_id',
         'status',
         'acessorios',
         'celular_responsavel',
@@ -22,35 +22,28 @@ class Reserva extends Model
         'devolvido_por',
     ];
 
-    // Definindo a relação 'lote'
     public function lote()
     {
-
-        return $this->belongsTo(Lote::class, 'unidade_id');
+        return $this->belongsTo(Lote::class, 'lote_id');
     }
 
-    // Definindo a relação 'Unidades'
+    // Uma Reserva pertence a uma Unidade
     public function unidade()
     {
-        return $this->belongsTo(Unidade::class, 'unidade_id');
+        return $this->belongsTo(Unidade::class, 'unidade_id'); // 'unidade_id' como chave estrangeira
     }
 
-    // Se houver uma relação direta entre Unidade e Visitante:
-    public function visitante()
-    {
-        return $this->hasMany(Visitante::class);
-    }
+    // Uma Reserva pode ter muitos Visitantes
+    // public function visitantes()
+    // {
+    //     return $this->hasMany(Visitante::class); // Assume uma chave estrangeira de referência na tabela 'visitantes'
+    // }
 
-  
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'unidade_id');
-    }
-
-
-    public function pessoas()
-    {
-        return $this->hasManyThrough(Pessoa::class, 'lote_id', Lote::class, 'id');
-    }
+    // Uma Reserva pertence a um Usuário
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id'); // Chave estrangeira 'user_id'
+    // }
 }
+
+

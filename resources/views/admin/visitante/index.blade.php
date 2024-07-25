@@ -25,7 +25,7 @@
                     <!-- /.card-header -->
                     <div class="card-body table-responsive">
                         @if (isset($data) && count($data))
-                  
+                        
                             <table id="dataTablePortaria" class="table table-hover">
                                 
                                 <thead>
@@ -46,19 +46,19 @@
                                             <td>{{ $visitante->nome }}</td>
                                             <td>{{ $visitante->documento }}</td>
                                             <td>{{ $visitante->placa_do_veiculo }}</td>
-                                            <td>{{ $visitante->lote_id }}</td>
+                                            <td>{{ $visitante->lote->descricao }}</td>
                                             <td>{{ $visitante->hora_de_entrada }}</td>
                                             <td>{{ $visitante->hora_de_saida }}</td>
                                             <td>{{ $visitante->motivo }}</td>
                                             <td>
+                                                
                                                 @if ($visitante->hora_de_saida == null)
                                                     <a href="{{ route($params['main_route'] . '.exit', $visitante->id) }}"
                                                         class="btn btn-outline-primary btn-xs"><span
                                                             class="fas fa-check"></span> Marcar
                                                         Saída</a>
                                                 @endif
-                                                <!-- <a class="btn btn-outline-primary btn-xs"><span class="fas fa-check"></span> Saída
-                                            Concluída</a> -->
+                                                
                                             </td>
                                         </tr>
                                     @endforeach

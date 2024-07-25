@@ -8,9 +8,10 @@ class Lote extends Model
 {
     protected $fillable = ["unidade_id","descricao"];
 
-    public function unidade()
+    // Um Lote pode ter muitas Reservas
+    public function reservas()
     {
-        return $this->belongsTo(Unidade::class, 'unidade_id');
+        return $this->hasMany(Reserva::class, 'lote_id'); 
     }
    
 }

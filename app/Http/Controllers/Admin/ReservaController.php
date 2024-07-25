@@ -16,7 +16,6 @@ class ReservaController extends Controller
     private $reserva = [];
     private $lote = [];
 
-
     public function __construct(Reserva $reservas, Lote $lotes)
     {
         $this->reserva = $reservas;
@@ -42,19 +41,17 @@ class ReservaController extends Controller
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-        // Adicionar a descrição da unidade aos parâmetros
         $this->params['unidade_descricao'] = $descricaoUnidade;
-        // Final do bloco da descricao
 
         // Aplicar filtro de unidade_id
         $data = $this->reserva
             ->with('lote')
-            ->where('unidade_id', Auth::user()->unidade_id) // Filtro de unidade
+            ->where('unidade_id', $unidadeId)
             ->orderByRaw("CASE WHEN status = 'Pendente' THEN 1 ELSE 0 END DESC")
             ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
             ->get();
-          
-        return view('admin.reserva.index', ['params' => $this->params,'data' => $data]);
+
+        return view('admin.reserva.index', ['params' => $this->params, 'data' => $data]);
     }
 
     public function create()
@@ -72,11 +69,18 @@ class ReservaController extends Controller
             ]
         ];
 
-        $params = $this->params;
-        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
+        // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('unidades')
+            ->where('id', $unidadeId)
+            ->value('titulo');
+        $this->params['unidade_descricao'] = $descricaoUnidade;
 
-        $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByDesc('descricao') // Ordenar por descricao em ordem decrescente
+        $params = $this->params;
+        $lotes = Lote::where('unidade_id', $unidadeId)->get();
+
+        $preload['unidade_id'] = $this->lote->where('unidade_id', $unidadeId)
+            ->orderByDesc('descricao')
             ->get()->pluck('descricao', 'id');
 
         return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
@@ -91,9 +95,14 @@ class ReservaController extends Controller
             'limpeza' => 'required|string',
             'status' => 'required|string',
             'acessorios' => 'required|string',
-            'lote_id' => 'required|exists:lotes,id', // Valida que a lote_id existe na tabela lotes
+            'lote_id' => 'required|exists:lotes,id', // Valida que o lote_id existe na tabela lotes
             'celular_responsavel' => 'required|string'
         ]);
+
+        $user_id = Auth::id();
+        if (!$user_id) {
+            return back()->withErrors(['user_id' => 'User ID is missing'])->withInput();
+        }
 
         // Verificação da existência de reserva com a mesma data e área
         $existingReserva = Reserva::where('data_inicio', $validatedData['data_inicio'])
@@ -106,8 +115,9 @@ class ReservaController extends Controller
 
         // Criação da reserva
         $reserva = new Reserva();
-        $reserva->user_id = Auth::id(); // Adiciona o user_id do usuário autenticado
+        $reserva->user_id = $user_id; // Adiciona o user_id do usuário autenticado
         $reserva->unidade_id = Auth::user()->unidade_id; // Adiciona a unidade_id do usuário autenticado
+        $reserva->lote_id = $validatedData['lote_id']; // Adiciona o lote_id do formulário
         $reserva->area = $validatedData['area'];
         $reserva->data_inicio = $validatedData['data_inicio'];
         $reserva->limpeza = $validatedData['limpeza'];
@@ -116,10 +126,18 @@ class ReservaController extends Controller
         $celularResponsavel = $request->input('celular_responsavel');
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
+
         $reserva->save();
 
-        // Redireciona para a lista de reservas com uma mensagem de sucesso
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
+    }
+
+    public function edit($id)
+    {
+        $reserva = Reserva::findOrFail($id);
+        $lotes = Lote::all();
+        $params = $this->params;
+        return view('admin.reserva.edit', compact('reserva', 'lotes', 'params'));
     }
 
     public function update(Request $request, $id)
@@ -130,13 +148,13 @@ class ReservaController extends Controller
             'limpeza' => 'required|string',
             'status' => 'required|string',
             'acessorios' => 'required|string',
-            'celular_responsavel' => 'required|string|max:15',
-            'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
-            'retirado_por' => 'required|string|max:255',
-            'devolvido_por' => 'required|string|max:255',
-            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
+            'celular_responsavel' => 'required|string|max:20',
+            'dt_entrega_chaves' => 'nullable|date_format:Y-m-d H:i:s',
+            'retirado_por' => 'nullable|string|max:100',
+            'dt_devolucao_chaves' => 'nullable|date_format:Y-m-d H:i:s',
+            'devolvido_por' => 'nullable|string|max:100',
         ]);
-        
+
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
         $reserva->area = $validatedData['area'];
@@ -148,11 +166,6 @@ class ReservaController extends Controller
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
 
-        $reserva->dt_entrega_chaves = \Carbon\Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_entrega_chaves']);
-        $reserva->retirado_por = $validatedData['retirado_por'];
-        $reserva->status = 'Confirmada'; // Atualiza o status para 'Confirmada' após entrega das chaves
-
-        // Atualiza os campos dt_entrega_chaves e dt_devolucao_chaves se presentes no request
         if (isset($validatedData['dt_entrega_chaves'])) {
             $reserva->dt_entrega_chaves = $validatedData['dt_entrega_chaves'];
         }
@@ -160,11 +173,9 @@ class ReservaController extends Controller
             $reserva->dt_devolucao_chaves = $validatedData['dt_devolucao_chaves'];
         }
 
-        // Verifica e atualiza o status com base em dt_entrega_chaves e dt_devolucao_chaves
         if (!empty($reserva->dt_entrega_chaves)) {
             $reserva->status = 'Confirmada';
         }
-
         if (!empty($reserva->dt_devolucao_chaves)) {
             $reserva->status = 'Encerrado';
         }
@@ -172,6 +183,14 @@ class ReservaController extends Controller
         $reserva->save();
 
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
+    }
+
+    public function destroy($id)
+    {
+        $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
+        $reserva->delete();
+
+        return redirect()->route('admin.reserva.index')->with('success', 'Reserva removida com sucesso!');
     }
 
     public function showRetireForm($id)
@@ -188,7 +207,7 @@ class ReservaController extends Controller
             ]
         ];
         $params = $this->params;
-        $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id); // Adicionado filtro de unidade_id
+        $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
         return view('admin.reserva.retire', compact('reserva', 'params'));
     }
 
@@ -207,93 +226,73 @@ class ReservaController extends Controller
         ];
 
         $params = $this->params;
-        $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id); // Adicionado filtro de unidade_id
+        $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
         return view('admin.reserva.return', compact('reserva', 'params'));
     }
 
     public function retire(Request $request, $id)
     {
-        // Validar os dados do formulário
         $validatedData = $request->validate([
-            'dt_entrega_chaves' => 'required|date_format:d-m-Y H:i:s',
+            'dt_entrega_chaves' => 'required|date_format:Y-m-d H:i:s',
             'retirado_por' => 'required|string|max:100',
         ]);
 
-        // Encontrar a reserva pelo ID e garantir que pertence à unidade do usuário
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        // Atualizar os campos
-        $reserva->dt_entrega_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_entrega_chaves'])->toDateTimeString();
+        $reserva->dt_entrega_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $validatedData['dt_entrega_chaves'])->toDateTimeString();
         $reserva->retirado_por = $validatedData['retirado_por'];
 
-        // Atualiza o status para 'Confirmada' após entrega das chaves
         $reserva->status = 'Confirmada';
-
-        // Salvar as alterações
         $reserva->save();
 
-        // Redirecionar com uma mensagem de sucesso
         return redirect()->route('admin.reserva.index')->with('success', 'Chaves da reserva foram retiradas e status atualizado para Confirmada.');
     }
 
     public function return(Request $request, $id)
     {
-        // Validar os dados do formulário
         $validatedData = $request->validate([
-            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
+            'dt_devolucao_chaves' => 'required|date_format:Y-m-d H:i:s',
             'devolvido_por' => 'required|string|max:100',
         ]);
 
-        // Encontrar a reserva pelo ID e garantir que pertence à unidade do usuário
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        // Atualizar os campos
-        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('d-m-Y H:i:s', $validatedData['dt_devolucao_chaves'])->toDateTimeString();
+        $reserva->dt_devolucao_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $validatedData['dt_devolucao_chaves'])->toDateTimeString();
         $reserva->devolvido_por = $validatedData['devolvido_por'];
 
-        // Atualiza o status para 'Encerrado' após a devolução das chaves
         if (!empty($reserva->dt_entrega_chaves) && $reserva->status != 'Encerrado') {
             $reserva->status = 'Encerrado';
         }
 
-        // Salvar as alterações
         $reserva->save();
 
-        // Redirecionar com uma mensagem de sucesso
         return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
     }
 
     public function updateReturn(Request $request, $id)
     {
-        // Validação dos dados
         $request->validate([
-            'dt_devolucao_chaves' => 'required|date_format:d-m-Y H:i:s',
+            'dt_devolucao_chaves' => 'required|date_format:Y-m-d H:i:s',
             'devolvido_por' => 'required|string|max:255',
         ]);
 
         try {
-            // Encontrar a reserva pelo ID e garantir que pertence à unidade do usuário
             $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-            // Atualizar os campos necessários
-            $reserva->dt_devolucao_chaves = \Carbon\Carbon::createFromFormat('d-m-Y H:i:s', $request->dt_devolucao_chaves)->format('Y-m-d H:i:s');
+            $reserva->dt_devolucao_chaves = Carbon::createFromFormat('Y-m-d H:i:s', $request->dt_devolucao_chaves)->format('Y-m-d H:i:s');
             $reserva->devolvido_por = $request->devolvido_por;
 
-            // Salvar as alterações
             $reserva->save();
 
-            // Redirecionar ou retornar uma resposta de sucesso
             return redirect()->route('admin.reserva.index')->with('success', 'Dados de devolução atualizados com sucesso.');
         } catch (\Exception $e) {
-            // Tratar qualquer exceção aqui
             return back()->withErrors(['message' => 'Erro ao atualizar os dados de devolução.']);
         }
     }
 
     public function relatorio(Request $request)
     {
-        // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Relatório ref. as reservas';
         $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
@@ -301,34 +300,22 @@ class ReservaController extends Controller
             'titulo' => 'Relatório de Reservas'
         ];
 
-        // Obter a descrição da unidade dentro do params['unidade_descricao']
         $unidadeId = Auth::user()->unidade_id;
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-        // Adicionar a descrição da unidade aos parâmetros
         $this->params['unidade_descricao'] = $descricaoUnidade;
-        // Final do bloco da descricao
 
         $params = $this->params;
 
-        $query = Reserva::query();
+        $query = Reserva::query()->where('unidade_id', $unidadeId);
 
-        // Filtro obrigatório: unidade_id do usuário autenticado
-        $query->where('unidade_id', Auth::user()->unidade_id);
-
-        // Inicialize reserva como uma coleção vazia
-        $reserva = collect();
-
-        // Verifique se há filtros aplicados
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
 
-        // Execute a consulta sem paginação
         $reserva = $query->get();
 
-        // Retorne a view com os dados filtrados
         return view('admin.reserva.relatorio', compact('params', 'reserva'));
     }
 }
