@@ -29,7 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>Tipo</th>
-                                        <th>Apto / Placa</th>
+                                        <th>Apto. / Placa</th>
                                         <th>Data Entrada</th>
                                         <th>Data Saída</th>
                                         <th>Entregador/Empresa</th>
@@ -41,11 +41,13 @@
                                     @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $item->desc_tipo }}</td>
+
                                             @if ($item->tipo == 1)
-                                                <td>{{ isset($item->lote[0]) ? $item->lote[0]->descricao : '' }}</td>
+                                                <td>{{ $item->lote ? $item->lote->descricao : '' }}</td>
                                             @else
                                                 <td>{{ isset($item->veiculo[0]) ? $item->veiculo[0]->placa : '' }}</td>
                                             @endif
+
                                             <td>{{ Carbon\Carbon::parse($item->data_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td>

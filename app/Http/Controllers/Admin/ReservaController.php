@@ -307,8 +307,8 @@ class ReservaController extends Controller
         $this->params['unidade_descricao'] = $descricaoUnidade;
 
         $params = $this->params;
-
-        $query = Reserva::query()->where('unidade_id', $unidadeId);
+       
+        $query = Reserva::with('lote')->where('unidade_id', $unidadeId);
 
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);

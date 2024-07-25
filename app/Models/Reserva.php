@@ -22,9 +22,10 @@ class Reserva extends Model
         'devolvido_por',
     ];
 
+    // Em App\Models\Reserva
     public function lote()
     {
-        return $this->belongsTo(Lote::class, 'lote_id');
+        return $this->belongsTo(Lote::class);
     }
 
     // Uma Reserva pertence a uma Unidade
@@ -45,5 +46,3 @@ class Reserva extends Model
     //     return $this->belongsTo(User::class, 'user_id'); // Chave estrangeira 'user_id'
     // }
 }
-
-

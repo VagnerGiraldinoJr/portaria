@@ -44,6 +44,7 @@
                                     <tr>
                                         <th>Data de Entrada</th>
                                         <th>Data de Saída</th>
+                                        <th>Unidade/Veículos</th>
                                         <th>Nome Entregador/Empresa</th>
                                         <th>Motivo</th>
                                         <th>Observação</th>
@@ -56,6 +57,12 @@
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_saida)->format('d/m/Y H:i:s') }}</td>
+
+                                            @if ($acesso->tipo == 1)
+                                                <td>{{ $acesso->lote ? $acesso->lote->descricao : '' }}</td>
+                                            @else
+                                                <td>{{ isset($acesso->veiculo[0]) ? $acesso->veiculo[0]->placa : '' }}</td>
+                                            @endif
                                             <td>{{ $acesso->entregador }}</td>
                                             <td>{{ $acesso->motivo }}</td>
                                             <td>{{ $acesso->observacao }}</td>

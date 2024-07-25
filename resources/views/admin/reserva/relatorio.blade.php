@@ -51,10 +51,11 @@
                                 <thead>
                                     <tr>
                                         <th>Data Reserva</th>
+                                        <th>Portaria</th>
+                                        <th>Casa/Apto.</th>
                                         <th>Área reservada</th>
                                         <th>Taxa limpeza</th>
                                         <th>Acessórios</th>
-                                        <th>Unidade</th>
                                         <th>Status Reserva</th>
                                         <th>Cel. Responsável Reserva</th>
                                         <th>Dt. Entrega Chaves</th>
@@ -67,10 +68,11 @@
                                     @foreach ($reserva as $acesso)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ $acesso->unidade->titulo }}</td>
+                                            <td>{{ $acesso->lote->descricao }}</td>
                                             <td>{{ $acesso->area }}</td>
                                             <td>{{ $acesso->limpeza }}</td>
                                             <td>{{ $acesso->acessorios }}</td>
-                                            <td>{{ $acesso->unidade->titulo }}</td>
                                             <td>{{ $acesso->status }}</td>
                                             <td>{{ formatarCelular($acesso->celular_responsavel) }}</td>
 
