@@ -46,4 +46,10 @@ class ControleAcesso extends Model
 
         return $this->where('unidade_id', Auth::user()->unidade_id, 'hora_de_saida', NULL)->get()->first();
     }
+
+    public function QuantidadesCadVisitantes()
+    {
+
+        return $this->where('unidade_id', Auth::user()->unidade_id, 'hora_de_saida', NULL)->get()->first();
+    }
 }

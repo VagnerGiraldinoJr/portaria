@@ -30,10 +30,10 @@
                                             class="small-box-footer">Ver
                                             Mais <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-                                    
+
                                 </div>
-                                @endrole
-                                
+                            @endrole
+
                             <!-- ./col -->
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
@@ -52,13 +52,11 @@
                                 </div>
                             </div>
                             <!-- ./col -->
-
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-warning">
                                     <div class="inner">
                                         <h3>{{ $data['EncomendasNaoEntregues'] }}</h3>
-
                                         <p>Qtd. Pendentes Portaria</p>
                                     </div>
                                     <div class="icon">
@@ -69,13 +67,11 @@
                                         Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-primary">
                                     <div class="inner">
                                         <h3>{{ $totalPessoas }}</h3>
-
                                         <p>Total de Moradores</p>
                                     </div>
                                     <div class="icon">
@@ -85,13 +81,12 @@
                                         class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-secondary">
                                     <div class="inner">
-                                        <h3>{{ $data['QuantidadesVisitantes'] }}</h3>
-
+                                        <h3> {{ $data['QuantidadesVisitantes'] }} / {{ $data['QuantidadesCadVisitantes'] }}
+                                        </h3>
                                         <p>Visitantes no Condomínio</p>
                                     </div>
                                     <div class="icon">
@@ -101,9 +96,7 @@
                                         class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-
                             {{-- Card-Reservas --}}
-
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
                                 <div class="info-box-content">
@@ -112,13 +105,9 @@
                                     <a href="{{ route($params['main_route'] . '.reserva.index') }}"
                                         class="small-box-footer">Abrir Reservas</a>
                                 </div>
-
                             </div>
-
                             {{-- Fim Card-Reservas --}}
-
                         </div>
-
                         <!-- Main node for this component -->
                         <div class="timeline">
                             <!-- Timeline time label -->
@@ -143,7 +132,6 @@
                                         #Criação card reserva;
                                     </div>
                                     <!-- Placement of additional controls. Optional -->
-
                                 </div>
                             </div>
                             <!-- The last icon means the story is complete -->
