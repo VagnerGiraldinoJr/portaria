@@ -10,27 +10,22 @@
             <div class="col-12">
                 <div class="card">
                     <!-- /.card-header -->
-                    <div class="card-body ">
-
+                    <div class="card-body">
                         <div class="row">
                             @role('admin')
                                 <div class="col-lg-3 col-6">
                                     <!-- small box -->
                                     <div class="small-box bg-info">
                                         <div class="inner">
-
-                                            {{ $data['admin'] }}</h3>
-
+                                            <h3>{{ $data['admin'] }}</h3>
                                             <p>Administradores</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fas fa-user-lock"></i>
                                         </div>
                                         <a href="{{ route($params['main_route'] . '.user.index') }}"
-                                            class="small-box-footer">Ver
-                                            Mais <i class="fas fa-arrow-circle-right"></i></a>
+                                            class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-
                                 </div>
                             @endrole
 
@@ -46,9 +41,7 @@
                                         <i class="fas fa-gift"></i>
                                     </div>
                                     <a href="{{ route($params['main_route'] . '.controleacesso.index') }}"
-                                        class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right">
-                                        </i>
-                                    </a>
+                                        class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -63,8 +56,7 @@
                                         <i class="fas fa-clipboard-check"></i>
                                     </div>
                                     <a href="{{ route($params['main_route'] . '.controleacesso.index') }}"
-                                        class="small-box-footer">Ver
-                                        Mais <i class="fas fa-arrow-circle-right"></i></a>
+                                        class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -81,11 +73,16 @@
                                         class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
+
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-secondary">
                                     <div class="inner">
-                                        <h3> {{ $data['QuantidadesVisitantes'] }} / {{ $data['QuantidadesCadVisitantes'] }}
+                                        <h3>
+                                            {{ $data['QuantidadesVisitantes'] }}
+                                            <span data-toggle="tooltip" title="Contador de registros de visitas no banco de dados">
+                                                / {{ $data['QuantidadesCadVisitantes'] }}
+                                            </span>
                                         </h3>
                                         <p>Visitantes no Condomínio</p>
                                     </div>
@@ -96,6 +93,7 @@
                                         class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
+
                             {{-- Card-Reservas --}}
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
@@ -108,6 +106,7 @@
                             </div>
                             {{-- Fim Card-Reservas --}}
                         </div>
+
                         <!-- Main node for this component -->
                         <div class="timeline">
                             <!-- Timeline time label -->
@@ -123,15 +122,13 @@
                                     <span class="time"><i class="fas fa-clock"></i> 14:00</span>
                                     <!-- Header. Optional -->
                                     <h3 class="timeline-header">
-                                        <a href="https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria"
-                                            target="_blank">Suporte</a>
+                                        <a href="https://api.whatsapp.com/send?phone=5511996190016&text=Suporte+Portaria" target="_blank">Suporte</a>
                                         Última atualização
                                     </h3>
                                     <!-- Body -->
                                     <div class="timeline-body">
                                         #Criação card reserva;
                                     </div>
-                                    <!-- Placement of additional controls. Optional -->
                                 </div>
                             </div>
                             <!-- The last icon means the story is complete -->
@@ -142,9 +139,10 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
-    {{-- inicio footer --}}
+    <!-- inicio footer -->
     <div class="card">
         <div class="card-header">
             <h3 class="card-title"></h3>
@@ -154,12 +152,17 @@
                     <b>Versão</b> V1.1.G3
                 </div>
                 <footer class="text-center">
-                    &copy; {{ date('Y') }} GIT CONSULTORIA INOVAÇÕES EM SOLUÇÕES DE TI LTDA - Todos os direitos
-                    reservados
+                    &copy; {{ date('Y') }} GIT CONSULTORIA INOVAÇÕES EM SOLUÇÕES DE TI LTDA - Todos os direitos reservados
                 </footer>
             </footer>
         </div>
     </div>
-    {{-- final footer --}}
+    <!-- final footer -->
 
+    <!-- Inclua o script para inicializar os tooltips -->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @stop
