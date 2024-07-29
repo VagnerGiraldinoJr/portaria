@@ -15,11 +15,11 @@
                         <div class="col-6">
                             <h3 class="card-title">{{$params['subtitulo']}}</h3>
                         </div>
-                        <div class="col-6 text-right">
+                        {{-- <div class="col-6 text-right">
                             <a href="{{ route($params['main_route'].'.create')}}" class="btn btn-primary btn-xs"><span
                                     class="fas fa-plus"></span> Novo
                                 Cadastro</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -41,8 +41,8 @@
                                 <td>
                                     <a href="{{ route($params['main_route'].'.edit', $item->id) }}"
                                         class="btn btn-primary btn-xs"><span class="fas fa-edit"></span> Editar</a>
-                                    <a href="{{ route($params['main_route'].'.show', $item->id) }}"
-                                        class="btn btn-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a>
+                                    {{-- <a href="{{ route($params['main_route'].'.show', $item->id) }}"
+                                        class="btn btn-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a> --}}
                                 </td>
                             </tr>
                             @endforeach

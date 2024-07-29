@@ -45,9 +45,12 @@
                                 <td>
                                     <a href="{{ route($params['main_route'].'.edit', $item->id) }}"
                                         class="btn btn-primary btn-xs"><span class="fas fa-edit"></span> Editar</a>
-                                    <a href="{{ route($params['main_route'].'.show', $item->id) }}"
+                                  
+                                        @role('admin')
+                                        <a href="{{ route($params['main_route'].'.show', $item->id) }}"
                                         class="btn btn-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a>
-                                </td>
+                                            @endrole
+                                    </td>
                             </tr>
                             @endforeach
 

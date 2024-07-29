@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6">
                             {{Form::label('observacao', 'Observação / Cor')}}
-                            {{Form::text('observacao',null,['class' => 'form-control', 'placeholder' => 'Observação / Cor'])}}
+                            {{Form::text('observacao',null,['class' => 'form-control', 'placeholder' => 'Observação / CAor'])}}
                         </div>
                         <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
                             {{Form::submit('Salvar',['class'=>'btn btn-success btn-sm'])}}

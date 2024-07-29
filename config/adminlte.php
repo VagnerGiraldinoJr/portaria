@@ -305,11 +305,13 @@ return [
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Pesquisa',
+             'can' => 'admin'
         ],
         [
             'text' => 'blog',
             'url'  => '#',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
+            'can'  => 'admin',
         ],
 
         ['header' => 'Módulos'],
@@ -361,24 +363,28 @@ return [
                     'icon' => 'far fa-window-minimize',
                     'url'  => 'admin/unidade',
                     'icon_color' => 'red',
+                     'can' => 'admin'
                 ],
                 [
                     'text' => 'Cadastro Usuários',
                     'icon' => 'far fa-window-minimize',
                     'url'  => 'admin/user',
                     'icon_color' => 'red',
+                    'can' => 'admin'
                 ],
                 [
                     'text' => 'Perfil Usuário',
                     'url'  => 'admin/user',
                     'icon_color' => 'blue',
                     'icon' => 'fas fa-fw fa-user',
+                     'can' => 'admin'
                 ],
                 [
                     'text' => 'change_password',
                     'url'  => '#',
                     'icon_color' => 'blue',
                     'icon' => 'fas fa-fw fa-lock',
+                     'can' => 'admin'
                 ],
             ],
 
@@ -407,6 +413,7 @@ return [
             'icon_color' => 'light',
             'label'       => 'V1.1.G3',
             'label_color' => 'primary',
+             'can'=>'admin'
         ],
         [
             'text'        => 'Ambiente',
@@ -415,6 +422,7 @@ return [
             'icon'        => 'fab fa-skyatlas',
             'label'       => 'Online - Produção',
             'label_color' => 'success',
+             'can'=>'admin'
 
         ],
         [
@@ -424,6 +432,7 @@ return [
             'icon'        => 'fab fa-whatsapp',
             'label'       => 'Abrir chamado',
             'label_color' => 'warning',
+
 
         ],
     ],

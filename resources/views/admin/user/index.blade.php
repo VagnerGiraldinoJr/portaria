@@ -42,7 +42,7 @@
                                     <td>{{ $item->email}}</td>
                                     <td>{{ $item->desc_role}}</td>
                             
-                                    {{-- @dump($item); --}}
+                                 
                                     <td>
                                         <a href="{{ route($params['main_route'].'.edit', $item->id) }}" class="btn btn-info btn-xs"><span class="fas fa-edit"></span> Editar</a>
                                         <a href="{{ route($params['main_route'].'.show', $item->id) }}" class="btn btn-danger btn-xs"><span class="fas fa-trash"></span> Deletar</a>

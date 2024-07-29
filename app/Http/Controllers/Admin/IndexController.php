@@ -9,7 +9,9 @@ use App\Models\Produto;
 use App\Models\ControleAcesso;
 use App\Models\Pessoa;
 use App\Models\Lote;
+use App\Models\Roles;
 use App\Models\Reserva;
+use App\Models\Role;
 use App\Models\Visitante;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,9 +27,10 @@ class IndexController extends Controller
     private $reserva = [];
     private $pessoas = [];
     private $lotes = [];
+    private $roles = [];
 
     public function __construct(User $administradores, ControleAcesso $controleacessos, Produto $produtos, Orcamento $orcamentos,
-        Lote $lotes, Pessoa $pessoas, Visitante $visitantes, Reserva $reservas)
+        Lote $lotes, Pessoa $pessoas, Visitante $visitantes, Reserva $reservas, Role $roles)
     {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
@@ -37,6 +40,7 @@ class IndexController extends Controller
         $this->reserva = $reservas;
         $this->pessoas = $pessoas;
         $this->lotes = $lotes;
+        $this->roles = $roles;
 
         // Default values
         $this->params['titulo']= 'Controle de Acesso da Portaria' ;
@@ -56,11 +60,10 @@ class IndexController extends Controller
             ->value('titulo');
             // Adicionar a descrição da unidade aos parâmetros
             $this->params['unidade_descricao'] = $descricaoUnidade;
-            
-           
+                       
         $params = $this->params;
-        
-        $data['admin'] = $this->administrador->where('unidade_id', $unidadeId)->count();
+       
+       
         $data['controleacesso'] = $this->controleacesso->where('unidade_id', $unidadeId)->count();
         $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNull('data_saida')->count();
         $data['EncomendasEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNotNull('data_saida')->count();
@@ -82,7 +85,7 @@ class IndexController extends Controller
             ->first();
 
         $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
-
+      
         return view('admin.index', compact('params', 'data', 'totalPessoas'));
     }
 }

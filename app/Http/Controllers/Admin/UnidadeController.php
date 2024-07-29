@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TableCode;
 use App\Models\Unidade;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use UserSeeder;
 
 class UnidadeController extends Controller
 {
@@ -21,6 +24,7 @@ class UnidadeController extends Controller
         $this->params['titulo'] = 'Unidades';
         $this->params['main_route'] = 'admin.unidade';
     }
+    
 
     public function index()
     {
@@ -30,9 +34,23 @@ class UnidadeController extends Controller
             'url' => 'admin/unidade ',
             'titulo' => 'Cadastro Unidades'
         ];
+        
+         // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('unidades')
+            ->where('id', $unidadeId)
+            ->value('titulo');
+        $this->params['unidade_descricao'] = $descricaoUnidade;
+         // Final do bloco da descricao
 
         $params = $this->params;
-        $data = $this->unidade->get();
+        $data = User::with(['unidade_id.users']);
+        $data = $this->unidade
+        ->where('id', Auth::user()->unidade_id)
+        ->get();
+        
+        // dd($data);
+        
         return view('admin.unidade.index', compact('params', 'data'));
     }
 
@@ -69,6 +87,7 @@ class UnidadeController extends Controller
             ]
         ];
         $params = $this->params;
+
         return view('admin.pessoa.create', compact('params'));
     }
 
@@ -85,6 +104,15 @@ class UnidadeController extends Controller
                 'titulo' => 'Editar'
             ]
         ];
+
+         // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('unidades')
+            ->where('id', $unidadeId)
+            ->value('titulo');
+        $this->params['unidade_descricao'] = $descricaoUnidade;
+          // Final do bloco da descricao
+        
         $params = $this->params;
 
 
@@ -94,14 +122,22 @@ class UnidadeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataForm  = $request->all();
-        $unidade = $this->unidade->where('id')->find($id);
-        if ($unidade->update($dataForm)) {
-            return redirect()->route($this->params['main_route'] . '.index');
-        } else {
-            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
-        }
+       
+
+        $unidade = $this->unidade->find($id);
+
+         // Verificar se a unidade foi encontrada
+    if (!$unidade) {
+        return redirect()->route($this->params['main_route'] . '.index')
+                         ->withErrors(['Unidade não encontrada.']);
     }
+       
+
+       
+        return redirect()->route('admin.unidade.index')->with('success', 'Reserva atualizada com sucesso!');
+    }
+
+    
 
     public function destroy($id)
     {
@@ -113,9 +149,17 @@ class UnidadeController extends Controller
             'titulo' => 'Deletar Unidades'
         ];
 
-        $params = $this->params;
-        $data = $this->unidade->where('id', $id)->first();
-
+         // Obter a descrição da unidade dentro do params['unidade_descricao']
+        $unidadeId = Auth::user()->unidade_id;
+        $descricaoUnidade = DB::table('unidades')
+            ->where('id', $unidadeId)
+            ->value('titulo');
+        $this->params['unidade_descricao'] = $descricaoUnidade;
+           // Final do bloco da descricao
+        
+           $data = $this->unidade->where('id', $id)->first();
+           
+           $params = $this->params;
 
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
