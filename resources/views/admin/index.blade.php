@@ -215,7 +215,7 @@
                                 <div class="col-lg-12 mb-3">
                                     <div class="small-box">
                                         <div class="inner">
-                                            <p>Quantidade de reservas por mês</p>
+                                            <p>Quantidade de Encomendas por mês</p>
                                             <canvas id="lineChart"></canvas>
                                         </div>
                                         <div class="icon">
@@ -281,7 +281,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        var reservasPorMes = @json($data['QuantidadesReservasPorMes']);
+        var reservasPorMes = @json($data['QuantidadesControleAcessoPorMes']);
 
         // Função para formatar a data
         function formatarData(mesAno) {
