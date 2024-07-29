@@ -146,8 +146,8 @@
                                 <div class="col-lg-3 col-6">
                                     <div class="small-box bg-primary">
                                         <div class="inner">
-                                            <p>Notificações</p>
                                             <h3>{{ $data['EncomendasNaoEntregues'] }}</h3>
+                                            <p>Entegas Pend. Portaria</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fa fa-bell"></i>
