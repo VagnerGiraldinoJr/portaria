@@ -75,10 +75,10 @@ class IndexController extends Controller
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->whereNull('hora_de_saida')->count();
         $data['QuantidadesCadVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->count();
         $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', $unidadeId)->whereNull('dt_entrega_chaves')->count();
-        $data['QuantidadesReservasPorMes'] = DB::table('reservas')
-        ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
+        $data['QuantidadesReservasPorMes'] = DB::table('controle_acessos')
+        ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
         //->where('unidade_id', $unidadeId)
-        ->whereNotNull('data_inicio') // 'data_inicio' não é nulo
+        ->whereNotNull('data_entrada') // 'data_inicio' não é nulo
         ->groupBy('mes')
         ->orderBy('mes')
         ->get();
