@@ -223,6 +223,8 @@
                                         </div>
                                         {{-- <a href="#" class="small-box-footer">Ver Mais <i class="fas fa-arrow-circle-right"></i></a> --}}
                                     </div>
+                                    {{-- <canvas id="lineChart"></canvas> --}}
+                                    {{-- <canvas id="pieChart"></canvas> --}}
                                 </div>
                                 {{-- Final Gráfico de Pizza --}}
                             @endunless
@@ -273,8 +275,8 @@
 
     {{-- Script --}}
 
-    <canvas id="lineChart"></canvas>
-    <canvas id="pieChart"></canvas>
+    
+  
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
