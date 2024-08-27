@@ -41,7 +41,7 @@ class VisitanteController extends Controller
             ->where('id', $unidadeId)
             ->value('titulo');
         $this->params['unidade_descricao'] = $descricaoUnidade;
-        // Final do bloco da descricao
+        // Final do bloco da descricao atualizada
 
         $params = $this->params;
 
