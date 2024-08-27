@@ -232,7 +232,7 @@
                         <!-- Main node for this component -->
                         <div class="timeline">
                             <div class="time-label">
-                                <span class="bg-gray">21 Julho 2024</span>
+                                <span class="bg-gray">27 Agosto 2024</span>
                             </div>
                             <div>
                                 <i class="fab fa-whatsapp bg-green"></i>
