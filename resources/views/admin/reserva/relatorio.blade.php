@@ -28,8 +28,8 @@
                                         Confirmada</option>
                                     <option value="Pendente" {{ request('status') == 'Pendente' ? 'selected' : '' }}>
                                         Pendente</option>
-                                    <option value="Cancelada" {{ request('status') == 'Cancelada' ? 'selected' : '' }}>
-                                        Cancelada</option>
+                                    <option value="Encerrado" {{ request('status') == 'Encerrado' ? 'selected' : '' }}>
+                                        Encerrado</option>
                                     <option value="">Listar todos os Status</option>
                                 </select>
                             </div>
