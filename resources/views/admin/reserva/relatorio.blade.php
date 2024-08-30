@@ -66,7 +66,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($reserva as $acesso)
-                                        @dd($acesso);<tr>
+                                      <tr>
                                             <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td>{{ $acesso->unidade->titulo }}</td>
