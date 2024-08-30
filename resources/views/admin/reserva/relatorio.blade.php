@@ -66,8 +66,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($reserva as $acesso)
-                                    @dd($acesso);<tr>
-                                            <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}</td>
+                                        @dd($acesso);<tr>
+                                            <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
+                                            </td>
                                             <td>{{ $acesso->unidade->titulo }}</td>
                                             <td>{{ $acesso->lote->descricao }}</td>
                                             <td>{{ $acesso->area }}</td>
@@ -75,14 +76,17 @@
                                             <td>{{ $acesso->acessorios }}</td>
                                             <td>{{ $acesso->status }}</td>
                                             <td>{{ formatarCelular($acesso->celular_responsavel) }}</td>
-                                            
-                                            <td>{{ \Carbon\Carbon::parse($acesso->dt_entrega_chaves)->format('d/m/Y H:i:s') }}</td>
-                                           
-                                            <td>{{ $acesso->retirado_por }}</td>
-                                            
-                                            <td>{{ \Carbon\Carbon::parse($acesso->dt_devolucao_chaves)->format('d/m/Y H:i:s') }}</td>
 
-                                            <td>{{ $acesso->devolvido_por }}</td>
+                                            <td>{{ $acesso->dt_entrega_chaves ? \Carbon\Carbon::parse($acesso->dt_entrega_chaves)->format('d/m/Y H:i:s') : '----' }}
+                                            </td>
+
+                                            <td>{{ $acesso->retirado_por ?? '----' }}</td>
+
+                                            <td>{{ $acesso->dt_devolucao_chaves ? \Carbon\Carbon::parse($acesso->dt_devolucao_chaves)->format('d/m/Y H:i:s') : '----' }}
+                                            </td>
+
+                                            <td>{{ $acesso->devolvido_por ?? '----' }}</td>
+
 
 
                                         </tr>
