@@ -76,19 +76,12 @@
                                             <td>{{ $acesso->acessorios }}</td>
                                             <td>{{ $acesso->status }}</td>
                                             <td>{{ formatarCelular($acesso->celular_responsavel) }}</td>
-
                                             <td>{{ $acesso->dt_entrega_chaves ? \Carbon\Carbon::parse($acesso->dt_entrega_chaves)->format('d/m/Y H:i:s') : '----' }}
                                             </td>
-
-                                            <td>{{ $acesso->retirado_por ?? '----' }}</td>
-
+                                            <td>{{ $acesso->retirado_por ? $acesso->retirado_por : '----' }}</td>
                                             <td>{{ $acesso->dt_devolucao_chaves ? \Carbon\Carbon::parse($acesso->dt_devolucao_chaves)->format('d/m/Y H:i:s') : '----' }}
                                             </td>
-
-                                            <td>{{ $acesso->devolvido_por ?? '----' }}</td>
-
-
-
+                                            <td>{{ $acesso->devolvido_por ? $acesso->devolvido_por : '----' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
