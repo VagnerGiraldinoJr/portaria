@@ -105,7 +105,7 @@
                                                         data-limpeza="{{ $item->limpeza }}" data-status="{{ $item->status }}"
                                                         data-acessorios="{{ $item->acessorios }}"
                                                         data-celular_responsavel="{{ $item->celular_responsavel }}"
-                                                        {{ in_array($item->status, ['Confirmada', 'Encerrado']) ? 'disabled' : '' }}>
+                                                        {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>
                                                         Editar
                                                     </button>
                                                 </td>

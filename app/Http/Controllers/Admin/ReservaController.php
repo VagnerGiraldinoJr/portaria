@@ -166,19 +166,19 @@ class ReservaController extends Controller
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
 
-        if (isset($validatedData['dt_entrega_chaves'])) {
-            $reserva->dt_entrega_chaves = $validatedData['dt_entrega_chaves'];
-        }
-        if (isset($validatedData['dt_devolucao_chaves'])) {
-            $reserva->dt_devolucao_chaves = $validatedData['dt_devolucao_chaves'];
-        }
+        // if (isset($validatedData['dt_entrega_chaves'])) {
+        //     $reserva->dt_entrega_chaves = $validatedData['dt_entrega_chaves'];
+        // }
+        // if (isset($validatedData['dt_devolucao_chaves'])) {
+        //     $reserva->dt_devolucao_chaves = $validatedData['dt_devolucao_chaves'];
+        // }
 
-        if (!empty($reserva->dt_entrega_chaves)) {
-            $reserva->status = 'Confirmada';
-        }
-        if (!empty($reserva->dt_devolucao_chaves)) {
-            $reserva->status = 'Encerrado';
-        }
+        // if (!empty($reserva->dt_entrega_chaves)) {
+        //     $reserva->status = 'Confirmada';
+        // }
+        // if (!empty($reserva->dt_devolucao_chaves)) {
+        //     $reserva->status = 'Encerrado';
+        // }
 
         $reserva->save();
 
