@@ -28,6 +28,7 @@ body{
     width: 94;
 }
 
+
 .spacing-div {
     margin-bottom: 1rem; /* Espaçamento entre divs */
 }
@@ -114,3 +115,6 @@ p, label{
     color: white;
 }
 
+.text-red {
+    color: red;
+}
