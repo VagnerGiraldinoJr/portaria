@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ReservaController extends Controller
+class ReservaPiscinaController extends Controller
 {
     private $params = [];
     private $reserva = [];
@@ -22,8 +22,8 @@ class ReservaController extends Controller
         $this->lote = $lotes;
 
         // DEFAULT VALUES
-        $this->params['titulo'] = 'Reserva de áreas comuns';
-        $this->params['main_route'] = 'admin.reserva';
+        $this->params['titulo'] = 'Reserva de Piscina';
+        $this->params['main_route'] = 'admin.reserva.piscina';
     }
 
     public function index()
@@ -51,17 +51,17 @@ class ReservaController extends Controller
             ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
             ->get();
 
-        return view('admin.reserva.index', ['params' => $this->params, 'data' => $data->except('piscina')]);
+        return view('admin.reserva.piscina.index', ['params' => $this->params, 'data' => $data]);
     }
 
     public function create()
     {
         // PARAMS DEFAULT
-        $this->params['subtitulo'] = 'Cadastrar Reserva';
+        $this->params['subtitulo'] = 'Cadastrar Reserva Piscina';
         $this->params['arvore'] = [
             [
-                'url' => 'admin/reserva',
-                'titulo' => 'Cadastro de Reserva'
+                'url' => 'admin/reserva/create',
+                'titulo' => 'Cadastro de Reserva Piscina'
             ],
             [
                 'url' => '',
@@ -83,7 +83,7 @@ class ReservaController extends Controller
             ->where('unidade_id', $unidadeId)
             ->orderByDesc('descricao')
             ->get()->pluck('descricao', 'id');
-        return view('admin.reserva.create', compact('params', 'preload', 'lotes'));
+        return view('admin.reserva.piscina.create', compact('params', 'preload', 'lotes'));
     }
 
     public function store(Request $request)
@@ -129,7 +129,7 @@ class ReservaController extends Controller
 
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva criada com sucesso');
     }
 
     public function edit($id)
@@ -137,7 +137,7 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
         $lotes = Lote::all();
         $params = $this->params;
-        return view('admin.reserva.edit', compact('reserva', 'lotes', 'params'));
+        return view('admin.reserva.piscina.edit', compact('reserva', 'lotes', 'params'));
     }
 
     public function update(Request $request, $id)
@@ -166,23 +166,9 @@ class ReservaController extends Controller
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
 
-        // if (isset($validatedData['dt_entrega_chaves'])) {
-        //     $reserva->dt_entrega_chaves = $validatedData['dt_entrega_chaves'];
-        // }
-        // if (isset($validatedData['dt_devolucao_chaves'])) {
-        //     $reserva->dt_devolucao_chaves = $validatedData['dt_devolucao_chaves'];
-        // }
-
-        // if (!empty($reserva->dt_entrega_chaves)) {
-        //     $reserva->status = 'Confirmada';
-        // }
-        // if (!empty($reserva->dt_devolucao_chaves)) {
-        //     $reserva->status = 'Encerrado';
-        // }
-
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva atualizada com sucesso!');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva atualizada com sucesso!');
     }
 
     public function destroy($id)
@@ -190,7 +176,7 @@ class ReservaController extends Controller
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
         $reserva->delete();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva removida com sucesso!');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva removida com sucesso!');
     }
 
     public function showRetireForm($id)
@@ -208,7 +194,7 @@ class ReservaController extends Controller
         ];
         $params = $this->params;
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
-        return view('admin.reserva.retire', compact('reserva', 'params'));
+        return view('admin.reserva.piscina.retire', compact('reserva', 'params'));
     }
 
     public function showReturnForm($id)
@@ -228,7 +214,7 @@ class ReservaController extends Controller
         $params = $this->params;
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        return view('admin.reserva.return', compact('reserva', 'params'));
+        return view('admin.reserva.piscina.return', compact('reserva', 'params'));
     }
 
     public function retire(Request $request, $id)
@@ -250,7 +236,7 @@ class ReservaController extends Controller
         $reserva->status = 'Confirmada';
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves da reserva foram retiradas e status atualizado para Confirmada.');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Chaves da reserva foram retiradas e status atualizado para Confirmada.');
     }
 
     public function return(Request $request, $id)
@@ -276,7 +262,7 @@ class ReservaController extends Controller
         // Salvar as alterações
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
     }
 
     public function updateReturn(Request $request, $id)
@@ -298,7 +284,7 @@ class ReservaController extends Controller
             // Salvar as alterações
             $reserva->save();
 
-            return redirect()->route('admin.reserva.index')->with('success', 'Dados de devolução atualizados com sucesso.');
+            return redirect()->route('admin.reserva.piscina.index')->with('success', 'Dados de devolução atualizados com sucesso.');
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Erro ao atualizar os dados de devolução.']);
         }
@@ -329,6 +315,6 @@ class ReservaController extends Controller
 
         $reserva = $query->get();
 
-        return view('admin.reserva.relatorio', compact('params', 'reserva'));
+        return view('admin.reserva.piscina.relatorio', compact('params', 'reserva'));
     }
 }

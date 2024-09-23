@@ -32,17 +32,5 @@ class Reserva extends Model
     public function unidade()
     {
         return $this->belongsTo(Unidade::class, 'unidade_id'); // 'unidade_id' como chave estrangeira
-    }
-
-    // Uma Reserva pode ter muitos Visitantes
-    // public function visitantes()
-    // {
-    //     return $this->hasMany(Visitante::class); // Assume uma chave estrangeira de referência na tabela 'visitantes'
-    // }
-
-    // Uma Reserva pertence a um Usuário
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id'); // Chave estrangeira 'user_id'
-    // }
+    }   
 }

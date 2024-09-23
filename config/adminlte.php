@@ -326,12 +326,32 @@ return [
             'icon'        => 'fa fa-birthday-cake',
             'icon_color' => 'yellow',
             'url'        => 'admin/reserva',
+            'submenu' => [
+                [
+                    'text' => 'Reserva Piscina',
+                    'icon' => 'fas fa-swimmer',
+                    'url'  => 'admin/reserva/piscina',
+                    'icon_color' => 'blue',
+                ],[
+                    'text' => 'Reserva Quiosque',
+                    'icon' => 'fas fa-icons',
+                    'url'  => 'admin/reserva',
+                    'icon_color' => 'blue',
+                ],
+            ],
+            
         ],
         [
             'text'       => 'Ent./Saída - Visitantes',
             'icon'        => 'far fa-address-card',
             'icon_color' => 'yellow',
             'url'        => 'admin/visitante',
+        ],
+        [
+            'text'       => 'Registrar - Turno',
+            'icon'        => "fas fa-exchange-alt",
+            'icon_color' => 'yellow',
+            'url'        => 'admin/passagem_turno',
         ],
 
         // Sidebar items: Aplicações

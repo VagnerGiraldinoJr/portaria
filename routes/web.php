@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\ClienteController;
+use App\Http\Controllers\Admin\PassagemTurnoController;
 use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
+use App\Http\Controllers\Admin\ReservaPiscinaController;
+use App\Http\Controllers\Admin\ReservaSwimmerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -184,6 +187,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
     Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
 
+   
+    // Controle de Reservas da Piscina
+    Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
+    Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');
+
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');
     Route::get('reserva/retire/{id}', [ReservaController::class, 'showRetireForm'])->name('admin.reserva.showRetireForm');
@@ -192,6 +200,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('reserva/return/{id}', [ReservaController::class, 'return'])->name('admin.reserva.return');
     Route::get('reserva/return/{id}', [ReservaController::class, 'showReturnForm'])->name('admin.reserva.showReturnForm');
     Route::get('reserva/update/{id}', [ReservaController::class, 'updateReturn'])->name('admin.reserva.updateReturn');
+
+    //Controle de passagem de turno nos Condominios
+
+    Route::get('passagem_turno', 'PassagemTurnoController@index')->name('admin.passagem_turno.index');
+    Route::get('passagem_turno/create', 'PassagemTurnoController@create')->name('admin.passagem_turno.create');
+    Route::post('passagem_turno/store', 'PassagemTurnoController@store')->name('admin.passagem_turno.store');
 });
 
 Auth::routes();

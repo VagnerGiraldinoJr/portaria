@@ -42,11 +42,10 @@
                                         <div class="form-group align-items-center">
                                             <label for="area" class="mb-2">Área</label>
                                             <select class="form-control" name="area" id="area" required>
-                                                <option value="QUIOSQUE 01">QUIOSQUE Nrº 01</option>
-                                                <option value="QUIOSQUE 02">QUIOSQUE Nrº 02</option>
-                                                <option value="QUIOSQUE 03">QUIOSQUE Nrº 03</option>
-                                                <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
-                                                
+                                                <option value="PISCINA - MANHÃ">PISCINA - PERÍODO MANHÃ (08:00 às 14:00(PM))
+                                                </option>
+                                                <option value="PISCINA - TARDE">PISCINA - TARDE (14:00 às 20:00(PM))
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
