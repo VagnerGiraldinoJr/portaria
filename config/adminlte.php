@@ -333,7 +333,7 @@ return [
                     'url'  => 'admin/reserva/piscina',
                     'icon_color' => 'blue',
                 ],[
-                    'text' => 'Reserva Quiosque',
+                    'text' => 'Reserva Quiosque/Salão',
                     'icon' => 'fas fa-icons',
                     'url'  => 'admin/reserva',
                     'icon_color' => 'blue',

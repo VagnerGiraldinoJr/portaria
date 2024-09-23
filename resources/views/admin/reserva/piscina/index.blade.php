@@ -32,6 +32,7 @@
                                         <th>Área Solicitada</th>
                                         <th>Data Reserva</th>
                                         <th>Unidade Solicitante</th>
+                                        <th>Limpeza</th>
                                         <th>Contato Resp. Reserva</th>
                                         <th>Status Reserva</th>
                                         <th>Status Chaves</th>
@@ -51,17 +52,21 @@
                                                     {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
                                                 </td>
                                                 <td>{{ $item->lote->descricao }}</td>
+                                                <td>{{ $item->limpeza == 'usuario' ? 'Limpeza por conta do usuario' : 'Condominio realizara a limpeza' }}
+                                                </td> <!-- limpeza -->
                                                 <td>
                                                     <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ optional($item->lote)->descricao ?? 'Unidade' }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ $dataInicio->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                         target="_blank" rel="noopener noreferrer"
                                                         class="btn btn-outline-success btn-xs">
-                                                        <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span> Enviar
+                                                        <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
+                                                        Enviar
                                                         Mensagem
                                                     </a>
                                                 </td>
                                                 <td>
                                                     @if ($item->status == 'Confirmada')
-                                                        <i class="fas fa-calendar-check text-success" aria-hidden="true"></i>
+                                                        <i class="fas fa-calendar-check text-success"
+                                                            aria-hidden="true"></i>
                                                         Confirmada
                                                     @elseif($item->status == 'Cancelada')
                                                         <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
@@ -69,7 +74,8 @@
                                                         <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                         Encerrado
                                                     @else
-                                                        <i class="far fa-question-circle text-warning" aria-hidden="true"></i>
+                                                        <i class="far fa-question-circle text-warning"
+                                                            aria-hidden="true"></i>
                                                         Pendente
                                                     @endif
                                                 </td>
@@ -77,7 +83,8 @@
                                                     @if (!empty($item->dt_entrega_chaves))
                                                         {{-- Chaves entregues --}}
                                                     @else
-                                                        <form action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
                                                             method="GET" style="display: inline;">
                                                             <button type="submit" class="btn btn-outline-secondary btn-xs">
                                                                 <span class="fas fa-unlock"></span> Entrega das Chaves
@@ -89,7 +96,8 @@
                                                         <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                         Confirmada
                                                     @else
-                                                        <form action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
                                                             method="GET" style="display: inline;">
                                                             <button type="submit" class="btn btn-outline-info btn-xs">
                                                                 <span class="fas fa-lock"></span> Devolução Chaves
@@ -98,11 +106,13 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
-                                                        data-target="#editModal" data-id="{{ $item->unidade_id }}"
-                                                        data-area="{{ $item->area }}" data-lote_id="{{ $item->lote_id }}"
+                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                        data-toggle="modal" data-target="#editModal"
+                                                        data-id="{{ $item->unidade_id }}" data-area="{{ $item->area }}"
+                                                        data-lote_id="{{ $item->lote_id }}"
                                                         data-data_inicio="{{ $item->data_inicio }}"
-                                                        data-limpeza="{{ $item->limpeza }}" data-status="{{ $item->status }}"
+                                                        data-limpeza="{{ $item->limpeza }}"
+                                                        data-status="{{ $item->status }}"
                                                         data-acessorios="{{ $item->acessorios }}"
                                                         data-celular_responsavel="{{ $item->celular_responsavel }}"
                                                         {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>

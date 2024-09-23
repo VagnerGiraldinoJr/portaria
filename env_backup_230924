@@ -1,17 +1,21 @@
-APP_NAME=Laravel
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost
+APP_NAME=Dominare
+APP_ENV=production
+APP_KEY=base64:4xTZbrzTFS/NIqZjiDGrNA==
+APP_DEBUG=false
+# REMOTE
+APP_URL=https://portarias.dominare.seg.br
 
 LOG_CHANNEL=stack
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=dominar1_portarianovo
+DB_USERNAME=dominar1_portarianovo
+DB_PASSWORD="Gd5cXP#O92v3"
+
+# REMOTE
+# DB_USERNAME=dominare_root
+# DB_PASSWORD="?aCPN_MpWpsI"
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
