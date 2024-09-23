@@ -32,7 +32,7 @@ class ReservaPiscinaController extends Controller
         $this->params['subtitulo'] = 'Cadastro de Reserva';
         $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
-            'url' => 'admin/reserva',
+            'url' => 'admin/reserva/piscina',
             'titulo' => 'Cadastro Reserva'
         ];
 
@@ -45,12 +45,11 @@ class ReservaPiscinaController extends Controller
 
         // Aplicar filtro de unidade_id
         $data = Reserva::where('unidade_id', $unidadeId)
-        ->with('lote')
-        ->where('unidade_id', $unidadeId)
-        ->where('area', 'like', '%PISCINA%')
-        ->orderByRaw("CASE WHEN status = 'Pendente' THEN 1 ELSE 0 END DESC")
-        ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
-        ->get();
+            ->with('lote')
+            ->where('unidade_id', $unidadeId)
+            ->where('area', 'like', '%PISCINA%')
+            ->orderBy('dt_entrega_chaves', 'desc')
+            ->get();
 
         return view('admin.reserva.piscina.index', ['params' => $this->params, 'data' => $data]);
     }
@@ -130,7 +129,7 @@ class ReservaPiscinaController extends Controller
 
         $reserva->save();
 
-        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva criada com sucesso');
+        return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
     }
 
     public function edit($id)
@@ -138,7 +137,7 @@ class ReservaPiscinaController extends Controller
         $reserva = Reserva::findOrFail($id);
         $lotes = Lote::all();
         $params = $this->params;
-        return view('admin.reserva.piscina.edit', compact('reserva', 'lotes', 'params'));
+        return view('admin.reserva.edit', compact('reserva', 'lotes', 'params'));
     }
 
     public function update(Request $request, $id)
@@ -195,7 +194,7 @@ class ReservaPiscinaController extends Controller
         ];
         $params = $this->params;
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
-        return view('admin.reserva.piscina.retire', compact('reserva', 'params'));
+        return view('admin.reserva.retire', compact('reserva', 'params'));
     }
 
     public function showReturnForm($id)
@@ -215,7 +214,7 @@ class ReservaPiscinaController extends Controller
         $params = $this->params;
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        return view('admin.reserva.piscina.return', compact('reserva', 'params'));
+        return view('admin.reserva.return', compact('reserva', 'params'));
     }
 
     public function retire(Request $request, $id)
@@ -263,7 +262,7 @@ class ReservaPiscinaController extends Controller
         // Salvar as alterações
         $reserva->save();
 
-        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
+        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
     }
 
     public function updateReturn(Request $request, $id)
@@ -316,6 +315,6 @@ class ReservaPiscinaController extends Controller
 
         $reserva = $query->get();
 
-        return view('admin.reserva.piscina.relatorio', compact('params', 'reserva'));
+        return view('admin.reserva.relatorio', compact('params', 'reserva'));
     }
 }
