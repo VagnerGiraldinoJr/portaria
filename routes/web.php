@@ -190,6 +190,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     // Controle de Reservas da Piscina
     Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
     Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');
+    Route::post('reserva/piscina/store', [ReservaPiscinaController::class, 'store'])->name('admin.reserva.piscina.store');
 
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');

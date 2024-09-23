@@ -51,7 +51,7 @@ class ReservaController extends Controller
             ->orderBy('dt_entrega_chaves', 'asc')
             ->get();
 
-        return view('admin.reserva.index', ['params' => $this->params, 'data' => $data->except('piscina')]);
+        return view('admin.reserva.index', ['params' => $this->params, 'data' => $data]);
     }
 
     public function create()

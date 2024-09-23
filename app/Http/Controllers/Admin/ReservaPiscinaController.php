@@ -129,7 +129,7 @@ class ReservaPiscinaController extends Controller
 
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva Piscina criada com sucesso');
     }
 
     public function edit($id)
