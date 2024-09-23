@@ -46,9 +46,13 @@ class ReservaPiscinaController extends Controller
         // Aplicar filtro de unidade_id
         $data = Reserva::where('unidade_id', $unidadeId)
             ->with('lote')
+            ->where('area', 'not like', '%PISCINA%')
             ->where('unidade_id', $unidadeId)
-            ->where('area', 'like', '%PISCINA%')
-            ->orderBy('dt_entrega_chaves', 'asc')
+            ->orderByRaw("CASE 
+                WHEN status = 'Pendente' THEN 0 
+                WHEN status = 'Confirmada' THEN 1 
+                ELSE 2 
+            END ASC, status ASC")
             ->get();
 
         return view('admin.reserva.piscina.index', ['params' => $this->params, 'data' => $data]);

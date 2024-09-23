@@ -48,7 +48,7 @@ class ReservaController extends Controller
             ->with('lote')
             ->where('area', 'not like', '%PISCINA%')
             ->where('unidade_id', $unidadeId)
-            ->orderBy('dt_entrega_chaves', 'asc')
+            ->orderByRaw("status = 'Encerrado' ASC, status ASC")
             ->get();
 
         return view('admin.reserva.index', ['params' => $this->params, 'data' => $data]);
