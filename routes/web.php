@@ -187,7 +187,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
     Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
 
-   
     // Controle de Reservas da Piscina
     Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
     Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');

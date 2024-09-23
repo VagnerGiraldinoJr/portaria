@@ -48,8 +48,7 @@ class ReservaController extends Controller
             ->with('lote')
             ->where('area', 'not like', '%PISCINA%')
             ->where('unidade_id', $unidadeId)
-            ->orderByRaw("CASE WHEN status = 'Pendente' THEN 1 ELSE 0 END DESC")
-            ->orderByRaw('dt_entrega_chaves IS NULL DESC, dt_devolucao_chaves IS NULL DESC')
+            ->orderBy('dt_entrega_chaves', 'asc')
             ->get();
 
         return view('admin.reserva.index', ['params' => $this->params, 'data' => $data->except('piscina')]);

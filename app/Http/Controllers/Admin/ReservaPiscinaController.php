@@ -48,7 +48,7 @@ class ReservaPiscinaController extends Controller
             ->with('lote')
             ->where('unidade_id', $unidadeId)
             ->where('area', 'like', '%PISCINA%')
-            ->orderBy('dt_entrega_chaves', 'desc')
+            ->orderBy('dt_entrega_chaves', 'asc')
             ->get();
 
         return view('admin.reserva.piscina.index', ['params' => $this->params, 'data' => $data]);
