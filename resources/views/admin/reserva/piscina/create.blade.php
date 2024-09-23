@@ -31,7 +31,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('admin.reserva.store') }}" method="POST">
+                    <form action="{{ route('admin.reserva.piscina.store') }}" method="POST">
                         @csrf
                         <div class="mb-4"></div>
                         <div class="container-sm">
