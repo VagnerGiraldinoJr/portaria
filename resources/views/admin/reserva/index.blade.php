@@ -7,6 +7,18 @@
 @stop
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -62,7 +74,6 @@
                                                             <b>Condomínio</b></span>
                                                     @endif
                                                 </td>
-
                                                 <td>
                                                     <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ optional($item->lote)->descricao ?? 'Unidade' }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ $dataInicio->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                         target="_blank" rel="noopener noreferrer"
@@ -100,7 +111,6 @@
                                                             </button>
                                                         </form>
                                                     @endif
-
                                                     @if (!empty($item->dt_devolucao_chaves))
                                                         <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                         Confirmada
@@ -127,6 +137,16 @@
                                                         {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>
                                                         Editar
                                                     </button>
+                                                    <!-- Formulário para excluir a reserva -->
+                                                    <form action="{{ route('admin.reserva.destroy', $item->id) }}"
+                                                        method="POST" style="display: inline;"
+                                                        onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-xs btn-flat">
+                                                            Excluir
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endif

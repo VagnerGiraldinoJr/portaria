@@ -186,6 +186,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
     Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
+    Route::delete('reserva/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.destroy');
 
     // Controle de Reservas da Piscina
     Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
