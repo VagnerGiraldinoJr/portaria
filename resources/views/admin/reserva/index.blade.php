@@ -137,16 +137,23 @@
                                                         {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>
                                                         Editar
                                                     </button>
-                                                    <!-- Formulário para excluir a reserva -->
-                                                    <form action="{{ route('admin.reserva.destroy', $item->id) }}"
-                                                        method="POST" style="display: inline;"
-                                                        onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-xs btn-flat">
-                                                            Excluir
-                                                        </button>
-                                                    </form>
+
+
+                                                    @if ($item->status != 'Encerrado')
+                                                        <!-- Botão para excluir a reserva -->
+                                                        <form action="{{ route('admin.reserva.piscina.destroy', $item->id) }}"
+                                                            method="POST" style="display: inline;"
+                                                            onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-xs btn-flat">
+                                                                Excluir
+                                                            </button>
+                                                        </form>
+                                                    @endif
+
+
+
                                                 </td>
                                             </tr>
                                         @endif

@@ -7,6 +7,19 @@
 @stop
 
 @section('content')
+
+@section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -125,7 +138,20 @@
                                                         data-celular_responsavel="{{ $item->celular_responsavel }}"
                                                         {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>
                                                         Editar
-                                                    </button>
+                                                    </button>                                              
+
+                                                    @if ($item->status != 'Encerrado')
+                                                        <!-- Botão para excluir a reserva -->
+                                                        <form action="{{ route('admin.reserva.destroy', $item->id) }}"
+                                                            method="POST" style="display: inline;"
+                                                            onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-xs btn-flat">
+                                                                Excluir
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endif

@@ -171,13 +171,25 @@ class ReservaPiscinaController extends Controller
         return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva atualizada com sucesso!');
     }
 
+
     public function destroy($id)
     {
+        // Encontre a reserva pelo ID
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
-        $reserva->delete();
 
-        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva removida com sucesso!');
+        // Verifique se a reserva existe
+        if ($reserva) {
+            // Exclua a reserva
+            $reserva->delete();
+
+            // Retorne uma resposta de sucesso
+            return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva removida com sucesso!');
+        }
+
+        // Se não encontrar, redirecione com uma mensagem de erro
+        return redirect()->route('admin.reserva.piscina.index')->with('error', 'Reserva não encontrada.');
     }
+
 
     public function showRetireForm($id)
     {

@@ -294,7 +294,7 @@ class ReservaController extends Controller
         // Salvar as alterações
         $reserva->save();
 
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
+        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado.');
     }
 
     public function updateReturn(Request $request, $id)
