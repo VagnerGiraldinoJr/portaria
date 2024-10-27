@@ -12,6 +12,9 @@ class CheckForMaintenanceMode extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // Add routes that should be accessible during maintenance mode
     ];
+
+
 }
+

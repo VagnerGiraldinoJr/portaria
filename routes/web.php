@@ -206,6 +206,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('passagem_turno', 'PassagemTurnoController@index')->name('admin.passagem_turno.index');
     Route::get('passagem_turno/create', 'PassagemTurnoController@create')->name('admin.passagem_turno.create');
     Route::post('passagem_turno/store', 'PassagemTurnoController@store')->name('admin.passagem_turno.store');
+
+
 });
 
 Auth::routes();
