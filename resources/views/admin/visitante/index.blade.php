@@ -119,8 +119,8 @@
                 },
             },
             "order": [
-                [7, "asc"],
-                [7, "asc"]
+                [7, "desc"],
+                [7, "desc"]
             ],
             "columnDefs": [{
                 "orderable": true,
