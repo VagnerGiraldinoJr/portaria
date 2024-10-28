@@ -142,7 +142,7 @@
 
                                                     @if ($item->status != 'Encerrado')
                                                         <!-- Botão para excluir a reserva -->
-                                                        <form action="{{ route('admin.reserva.destroy', $item->id) }}"
+                                                        <form action="{{ route('admin.reserva.piscina.destroy', $item->id) }}"
                                                             method="POST" style="display: inline;"
                                                             onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
                                                             @csrf

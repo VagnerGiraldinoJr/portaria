@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\PassagemTurnoController;
 use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\ReservaPiscinaController;
-use App\Http\Controllers\Admin\ReservaSwimmerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -186,13 +185,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
     Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
-    Route::delete('reserva/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.destroy');
+    //Route::delete('reserva/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.destroy');
+    Route::delete('reserva/destroy/{id}', 'ReservaController@destroy')->name('admin.reserva.destroy');
 
     // Controle de Reservas da Piscina
     Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
     Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');
     Route::post('reserva/piscina/store', [ReservaPiscinaController::class, 'store'])->name('admin.reserva.piscina.store');
-    Route::delete('reserva/piscina/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.piscina.destroy');
+    // Route::delete('reserva/piscina/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.piscina.destroy');
+    Route::delete('reserva/piscina/destroy/{id}', 'ReservaPiscinaController@destroy')->name('admin.reserva.piscina.destroy');
 
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');
@@ -208,8 +209,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('passagem_turno', 'PassagemTurnoController@index')->name('admin.passagem_turno.index');
     Route::get('passagem_turno/create', 'PassagemTurnoController@create')->name('admin.passagem_turno.create');
     Route::post('passagem_turno/store', 'PassagemTurnoController@store')->name('admin.passagem_turno.store');
-
-
 });
 
 Auth::routes();

@@ -50,7 +50,7 @@ class ReservaController extends Controller
             ->where('unidade_id', $unidadeId)
             ->orderByRaw("status = 'Encerrado' ASC, status ASC")
             ->get();
-
+//dd($data);
         return view('admin.reserva.index', ['params' => $this->params, 'data' => $data]);
     }
 
