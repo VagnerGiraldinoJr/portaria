@@ -70,7 +70,7 @@
                                 <tbody>
                                     @foreach ($reserva as $acesso)
                                         <tr>
-                                            <td>{{ \Carbon\Carbon::parse($acesso->created_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($acesso->data_inicio)->format('d/m/Y H:i:s') }}</td>
                                             <td>{{ $acesso->unidade->titulo }}</td>
                                             <td>{{ $acesso->lote->descricao }}</td>
                                             <td>{{ $acesso->area }}</td>
