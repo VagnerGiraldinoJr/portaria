@@ -1,5 +1,3 @@
-<!-- resources/views/controle_acessos/relatorio.blade.php -->
-
 @extends('adminlte::page')
 @section('title', config('admin.title'))
 @section('content_header')
@@ -16,7 +14,6 @@
                         <div>
                             <img src="{{ asset(config('adminlte.logo_img')) }}" style="height: 50px;">
                         </div>
-
                     </div>
                     <div class="card-body">
                         <form method="GET" action="{{ route('admin.reserva.relatorio') }}" class="form-inline">
@@ -34,10 +31,17 @@
                                 </select>
                             </div>
 
-
+                            <div class="form-group mb-2 mr-2">
+                                <label for="data_inicio" class="mr-2">Data Início</label>
+                                <input type="date" name="data_inicio" id="data_inicio" class="form-control"
+                                    value="{{ request('data_inicio') }}">
+                            </div>
+                            <div class="form-group mb-2 mr-2">
+                                <label for="data_fim" class="mr-2">Data Fim</label>
+                                <input type="date" name="data_fim" id="data_fim" class="form-control"
+                                    value="{{ request('data_fim') }}">
+                            </div>
                             <button type="submit" class="btn btn-primary btn-sm-custom mb-2 mr-2">Filtrar</button>
-                            <!-- Espaçamento adicionado aqui -->
-
                             <!-- Botão de impressão -->
                             <div>
                                 <button onclick="window.print();" class="btn btn-secondary btn-sm-custom mb-2">Imprimir
@@ -46,7 +50,6 @@
                         </form>
 
                         @if ($reserva->isNotEmpty())
-
                             <table class="table table-bordered table-striped mt-4">
                                 <thead>
                                     <tr>
@@ -67,8 +70,7 @@
                                 <tbody>
                                     @foreach ($reserva as $acesso)
                                         <tr>
-                                            <td>{{ \Carbon\Carbon::parse($acesso->data_entrada)->format('d/m/Y H:i:s') }}
-                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($acesso->created_at)->format('d/m/Y H:i:s') }}</td>
                                             <td>{{ $acesso->unidade->titulo }}</td>
                                             <td>{{ $acesso->lote->descricao }}</td>
                                             <td>{{ $acesso->area }}</td>
