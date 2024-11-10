@@ -41,7 +41,7 @@
                                 <input type="date" name="data_fim" id="data_fim" class="form-control"
                                     value="{{ request('data_fim') }}">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm-custom mb-2 mr-2">Filtrar</button>
+                            <button type="submit" class="btn btn-primary btn-sm-custom mb-2 mr-2">Filtrars</button>
                             <!-- Botão de impressão -->
                             <div>
                                 <button onclick="window.print();" class="btn btn-secondary btn-sm-custom mb-2">Imprimir
