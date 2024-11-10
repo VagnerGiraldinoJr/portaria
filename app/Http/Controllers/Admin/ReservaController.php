@@ -330,23 +330,32 @@ class ReservaController extends Controller
             'url' => 'admin/reserva/relatorio',
             'titulo' => 'Relatório de Reservas'
         ];
-
+    
         $unidadeId = Auth::user()->unidade_id;
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
         $this->params['unidade_descricao'] = $descricaoUnidade;
-
+    
         $params = $this->params;
-
+    
+        // Criar a query inicial com o relacionamento 'lote'
         $query = Reserva::with('lote')->where('unidade_id', $unidadeId);
-
+    
+        // Filtro de status
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
-
+    
+        // Filtro de data_inicio
+        if ($request->filled('data_inicio')) {
+            $query->whereDate('data_inicio', '=', $request->data_inicio);
+        }
+    
+        // Executar a query
         $reserva = $query->get();
-
+    
         return view('admin.reserva.relatorio', compact('params', 'reserva'));
     }
+    
 }
