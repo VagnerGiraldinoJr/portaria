@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PassagemTurnoController;
 use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\ReservaPiscinaController;
+use App\Http\Controllers\Admin\CalendarioController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -209,6 +210,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('passagem_turno', 'PassagemTurnoController@index')->name('admin.passagem_turno.index');
     Route::get('passagem_turno/create', 'PassagemTurnoController@create')->name('admin.passagem_turno.create');
     Route::post('passagem_turno/store', 'PassagemTurnoController@store')->name('admin.passagem_turno.store');
+
+
+
+
+    Route::get('/calendario', [CalendarioController::class, 'index'])->name('admin.calendario.index');
+    Route::get('/calendario/create', [CalendarioController::class, 'create'])->name('admin.calendario.create');
+    Route::post('/calendario', [CalendarioController::class, 'store'])->name('admin.calendario.store');
+    Route::get('/calendario/{id}', [CalendarioController::class, 'show'])->name('admin.calendario.show');
+    Route::get('/calendario/{id}/edit', [CalendarioController::class, 'edit'])->name('admin.calendario.edit');
+    Route::put('/calendario/{id}', [CalendarioController::class, 'update'])->name('admin.calendario.update');
+    Route::delete('/calendario/{id}', [CalendarioController::class, 'destroy'])->name('admin.calendario.destroy');
 });
 
 Auth::routes();

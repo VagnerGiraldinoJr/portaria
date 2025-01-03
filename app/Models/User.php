@@ -10,15 +10,18 @@ class User extends Authenticatable
 {
     use Notifiable, HasRole;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    const ROLE_ADMIN = 1;
+    const ROLE_PORTEIRO = 2;
+
     protected $fillable = [
-        'name', 'email', 'password','unidade_id','role', 'desc_role'
+        'name',
+        'email',
+        'password',
+        'unidade_id',
+        'role',
+        'desc_role'
     ];
-    
+
     protected $appends = ['desc_role'];
 
     /**
@@ -27,7 +30,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -48,7 +52,7 @@ class User extends Authenticatable
         return ($tmp_value) ? $tmp_value['name'] : '';
     }
 
-        public function unidade()
+    public function unidade()
     {
         return $this->belongsTo(Unidade::class);
     }

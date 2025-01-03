@@ -15,9 +15,8 @@ class Visitante extends Model
         'unidade_id',
         'lote_id',
         'hora_de_entrada',
-        'user_id',
-        'motivo'
-
+        'hora_de_saida',
+        'user_id'
     ];
 
     public function unidade()

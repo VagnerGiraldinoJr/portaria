@@ -29,9 +29,19 @@ class IndexController extends Controller
     private $lotes = [];
     private $roles = [];
 
-    public function __construct(User $administradores, ControleAcesso $controleacessos, Produto $produtos, Orcamento $orcamentos,
-        Lote $lotes, Pessoa $pessoas, Visitante $visitantes, Reserva $reservas, Role $roles)
-    {
+
+
+    public function __construct(
+        User $administradores,
+        ControleAcesso $controleacessos,
+        Produto $produtos,
+        Orcamento $orcamentos,
+        Lote $lotes,
+        Pessoa $pessoas,
+        Visitante $visitantes,
+        Reserva $reservas,
+        Role $roles
+    ) {
         $this->administrador = $administradores;
         $this->controleacesso = $controleacessos;
         $this->produto = $produtos;
@@ -43,27 +53,28 @@ class IndexController extends Controller
         $this->roles = $roles;
 
         // Default values
-        $this->params['titulo']= 'Controle de Acesso da Portaria' ;
+        $this->params['titulo'] = 'Controle de Acesso da Portaria';
         $this->params['main_route'] = 'admin';
     }
-    
+
     public function index()
     {
         // PARAMS DEFAULT
-        $this->params['subtitulo'] = '';        
-        $this->params['unidade_descricao']= 'admin' ;
+        $this->params['subtitulo'] = '';
+        $this->params['unidade_descricao'] = 'admin';
         $unidadeId = Auth::user()->unidade_id;
 
         // Obter a descrição da unidade
         $descricaoUnidade = DB::table('unidades')
             ->where('id', $unidadeId)
             ->value('titulo');
-            // Adicionar a descrição da unidade aos parâmetros
-            $this->params['unidade_descricao'] = $descricaoUnidade;
-                       
+        $this->params['unidade_descricao'] = $descricaoUnidade;
+
         $params = $this->params;
-       
-       
+
+
+
+        // Dados de acesso
         $data['controleacesso'] = $this->controleacesso->where('unidade_id', $unidadeId)->count();
         $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNull('data_saida')->count();
         $data['EncomendasEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNotNull('data_saida')->count();
@@ -76,15 +87,14 @@ class IndexController extends Controller
         $data['QuantidadesCadVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->count();
         $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', $unidadeId)->whereNull('dt_entrega_chaves')->count();
         $data['QuantidadesControleAcessoPorMes'] = DB::table('controle_acessos')
-        ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
-        //->where('unidade_id', $unidadeId)
-        ->whereNotNull('data_entrada') // 'data_inicio' não é nulo
-        ->groupBy('mes')
-        ->orderBy('mes')
-        ->get();
-         
+            ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
+            ->where('unidade_id', $unidadeId)
+            ->whereNotNull('data_entrada')
+            ->groupBy('mes')
+            ->orderBy('mes')
+            ->get();
 
-
+        // Total de pessoas
         $dataresults = DB::table('pessoas')
             ->join('lotes', 'pessoas.lote_id', '=', 'lotes.id')
             ->join('unidades', 'lotes.unidade_id', '=', 'unidades.id')
@@ -94,7 +104,30 @@ class IndexController extends Controller
             ->first();
 
         $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
-      
+
+        // Buscar eventos relacionados à unidade
+        $data['eventos'] = DB::table('eventos')
+            ->select('id', 'title', 'start', 'end')
+            ->where('unidade_id', Auth::user()->unidade_id)
+            ->get()
+            ->map(function ($evento) {
+                return [
+                    'id' => $evento->id,
+                    'title' => $evento->title,
+                    'start' => $evento->start,
+                    'end' => $evento->end ?? $evento->start, // Garante que 'end' nunca será nulo
+                ];
+            });
+            
+
+        $data['QuantidadesControleAcessoPorMes'] = DB::table('controle_acessos')
+            ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
+            ->where('unidade_id', Auth::user()->unidade_id)
+            ->whereNotNull('data_entrada')
+            ->groupBy('mes')
+            ->orderBy('mes')
+            ->get();
+
         return view('admin.index', compact('params', 'data', 'totalPessoas'));
     }
 }

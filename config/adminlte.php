@@ -305,7 +305,7 @@ return [
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Pesquisa',
-             'can' => 'admin'
+            'can' => 'admin'
         ],
         [
             'text' => 'blog',
@@ -332,14 +332,15 @@ return [
                     'icon' => 'fas fa-swimmer',
                     'url'  => 'admin/reserva/piscina',
                     'icon_color' => 'blue',
-                ],[
+                ],
+                [
                     'text' => 'Reserva Quiosque/Salão',
                     'icon' => 'fas fa-icons',
                     'url'  => 'admin/reserva',
                     'icon_color' => 'blue',
                 ],
             ],
-            
+
         ],
         [
             'text'       => 'Ent./Saída - Visitantes',
@@ -383,7 +384,7 @@ return [
                     'icon' => 'far fa-window-minimize',
                     'url'  => 'admin/unidade',
                     'icon_color' => 'red',
-                     'can' => 'admin'
+                    'can' => 'admin'
                 ],
                 [
                     'text' => 'Cadastro Usuários',
@@ -397,14 +398,14 @@ return [
                     'url'  => 'admin/user',
                     'icon_color' => 'blue',
                     'icon' => 'fas fa-fw fa-user',
-                     'can' => 'admin'
+                    'can' => 'admin'
                 ],
                 [
                     'text' => 'change_password',
                     'url'  => '#',
                     'icon_color' => 'blue',
                     'icon' => 'fas fa-fw fa-lock',
-                     'can' => 'admin'
+                    'can' => 'admin'
                 ],
             ],
 
@@ -433,7 +434,7 @@ return [
             'icon_color' => 'light',
             'label'       => 'V1.1.G3',
             'label_color' => 'primary',
-             'can'=>'admin'
+            'can' => 'admin'
         ],
         [
             'text'        => 'Ambiente',
@@ -442,8 +443,14 @@ return [
             'icon'        => 'fab fa-skyatlas',
             'label'       => 'Online - Produção',
             'label_color' => 'success',
-             'can'=>'admin'
+            'can' => 'admin'
 
+        ],
+        [
+            'text' => 'Calendário',
+            'icon' => 'fas fa-calendar-alt',
+            'icon_color' => 'blue',
+            'url'  => 'admin/calendario',
         ],
         [
             'text'        => 'Suporte',
@@ -453,8 +460,8 @@ return [
             'label'       => 'Abrir chamado',
             'label_color' => 'warning',
 
-
         ],
+
     ],
 
     /*
@@ -559,6 +566,22 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+
+        'FullCalendar' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css',
                 ],
             ],
         ],
