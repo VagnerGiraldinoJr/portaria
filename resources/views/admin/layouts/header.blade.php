@@ -1,44 +1,41 @@
-<head>
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
-
-</head>
-
-<body>
-    <header>
+<header class="d-flex justify-content-between align-items-center p-3 bg-light border-bottom">
+    {{-- Título e Unidade --}}
+    <div>
         @if (isset($params['unidade_descricao']))
-            <h4>
+            <h4 class="mb-0">
                 {{ $params['titulo'] }}
                 @if (!empty($params['unidade_descricao']))
                     <i class="bi bi-arrow-right-short"></i> {{ $params['unidade_descricao'] }}
                 @endif
             </h4>
         @endif
+    </div>
 
+    {{-- Breadcrumb --}}
+    <div>
         @if (isset($params['arvore']))
             <h6>
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb text-secondary">
+                    <ol class="breadcrumb text-secondary mb-0">
                         <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
                         @foreach ($params['arvore'] as $v)
                             @if ($v['url'] == '')
                                 <li class="breadcrumb-item active" aria-current="page">{{ $v['titulo'] }}</li>
                             @else
-                                <li class="breadcrumb-item" aria-current="page"><a
-                                        href="{{ url($v['url']) }}">{{ $v['titulo'] }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url($v['url']) }}">{{ $v['titulo'] }}</a></li>
                             @endif
                         @endforeach
                     </ol>
                 </nav>
             </h6>
         @endif
-    </header>
-    <!-- Conteúdo principal da página -->
-    <main>
-        @yield('content')
-    </main>
+    </div>
 
-</body>
-
-</html>
+    {{-- Botão de Alternância de Tema --}}
+    <div>
+        <a href="#" id="toggle-dark-mode" class="btn btn-outline-secondary">
+            <i id="dark-mode-icon" class="fas fa-moon"></i>
+            <span id="dark-mode-text">Modo Escuro</span>
+        </a>
+    </div>
+</header>

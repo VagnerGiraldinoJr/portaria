@@ -4,30 +4,47 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- Título dinâmico --}}
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    {{-- Favicon --}}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
+
+    {{-- CSS Principal --}}
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    {{-- Estilo para Modo Escuro --}}
+    <style>
+        body.dark-mode {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #2c3034;
+            color: #ffffff;
+        }
+
+        body.dark-mode .card {
+            background-color: #495057;
+            color: #ffffff;
+        }
+
+        body.dark-mode a {
+            color: #ffc107;
+        }
+    </style>
 </head>
 
-<body>
+<body class="@yield('body-class')">
     <div id="app">
+        {{-- Navbar --}}
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -40,14 +57,17 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    {{-- Left Side --}}
+                    <ul class="navbar-nav mr-auto"></ul>
 
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
+                    {{-- Right Side --}}
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a href="#" id="toggle-dark-mode" class="nav-link">
+                                <i id="dark-mode-icon" class="fas fa-moon"></i>
+                                <span id="dark-mode-text">Modo Escuro</span>
+                            </a>
+                        </li>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -60,18 +80,16 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
-
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">
                                         @csrf
@@ -84,10 +102,49 @@
             </div>
         </nav>
 
+        {{-- Conteúdo Principal --}}
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+
+    {{-- Scripts --}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleDarkMode = document.getElementById('toggle-dark-mode');
+            const darkModeIcon = document.getElementById('dark-mode-icon');
+            const darkModeText = document.getElementById('dark-mode-text');
+            const isDarkMode = localStorage.getItem('dark-mode') === 'true';
+
+            // Aplica o tema salvo
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                darkModeText.innerText = 'Modo Claro';
+            }
+
+            // Alterna o tema
+            toggleDarkMode.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('dark-mode', isDark);
+
+                if (isDark) {
+                    darkModeIcon.classList.remove('fa-moon');
+                    darkModeIcon.classList.add('fa-sun');
+                    darkModeText.innerText = 'Modo Claro';
+                } else {
+                    darkModeIcon.classList.remove('fa-sun');
+                    darkModeIcon.classList.add('fa-moon');
+                    darkModeText.innerText = 'Modo Escuro';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
