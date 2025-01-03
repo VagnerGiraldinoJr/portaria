@@ -31,11 +31,5 @@
         @endif
     </div>
 
-    {{-- Botão de Alternância de Tema --}}
-    <div>
-        <a href="#" id="toggle-dark-mode" class="btn btn-outline-secondary">
-            <i id="dark-mode-icon" class="fas fa-moon"></i>
-            <span id="dark-mode-text">Modo Escuro</span>
-        </a>
-    </div>
+    
 </header>

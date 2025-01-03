@@ -294,12 +294,12 @@ return [
         [
             'text' => 'Dashboard Interativo',
             'icon' => 'fas fa-chart-line',
-            'url' => '#',
+            'url' => '/admin',
             'label' => 'Novo',
             'label_color' => 'success'
         ],
 
-         [
+        [
             'type'         => 'navbar-search',
             'text'         => 'Busca interna',
             'topnav_right' => true,
@@ -593,7 +593,6 @@ return [
                 ],
             ],
         ],
-
         // 📅 FullCalendar - Calendário Interativo
         'FullCalendar' => [
             'active' => true,
