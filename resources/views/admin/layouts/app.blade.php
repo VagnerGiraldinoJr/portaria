@@ -55,11 +55,11 @@
 
     {{-- Script para Modo Escuro --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const toggleDarkMode = document.getElementById('toggle-dark-mode');
             const darkModeIcon = document.getElementById('dark-mode-icon');
             const darkModeText = document.getElementById('dark-mode-text');
-            
+
             if (toggleDarkMode && darkModeIcon && darkModeText) {
                 const isDarkMode = localStorage.getItem('dark-mode') === 'true';
 
@@ -72,7 +72,7 @@
                 }
 
                 // Alterna o tema
-                toggleDarkMode.addEventListener('click', function (e) {
+                toggleDarkMode.addEventListener('click', function(e) {
                     e.preventDefault();
                     document.body.classList.toggle('dark-mode');
                     const isDark = document.body.classList.contains('dark-mode');
@@ -92,7 +92,9 @@
                 console.error('Erro: Elementos do botão Modo Escuro não foram encontrados.');
             }
         });
-    </script>
-</body>
 
-</html>
+        <
+        /body>
+
+        <
+        /html>
