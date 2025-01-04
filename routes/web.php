@@ -213,7 +213,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
 
 
 
-
+    // Gerenciamento do Calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('admin.calendario.index');
     Route::get('/calendario/create', [CalendarioController::class, 'create'])->name('admin.calendario.create');
     Route::post('/calendario', [CalendarioController::class, 'store'])->name('admin.calendario.store');
@@ -221,6 +221,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('/calendario/{id}/edit', [CalendarioController::class, 'edit'])->name('admin.calendario.edit');
     Route::put('/calendario/{id}', [CalendarioController::class, 'update'])->name('admin.calendario.update');
     Route::delete('/calendario/{id}', [CalendarioController::class, 'destroy'])->name('admin.calendario.destroy');
+
+
+    // Gerenciamento de inadimplência de lotes
+    Route::get('lote/{id}/inadimplencia', 'LoteController@inadimplencia')->name('admin.lote.inadimplencia');
+    Route::post('lote/{id}/marcar-inadimplente', 'LoteController@marcarInadimplente')->name('admin.lote.marcarInadimplente');
+    Route::post('lote/{id}/regularizar', 'LoteController@regularizar')->name('admin.lote.regularizar');
 });
 
 Auth::routes();

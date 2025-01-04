@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoteController extends Controller
 {
-    
+
     private $params = [];
     private $lote = [];
     public function __construct(Lote $lotes)
@@ -34,8 +34,8 @@ class LoteController extends Controller
         ];
 
         $params = $this->params;
-        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->get();
-      
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->get();
+
         return view('admin.lote.index', compact('params', 'data'));
     }
 
@@ -54,11 +54,11 @@ class LoteController extends Controller
             ]
         ];
 
-        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->get();
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->get();
 
         $params = $this->params;
         $preload['id'] = $codes->select(4);
-       
+
         return view('admin.lote.create', compact('params', 'preload'));
     }
 
@@ -89,8 +89,8 @@ class LoteController extends Controller
             ]
         ];
         $params = $this->params;
-        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
-        
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
+
         $preload['tipo'] = $codes->select(4);
 
         return view('admin.lote.show', compact('params', 'data', 'preload'));
@@ -111,7 +111,7 @@ class LoteController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
 
         $preload['tipo'] = $codes->select(4);
         return view('admin.lote.create', compact('params', 'data', 'preload'));
@@ -123,7 +123,7 @@ class LoteController extends Controller
         $dataForm  = $request->all();
 
         //ajustar no veículo
-        $pessoa = $this->lote->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $pessoa = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
 
         if ($pessoa->update($dataForm)) {
             return redirect()->route($this->params['main_route'] . '.index');
@@ -134,12 +134,62 @@ class LoteController extends Controller
 
     public function destroy($id)
     {
-        $data = $this->lote->where('unidade_id',Auth::user()->unidade_id)->where('id',$id)->first();
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
 
         if ($data->delete()) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao deletar.']);
         }
+    }
+
+    public function inadimplencia($id)
+    {
+        $this->params['subtitulo'] = 'Gerenciar Inadimplência do Lote';
+        $this->params['arvore'] = [
+            ['url' => 'admin/lote', 'titulo' => 'Lotes'],
+            ['url' => '', 'titulo' => 'Gerenciar Inadimplência']
+        ];
+
+        $params = $this->params;
+        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
+
+        if (!$data) {
+            return redirect()->route('admin.lote.index')->withErrors(['Lote não encontrado.']);
+        }
+
+        return view('admin.lote.inadimplencia', compact('params', 'data'));
+    }
+
+    public function marcarInadimplente($id)
+    {
+        $lote = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
+
+        if (!$lote) {
+            return redirect()->route('admin.lote.index')->withErrors(['Lote não encontrado.']);
+        }
+
+        if (!$lote->estaInadimplente()) {
+            $lote->marcarInadimplente();
+            return redirect()->route('admin.lote.index')->with('success', 'Lote marcado como inadimplente.');
+        }
+
+        return redirect()->back()->withErrors(['Este lote está inadimplente.']);
+    }
+
+    public function regularizar($id)
+    {
+        $lote = $this->lote->where('unidade_id', Auth::user()->unidade_id)->where('id', $id)->first();
+
+        if (!$lote) {
+            return redirect()->route('admin.lote.index')->withErrors(['Lote não encontrado.']);
+        }
+
+        if ($lote->estaInadimplente()) {
+            $lote->regularizar();
+            return redirect()->route('admin.lote.index')->with('success', 'Lote regularizado com sucesso.');
+        }
+
+        return redirect()->back()->withErrors(['Este lote já está regularizado.']);
     }
 }

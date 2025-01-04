@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 class Reserva extends Model
 {
@@ -32,5 +33,18 @@ class Reserva extends Model
     public function unidade()
     {
         return $this->belongsTo(Unidade::class, 'unidade_id'); // 'unidade_id' como chave estrangeira
-    }   
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($reserva) {
+            if ($reserva->lote->estaInadimplente()) {
+                throw ValidationException::withMessages([
+                    'lote' => 'Este lote está inadimplente e não pode fazer reservas.'
+                ]);
+            }
+        });
+    }
 }
