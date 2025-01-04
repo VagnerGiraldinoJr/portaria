@@ -27,24 +27,44 @@ class CalendarioController extends Controller
 
         $params = $this->params;
 
-        // Obter eventos filtrados pela unidade do usuário
+        // Obter ID da Unidade
         $unidadeId = Auth::user()->unidade_id;
 
-        $data['eventos'] = DB::table('eventos')
-            ->select('id', 'title', 'start', 'end')
+        // Obter Eventos
+        $eventos = DB::table('eventos')
+            ->select('id', 'title', 'start', 'end', DB::raw("'evento' as type"), DB::raw("'Confirmada' as status"))
             ->where('unidade_id', $unidadeId)
-            ->get()
-            ->map(function ($evento) {
-                return [
-                    'id' => $evento->id,
-                    'title' => $evento->title,
-                    'start' => $evento->start,
-                    'end' => $evento->end,
-                ];
-            });
+            ->get();
+
+        // Obter Reservas (exceto Piscina)
+        $reservas = DB::table('reservas')
+            ->select('id', DB::raw("CONCAT('Reserva: ', area) as title"), 'data_inicio as start', 'data_inicio as end', DB::raw("'reserva' as type"), 'status')
+            ->where('unidade_id', $unidadeId)
+            ->where('area', 'not like', '%PISCINA%')
+            ->get();
+
+        // Obter Reservas de Piscina
+        $reservasPiscina = DB::table('reservas')
+            ->select('id', DB::raw("CONCAT('Reserva Piscina: ', area) as title"), 'data_inicio as start', 'data_inicio as end', DB::raw("'reserva_piscina' as type"), 'status')
+            ->where('unidade_id', $unidadeId)
+            ->where('area', 'like', '%PISCINA%')
+            ->get();
+
+        // Mesclar todos os dados
+        $data['eventos'] = $eventos->merge($reservas)->merge($reservasPiscina)->map(function ($evento) {
+            return [
+                'id' => $evento->id,
+                'title' => $evento->title,
+                'start' => $evento->start,
+                'end' => $evento->end,
+                'type' => $evento->type,
+                'status' => $evento->status ?? 'Pendente'
+            ];
+        });
 
         return view('admin.calendario.index', compact('params', 'data'));
     }
+
 
     public function create()
     {

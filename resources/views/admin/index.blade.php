@@ -29,7 +29,7 @@
                 @endforeach
             @endrole
 
-            @unless(auth()->user()->hasRole('admin'))
+            @unless (auth()->user()->hasRole('admin'))
                 {{-- Card Entregas Realizadas --}}
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger shadow-sm">
@@ -115,6 +115,7 @@
             </div>
         </div>
 
+
         {{-- Gráfico de Reservas --}}
         <div class="row mt-4">
             <div class="col-12">
@@ -130,8 +131,8 @@
         </div>
 
 
-         {{-- To-Do List --}}
-         <div class="row mt-4">
+        {{-- To-Do List --}}
+        <div class="row mt-4">
             <div class="col-md-12">
                 <div class="card shadow-sm">
                     <div class="card-header">
@@ -157,30 +158,118 @@
 
 @section('css')
     <style>
+        /* Altura ajustada para o Calendário Resumido */
         #small-calendar {
-            height: 500px;
+            height: 600px;
+            /* Ajuste a altura conforme necessário */
             overflow-y: auto;
             border: 1px solid #e0e0e0;
             border-radius: 5px;
         }
+
+        /* Cores para Tipos de Eventos */
+        .fc-event.evento {
+            background-color: #3dd245ca !important;
+            /* Verde para Eventos */
+            border-color: #3dd245ca !important;
+            
+        }
+
+        .fc-event.reserva {
+            background-color: #f2983ec2 !important;
+            /* Laranja para Reservas */
+            border-color: #f2983ec2 !important;
+        }
+
+        .fc-event.reserva_piscina {
+            background-color: #3796c9d3 !important;
+            /* Azul para Reservas Piscina */
+            border-color: #3796c9d3 !important;
+        }
+
+        /* Indicadores de Status */
+        .fc-event .fc-event-title i {
+            margin-left: 5px;
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        .fc-event .fc-event-title i.fas.fa-clock {
+            color: #FFC107;
+            /* Amarelo - Pendente */
+        }
+
+        .fc-event .fc-event-title i.fas.fa-check-circle {
+            color: #28A745;
+            /* Verde - Confirmada */
+        }
+
+        .fc-event .fc-event-title i.fas.fa-times-circle {
+            color: #DC3545;
+            /* Vermelho - Cancelada */
+        }
     </style>
 @stop
 
+
 @section('js')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FullCalendar Script -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- Chart.js UMD -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Renderizar Calendário
-            var calendarEl = document.getElementById('small-calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            // 🗓️ Inicialização do Calendário Resumido
+            var smallCalendarEl = document.getElementById('small-calendar');
+            var smallCalendar = new FullCalendar.Calendar(smallCalendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'pt-br',
+                editable: false,
+                height: 600,
                 events: @json($data['eventos'] ?? []),
-            });
-            calendar.render();
 
-            // Renderizar Gráfico de Reservas
+                eventDidMount: function(info) {
+                    let type = info.event.extendedProps.type;
+                    let status = info.event.extendedProps.status;
+
+                    if (type === 'evento') {
+                        info.el.classList.add('evento');
+                    } else if (type === 'reserva') {
+                        info.el.classList.add('reserva');
+                    } else if (type === 'reserva_piscina') {
+                        info.el.classList.add('reserva_piscina');
+                    }
+
+                    let statusIndicator = document.createElement('span');
+                    statusIndicator.style.marginLeft = '5px';
+                    statusIndicator.style.fontSize = '10px';
+
+                    if (status === 'Pendente') {
+                        statusIndicator.innerHTML =
+                            '<i class="fas fa-clock" title="Pendente"></i>';
+                    } else if (status === 'Confirmada') {
+                        statusIndicator.innerHTML =
+                            '<i class="fas fa-check-circle" title="Confirmada"></i>';
+                    } else if (status === 'Cancelada') {
+                        statusIndicator.innerHTML =
+                            '<i class="fas fa-times-circle" title="Cancelada"></i>';
+                    }
+
+                    let titleElement = info.el.querySelector('.fc-event-title');
+                    if (titleElement) {
+                        titleElement.insertAdjacentElement('beforeend', statusIndicator);
+                    } else {
+                        info.el.appendChild(statusIndicator);
+                    }
+                }
+            });
+
+            smallCalendar.render();
+
+            // 📊 Gráfico de Reservas
             var ctxLine = document.getElementById('lineChart').getContext('2d');
             var lineChart = new Chart(ctxLine, {
                 type: 'line',

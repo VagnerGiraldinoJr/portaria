@@ -29,8 +29,6 @@ class IndexController extends Controller
     private $lotes = [];
     private $roles = [];
 
-
-
     public function __construct(
         User $administradores,
         ControleAcesso $controleacessos,
@@ -52,14 +50,12 @@ class IndexController extends Controller
         $this->lotes = $lotes;
         $this->roles = $roles;
 
-        // Default values
         $this->params['titulo'] = 'Controle de Acesso da Portaria';
         $this->params['main_route'] = 'admin';
     }
 
     public function index()
     {
-        // PARAMS DEFAULT
         $this->params['subtitulo'] = '';
         $this->params['unidade_descricao'] = 'admin';
         $unidadeId = Auth::user()->unidade_id;
@@ -72,9 +68,7 @@ class IndexController extends Controller
 
         $params = $this->params;
 
-
-
-        // Dados de acesso
+        // Dados de Acesso
         $data['controleacesso'] = $this->controleacesso->where('unidade_id', $unidadeId)->count();
         $data['EncomendasNaoEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNull('data_saida')->count();
         $data['EncomendasEntregues'] = $this->controleacesso->where('unidade_id', $unidadeId)->whereNotNull('data_saida')->count();
@@ -86,15 +80,8 @@ class IndexController extends Controller
         $data['QuantidadesVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->whereNull('hora_de_saida')->count();
         $data['QuantidadesCadVisitantes'] = $this->visitante->where('unidade_id', $unidadeId)->count();
         $data['QuantidadesReservas'] = $this->reserva->where('unidade_id', $unidadeId)->whereNull('dt_entrega_chaves')->count();
-        $data['QuantidadesControleAcessoPorMes'] = DB::table('controle_acessos')
-            ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
-            ->where('unidade_id', $unidadeId)
-            ->whereNotNull('data_entrada')
-            ->groupBy('mes')
-            ->orderBy('mes')
-            ->get();
 
-        // Total de pessoas
+        // Total de Pessoas
         $dataresults = DB::table('pessoas')
             ->join('lotes', 'pessoas.lote_id', '=', 'lotes.id')
             ->join('unidades', 'lotes.unidade_id', '=', 'unidades.id')
@@ -105,20 +92,34 @@ class IndexController extends Controller
 
         $totalPessoas = $dataresults ? $dataresults->total_pessoas : 0;
 
-        // Buscar eventos relacionados à unidade
-        $data['eventos'] = DB::table('eventos')
-            ->select('id', 'title', 'start', 'end')
-            ->where('unidade_id', Auth::user()->unidade_id)
-            ->get()
-            ->map(function ($evento) {
-                return [
-                    'id' => $evento->id,
-                    'title' => $evento->title,
-                    'start' => $evento->start,
-                    'end' => $evento->end ?? $evento->start, // Garante que 'end' nunca será nulo
-                ];
-            });
-            
+        // 🔄 **Carregando Eventos, Reservas e Reservas Piscina para o Calendário**
+        $eventos = DB::table('eventos')
+            ->select('id', 'title', 'start', 'end', DB::raw("'evento' as type"), DB::raw("'Confirmada' as status"))
+            ->where('unidade_id', $unidadeId)
+            ->get();
+
+        $reservas = DB::table('reservas')
+            ->select('id', DB::raw("CONCAT('Reserva: ', area) as title"), 'data_inicio as start', 'data_inicio as end', DB::raw("'reserva' as type"), 'status')
+            ->where('unidade_id', $unidadeId)
+            ->where('area', 'not like', '%PISCINA%')
+            ->get();
+
+        $reservasPiscina = DB::table('reservas')
+            ->select('id', DB::raw("CONCAT('Reserva Piscina: ', area) as title"), 'data_inicio as start', 'data_inicio as end', DB::raw("'reserva_piscina' as type"), 'status')
+            ->where('unidade_id', $unidadeId)
+            ->where('area', 'like', '%PISCINA%')
+            ->get();
+
+        $data['eventos'] = $eventos->merge($reservas)->merge($reservasPiscina)->map(function ($evento) {
+            return [
+                'id' => $evento->id,
+                'title' => $evento->title,
+                'start' => $evento->start,
+                'end' => $evento->end ?? $evento->start,
+                'type' => $evento->type,
+                'status' => $evento->status ?? 'Pendente',
+            ];
+        });
 
         $data['QuantidadesControleAcessoPorMes'] = DB::table('controle_acessos')
             ->select(DB::raw("DATE_FORMAT(data_entrada, '%Y-%m') as mes"), DB::raw('COUNT(*) as total_reservas'))
