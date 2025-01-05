@@ -73,12 +73,12 @@ class Lote extends Model
     // Acessor para formatar a data de inadimplência
     public function getInadimplenteEmFormatadoAttribute()
     {
-        return $this->inadimplente_em ? $this->inadimplente_em->format('d/m/Y H:i') : 'N/A';
+        return $this->inadimplente_em ? \Carbon\Carbon::parse($this->inadimplente_em)->format('d/m/Y H:i') : 'N/A';
     }
 
     // Acessor para formatar a data de regularização
     public function getRegularizadoEmFormatadoAttribute()
     {
-        return $this->regularizado_em ? $this->regularizado_em->format('d/m/Y H:i') : 'N/A';
+        return $this->regularizado_em ? \Carbon\Carbon::parse($this->regularizado_em)->format('d/m/Y H:i') : 'N/A';
     }
 }
