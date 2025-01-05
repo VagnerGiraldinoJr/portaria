@@ -17,6 +17,11 @@ class Lote extends Model
         "regularizado_por"
     ];
 
+    protected $casts = [
+        'inadimplente_em' => 'datetime',
+        'regularizado_em' => 'datetime',
+    ];
+
     // Um Lote pode ter muitas Reservas
     public function reservas()
     {
@@ -63,5 +68,17 @@ class Lote extends Model
     public function estaInadimplente()
     {
         return $this->inadimplente;
+    }
+
+    // Acessor para formatar a data de inadimplência
+    public function getInadimplenteEmFormatadoAttribute()
+    {
+        return $this->inadimplente_em ? $this->inadimplente_em->format('d/m/Y H:i') : 'N/A';
+    }
+
+    // Acessor para formatar a data de regularização
+    public function getRegularizadoEmFormatadoAttribute()
+    {
+        return $this->regularizado_em ? $this->regularizado_em->format('d/m/Y H:i') : 'N/A';
     }
 }

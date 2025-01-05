@@ -169,13 +169,18 @@ class LoteController extends Controller
             return redirect()->route('admin.lote.index')->withErrors(['Lote não encontrado.']);
         }
 
-        if (!$lote->estaInadimplente()) {
-            $lote->marcarInadimplente();
+        if (!$lote->inadimplente) {
+            $lote->inadimplente = true; // Define como inadimplente
+            $lote->inadimplente_por = Auth::id(); // Salva o ID do usuário que marcou
+            $lote->inadimplente_em = now(); // Salva a data/hora atual
+            $lote->save();
+
             return redirect()->route('admin.lote.index')->with('success', 'Lote marcado como inadimplente.');
         }
 
-        return redirect()->back()->withErrors(['Este lote está inadimplente.']);
+        return redirect()->back()->withErrors(['Este lote já está inadimplente.']);
     }
+
 
     public function regularizar($id)
     {
@@ -185,8 +190,12 @@ class LoteController extends Controller
             return redirect()->route('admin.lote.index')->withErrors(['Lote não encontrado.']);
         }
 
-        if ($lote->estaInadimplente()) {
-            $lote->regularizar();
+        if ($lote->inadimplente) {
+            $lote->inadimplente = false; // Define como regular
+            $lote->regularizado_por = Auth::id(); // Salva o ID do usuário que regularizou
+            $lote->regularizado_em = now(); // Salva a data/hora atual
+            $lote->save();
+
             return redirect()->route('admin.lote.index')->with('success', 'Lote regularizado com sucesso.');
         }
 

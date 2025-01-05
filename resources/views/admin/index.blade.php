@@ -172,7 +172,7 @@
             background-color: #3dd245ca !important;
             /* Verde para Eventos */
             border-color: #3dd245ca !important;
-            
+
         }
 
         .fc-event.reserva {

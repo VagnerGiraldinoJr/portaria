@@ -34,21 +34,24 @@
                                         <span class="badge bg-success">🟢 Regular</span>
                                     @endif
                                     <hr>
+
+
                                     <p><strong>Última Ação:</strong></p>
                                     @if ($data->inadimplente)
                                         <span>
                                             Marcado como inadimplente por
                                             <strong>{{ $data->inadimplentePor->name ?? 'N/A' }}</strong>
-                                            em
-                                            <strong>{{ \Carbon\Carbon::parse($data->inadimplente_em)->format('d/m/Y H:i') }}</strong>
+                                            em <strong>{{ $data->inadimplente_em_formatado }}</strong>
                                         </span>
                                     @else
                                         <span>
-                                            Regularizado por <strong>{{ $data->regularizadoPor->name ?? 'N/A' }}</strong>
-                                            em
-                                            <strong>{{ \Carbon\Carbon::parse($data->regularizado_em)->format('d/m/Y H:i') }}</strong>
+                                            Regularizado por
+                                            <strong>{{ $data->regularizadoPor->name ?? 'N/A' }}</strong>
+                                            em <strong>{{ $data->regularizado_em_formatado }}</strong>
                                         </span>
                                     @endif
+
+
                                 </div>
                                 <div class="col-md-6 text-center align-self-center">
                                     @if ($data->inadimplente)
