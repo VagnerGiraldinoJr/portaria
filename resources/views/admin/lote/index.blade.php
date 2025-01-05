@@ -1,5 +1,7 @@
 @extends('adminlte::page')
+
 @section('title', config('admin.title'))
+
 @section('content_header')
     @include('admin.layouts.header')
 @stop
@@ -54,7 +56,9 @@
                                                     <span class="badge bg-success">Regular</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $lote->created_at->format('d/m/Y') }}</td>
+                                            <td>
+                                                {{ $lote->created_at ? \Carbon\Carbon::parse($lote->created_at)->format('d/m/Y') : 'N/A' }}
+                                            </td>
                                             <td>
                                                 <a href="{{ route('admin.lote.inadimplencia', $lote->id) }}"
                                                     class="btn btn-warning btn-sm">
@@ -68,7 +72,8 @@
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">🗑️ Deletar</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm">🗑️
+                                                        Deletar</button>
                                                 </form>
                                             </td>
                                         </tr>
