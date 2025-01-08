@@ -28,6 +28,7 @@
                             <table id="dataTablePortaria" class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>#Protocolo</th>
                                         <th>Tipo</th>
                                         <th>Apto. / Placa</th>
                                         <th>Data Entrada</th>
@@ -40,6 +41,7 @@
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr>
+                                            <td>{{ $item->protocolo }}</td>
                                             <td>{{ $item->desc_tipo }}</td>
 
                                             @if ($item->tipo == 1)

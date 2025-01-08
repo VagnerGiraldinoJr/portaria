@@ -11,6 +11,24 @@ class ControleAcesso extends Model
 
     // id, unidade_id, tipo, lote_id, veiculo_id, motorista, motivo, observacao, data_entrada, data_saida, created_at, updated_at
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($controleAcesso) {
+            $unidadeId = $controleAcesso->unidade_id ?? 0;
+            $ultimoNumero = self::where('unidade_id', $unidadeId)
+                ->whereNotNull('protocolo')
+                ->orderBy('id', 'desc')
+                ->value('protocolo');
+
+            $ultimoNumero = $ultimoNumero ? (int) explode('-', $ultimoNumero)[1] : 0;
+            $novoNumero = str_pad($ultimoNumero + 1, 4, '0', STR_PAD_LEFT);
+
+            $controleAcesso->protocolo = "{$unidadeId}-{$novoNumero}";
+        });
+    }
+
     protected $fillable = ["id", "tipo", "lote_id", "unidade_id", "veiculo_id", "motorista", "data_entrada", "data_saida", "entregador", "observacao", "retirado_por", "motivo", "desc_tipo"];
 
     public function lote()
