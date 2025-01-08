@@ -28,7 +28,7 @@ class ControleAcessoRequest extends FormRequest
             'motorista' => 'required_if:tipo,2',
             'motivo' => 'required_if:tipo,1',
             'retirado_por' => '|string|max:191',
-            'protocolo' => 'required|unique:controle_acessos,protocolo',
+            
         ];
     }
 

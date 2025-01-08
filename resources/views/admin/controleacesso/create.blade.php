@@ -48,12 +48,6 @@
                             <input type="hidden" id="veiculo_id" name="veiculo_id" value="">
                             <input type="hidden" id="lote_id" name="lote_id" value="">
 
-                            <div class="form-group">
-                                <label for="protocolo">Protocolo</label>
-                                <input type="text" name="protocolo" class="form-control"
-                                    value="{{ isset($data) ? $data->protocolo : '' }}" readonly>
-                            </div>
-
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('tipo', 'Tipo de Acesso') }}<br>
                                 {{ Form::select('tipo', $preload['tipo'], isset($data->tipo) ? $data->tipo : null, [
