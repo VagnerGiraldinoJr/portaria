@@ -22,7 +22,8 @@
         "laravelcollective/html": "^6.1",
         "lucascudo/laravel-pt-br-localization": "^1.0",
         "maatwebsite/excel": "^1.1",
-        "psy/psysh": "^0.12.3"
+        "psy/psysh": "^0.12.3",
+        "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
