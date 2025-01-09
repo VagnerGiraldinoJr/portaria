@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\ControleAcessosExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ControleAcesso\ControleAcessoRequest;
 use App\Models\TableCode;
 use App\Models\ControleAcesso;
 use App\Models\Lote;
-use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 
 
 class ControleAcessoController extends Controller
@@ -32,36 +30,24 @@ class ControleAcessoController extends Controller
 
     public function index(Request $request)
     {
-        // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Controle de Acesso da Portaria';
-        $this->params['unidade_descricao'] = '';
-        $this->params['arvore'][0] = [
-            'url' => 'admin/controleacesso',
-            'titulo' => 'Controle de Acessos'
-        ];
+        $this->params['unidade_descricao'] = Cache::remember('unidade_descricao_' . Auth::user()->unidade_id, 60, function () {
+            return DB::table('unidades')
+                ->where('id', Auth::user()->unidade_id)
+                ->value('titulo');
+        });
 
-        // Obter a descrição da unidade dentro do params['unidade_descricao']
-        $unidadeId = Auth::user()->unidade_id;
-        $descricaoUnidade = DB::table('unidades')
-            ->where('id', $unidadeId)
-            ->value('titulo');
-        // Adicionar a descrição da unidade aos parâmetros
-        $this->params['unidade_descricao'] = $descricaoUnidade;
-        // Final do bloco da descricao
-
-        $params = $this->params;
-
-        // Dados atuais
         $data = $this->controle_acesso
             ->where('unidade_id', Auth::user()->unidade_id)
-            ->with('lote')
-            ->with('veiculo')
+            ->with(['lote', 'veiculo'])
             ->orderByRaw('data_saida IS NULL DESC')
-            ->get();
+            ->paginate(20);
 
-        return view('admin.controleacesso.index', compact('params', 'data'));
+        return view('admin.controleacesso.index', [
+            'params' => $this->params,
+            'data' => $data
+        ]);
     }
-
 
     public function create(TableCode $codes)
     {
