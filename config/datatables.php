@@ -40,22 +40,6 @@ return [
      */
     'index_column'   => 'DT_RowIndex',
 
-    /*
-     * List of available builders for DataTables.
-     * This is where you can register your custom dataTables builder.
-     */
-    'engines'        => [
-        'eloquent'   => Yajra\DataTables\EloquentDataTable::class,
-        'query'      => Yajra\DataTables\QueryDataTable::class,
-        'collection' => Yajra\DataTables\CollectionDataTable::class,
-        'resource'   => Yajra\DataTables\ApiResourceDataTable::class,
-    ],
-
-    /*
-     * DataTables accepted builder to engine mapping.
-     * This is where you can override which engine a builder should use
-     * Note, only change this if you know what you are doing!
-     */
     'builders'       => [
         //Illuminate\Database\Eloquent\Relations\Relation::class => 'eloquent',
         //Illuminate\Database\Eloquent\Builder::class            => 'eloquent',
