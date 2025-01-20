@@ -99,30 +99,35 @@
 @section('js')
 
 <script>
-    $(document).ready(function() {
-        var table = $('#dataTablePortaria').DataTable({
-            "pageLength": 25,
-            "language": {
-                "decimal": "",
-                "emptyTable": "Dados Indisponiveis na Tabela",
-                "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
-                "infoEmpty": "Mostrando 0 linhas",
-                "infoFiltered": "(filtrando _MAX_ total de linhas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrando _MENU_ linhas",
-                "loadingRecords": "Carregando...",
-                "processing": "Processando...",
-                "search": "Busca:",
-                "zeroRecords": "Nenhum resultado encontrado",
-                "paginate": {
-                    "first": "Primeiro",
-                    "last": "Ultimo",
-                    "next": "Proximo",
-                    "previous": "Anterior"
-                },
+   $(document).ready(function() {
+    var table = $('#dataTablePortaria').DataTable({
+        "pageLength": 25,
+        "order": [[4, "asc"]], // Ordena inicialmente pela coluna de "Data Saída" (coluna index 4)
+        "language": {
+            "decimal": "",
+            "emptyTable": "Dados Indisponíveis na Tabela",
+            "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
+            "infoEmpty": "Mostrando 0 linhas",
+            "infoFiltered": "(filtrando _MAX_ total de linhas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrando _MENU_ linhas",
+            "loadingRecords": "Carregando...",
+            "processing": "Processando...",
+            "search": "Busca:",
+            "zeroRecords": "Nenhum resultado encontrado",
+            "paginate": {
+                "first": "Primeiro",
+                "last": "Último",
+                "next": "Próximo",
+                "previous": "Anterior"
             }
-        });
+        },
+        "columnDefs": [
+            { "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Habilita ordenação em todas as colunas
+            { "orderable": false, "targets": [7] } // Desabilita ordenação na coluna "Operação"
+        ]
     });
+});
 </script>
 @stop

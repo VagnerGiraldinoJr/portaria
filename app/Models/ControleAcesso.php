@@ -29,28 +29,57 @@ class ControleAcesso extends Model
         });
     }
 
-    protected $fillable = ["id", "tipo", "lote_id", "unidade_id", "veiculo_id", "motorista", "data_entrada", "data_saida", "entregador", "observacao", "retirado_por", "motivo", "desc_tipo"];
-
+    protected $fillable = [
+        "id",
+        "tipo",
+        "lote_id",
+        "unidade_id",
+        "veiculo_id",
+        "motorista",
+        "data_entrada",
+        "data_saida",
+        "entregador",
+        "observacao",
+        "retirado_por",
+        "motivo"
+    ];
     public function lote()
     {
         return $this->belongsTo(Lote::class);
     }
 
-    public function veiculo(): HasMany
+    public function veiculo()
     {
-        return $this->HasMany(Veiculo::class, 'id', 'veiculo_id');
+        return $this->belongsTo(Veiculo::class, 'veiculo_id', 'id');
     }
 
     public function getDescTipoAttribute()
     {
+        if (!isset($this->tipo)) {
+            return '';
+        }
+
         $codes = new TableCode();
-        return (isset($this->tipo) && $this->tipo != NULL) ? $codes->getDescricaoById(5, $this->tipo) : '';
+
+        try {
+            return $codes->getDescricaoById(5, $this->tipo);
+        } catch (\Exception $e) {
+            return 'Tipo não encontrado'; // Mensagem de fallback
+        }
     }
 
     public function EncomendasNaoEntregues()
     {
+        return $this->where('unidade_id', Auth::user()->unidade_id)
+        ->whereNull('data_saida')
+            ->get(); // Retorna uma coleção de objetos
+    }
 
-        return $this->where('unidade_id', Auth::user()->unidade_id, 'data_saida', NULL)->get()->first();
+    public function totalEncomendasEntregues()
+    {
+        return $this->where('unidade_id', Auth::user()->unidade_id)
+            ->whereNotNull('data_saida')
+            ->count(); // Retorna um número
     }
 
     public function EncomendasEntregues()
@@ -69,5 +98,12 @@ class ControleAcesso extends Model
     {
 
         return $this->where('unidade_id', Auth::user()->unidade_id, 'hora_de_saida', NULL)->get()->first();
+    }
+
+    public function visitantesPresentes()
+    {
+        return $this->where('unidade_id', Auth::user()->unidade_id)
+            ->whereNull('hora_de_saida')
+            ->get(); // Retorna uma coleção
     }
 }
