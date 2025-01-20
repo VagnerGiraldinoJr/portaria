@@ -105,7 +105,7 @@ class ControleAcessoController extends Controller
      */
     public function store(ControleAcessoRequest $request)
     {
-        $dataForm = $request->validated();
+        $dataForm = $request->all();
         $dataForm['data_entrada'] = Carbon::now();
         $dataForm['unidade_id'] = Auth::user()->unidade_id;
 
@@ -164,6 +164,8 @@ class ControleAcessoController extends Controller
     {
         $dataForm = $request->validated();
         $dataForm['data_entrada'] = Carbon::parse($dataForm['data_entrada'])->format('Y-m-d H:i:s');
+        $dataForm = $request->all();
+        $dataForm['entregador'] = $request->input('entregador'); // Certifique-se de que isso está correto
 
         $this->controle_acesso->findOrFail($id)->update($dataForm);
 
