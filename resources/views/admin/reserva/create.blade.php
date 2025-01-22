@@ -45,6 +45,7 @@
                                                 <option value="QUIOSQUE 01">QUIOSQUE Nrº 01</option>
                                                 <option value="QUIOSQUE 02">QUIOSQUE Nrº 02</option>
                                                 <option value="QUIOSQUE 03">QUIOSQUE Nrº 03</option>
+                                                <option value="SALÃO DE JOGOS">SALÃO DE JOGOS</option>
                                                 <option value="SALÃO DE FESTAS">SALÃO DE FESTAS</option>
                                                 
                                             </select>
