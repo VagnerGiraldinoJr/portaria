@@ -26,7 +26,7 @@ class Pessoa extends Model
    
     public function lote()
     {
-        return $this->belongsTo(Lote::class,'unidade_id');
+        return $this->belongsTo(Lote::class, 'lote_id');
     }
  
 

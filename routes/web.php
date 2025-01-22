@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\ReservaPiscinaController;
 use App\Http\Controllers\Admin\CalendarioController;
+use App\Http\Controllers\Admin\PessoaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('pessoa/show/{id}', 'PessoaController@show')->name('admin.pessoa.show');
     Route::put('pessoa/update/{id}', 'PessoaController@update')->name('admin.pessoa.update');
     Route::delete('pessoa/destroy/{id}', 'PessoaController@destroy')->name('admin.pessoa.destroy');
+    Route::delete('pessoa/{id}', [PessoaController::class, 'destroy'])->name('admin.pessoa.destroy');
+    Route::get('pessoa/get-pessoas-by-lote', [PessoaController::class, 'getPessoasByLote'])->name('admin.pessoa.getPessoasByLote');
+
 
     // Contatos
     Route::get('contato', 'ContatoController@index')->name('admin.contato.index');
@@ -116,14 +120,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::post('controleacesso/store', 'ControleAcessoController@store')->name('admin.controleacesso.store');
     Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
     Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('admin.controleacesso.relatorio');
-    // Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('admin.controleacesso.relatorio');
-
-    // Route::get('controleacesso/buscar/{id}', 'ControleAcessoController@EncomendasNaoEntregues')->name('admin.controleacesso.buscar');
     Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');
     Route::put('controleacesso/update/{id}', 'ControleAcessoController@update')->name('admin.controleacesso.update');
     Route::delete('controleacesso/destroy/{id}', 'ControleAcessoController@destroy')->name('admin.controleacesso.destroy');
+    Route::get('controle_acessos/get-moradores-by-lote', [ControleAcessoController::class, 'getMoradoresByLote'])->name('controle_acessos.getMoradoresByLote');
+    Route::get('controle_acessos/get-morador-detalhes', [ControleAcessoController::class, 'getMoradorDetalhes'])->name('controle_acessos.getMoradorDetalhes');
+    Route::get('controleacesso/registrar-saida/{id}', [ControleAcessoController::class, 'registrarSaida'])->name('controleacesso.registrarSaida');
 
-    //ControleAcesso_extra
+    
     Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
     Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');
 

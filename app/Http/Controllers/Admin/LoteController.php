@@ -24,9 +24,9 @@ class LoteController extends Controller
         $this->params['main_route'] = 'admin.lote';
     }
 
+
     public function index()
     {
-        // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastro de Lotes';
         $this->params['arvore'][0] = [
             'url' => 'admin/lote ',
@@ -34,10 +34,17 @@ class LoteController extends Controller
         ];
 
         $params = $this->params;
-        $data = $this->lote->where('unidade_id', Auth::user()->unidade_id)->get();
+
+        // Carrega os lotes com os moradores associados
+        $data = $this->lote->with('pessoas')
+            ->where('unidade_id', Auth::user()->unidade_id)
+            ->get();
 
         return view('admin.lote.index', compact('params', 'data'));
     }
+
+
+
 
     public function create(TableCode $codes)
     {

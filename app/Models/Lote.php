@@ -22,6 +22,11 @@ class Lote extends Model
         'regularizado_em' => 'datetime',
     ];
 
+    //  Um lote pode ter muitos moradores pessoas
+    public function pessoas()
+    {
+        return $this->hasMany(Pessoa::class, 'lote_id');
+    }
     // Um Lote pode ter muitas Reservas
     public function reservas()
     {

@@ -23,7 +23,7 @@ class ControleAcessoRequest extends FormRequest
         return [
             
             'tipo' => 'required',
-            'lote_id' => 'required_if:tipo,1',
+           'lote_id' => 'required|exists:lotes,id',
             'veiculo_id' => 'required_if:tipo,2',
             'motorista' => 'required_if:tipo,2',
             'motivo' => 'required_if:tipo,1',

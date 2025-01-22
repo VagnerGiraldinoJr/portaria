@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Unidade extends Model
 {
     protected $fillable = [
-        'id', 'titulo'
+        'id',
+        'titulo'
     ];
 
-    
+
     // Se houver uma relação direta entre Unidade e Visitante:
     public function visitante()
     {
@@ -29,9 +30,16 @@ class Unidade extends Model
         return $this->hasMany(User::class, 'unidade_id');
     }
 
-   
+
     public function pessoas()
     {
-        return $this->hasManyThrough(Pessoa::class, 'lote_id', Lote::class, 'id');
+        return $this->hasManyThrough(
+            Pessoa::class, // Modelo de destino
+            Lote::class,   // Modelo intermediário
+            'unidade_id',  // Chave estrangeira em Lote que referencia Unidade
+            'lote_id',     // Chave estrangeira em Pessoa que referencia Lote
+            'id',          // Chave local em Unidade
+            'id'           // Chave local em Lote
+        );
     }
 }

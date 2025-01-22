@@ -21,16 +21,19 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body ">
+                    <div class="card-body">
+                        <!-- Exibir erros -->
                         @if ($errors->any())
                             <div class="alert alert-danger">
-                                <ul class="m-0 ">
+                                <ul class="m-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         @endif
+
+                        <!-- Formulário -->
                         @if (isset($data))
                             {{ Form::model($data, [
                                 'route' => [$params['main_route'] . '.update', $data->id],
@@ -40,48 +43,62 @@
                         @else
                             {{ Form::open(['route' => $params['main_route'] . '.store', 'method' => 'post']) }}
                         @endif
+
                         <div class="row">
-
-                            <div class="form-group col-6 col-md-6 col-lg-6">
-                                {{ Form::label('rg', 'RG/CPF') }}
-                                {{ Form::text('rg', null, ['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG/CPF completo']) }}
-                            </div>
-
+                            <!-- Nome Completo -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('nome_completo', 'Nome Completo') }}
                                 {{ Form::text('nome_completo', null, ['class' => 'form-control', 'placeholder' => 'Informe o nome completo']) }}
                             </div>
 
+                            <!-- RG/CPF -->
+                            <div class="form-group col-6 col-md-6 col-lg-6">
+                                {{ Form::label('rg', 'RG/CPF') }}
+                                {{ Form::text('rg', null, ['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG/CPF completo']) }}
+                            </div>
+
+                            <!-- Celular -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('celular', 'Nº Celular') }}
                                 {{ Form::text('celular', null, ['class' => 'form-control celular', 'placeholder' => 'Informe o número celular']) }}
                             </div>
-                            <!-- Campo novo para unidade (127 - Apto ou casa) -->
-                            <!-- 26/04/2024 -->
-                            <div id="div_unidade" class="form-group col-6 col-md-6 col-lg-6">
-                                {{ Form::label('lote', 'Unidade/Apto.') }}
-                                <br>
+
+                            <!-- Lote -->
+                            <div class="form-group col-6 col-md-6 col-lg-6">
+                                {{ Form::label('lote_id', 'Lote (Unidade/Apto)') }}
                                 {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
+                                    'class' => 'form-control',
+                                    'id' => 'lote_id',
+                                ]) }}
+                            </div>
+
+                            <!-- Classificação -->
+                            <div class="form-group col-12 col-md-12 col-lg-12">
+                                {{ Form::label('tipo', 'Classificação') }}
+                                {{ Form::select('tipo', $preload['tipo'], isset($data->tipo) ? $data->tipo : null, [
                                     'class' => 'form-control',
                                 ]) }}
                             </div>
 
-                            <div class="form-group col-12 col-md-12 col-lg-12">
-                                {{ Form::label('tipo', 'Classificação') }}<br>
-                                {{ Form::select('tipo', $preload['tipo'], isset($data->tipo) ? $data->tipo : null, ['class' => 'form-control']) }}
-                            </div>
-
+                            <!-- Botões -->
                             <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
                                 {{ Form::submit('Salvar', ['class' => 'btn btn-success btn-sm']) }}
-
-                                <button class='btn btn-primary btn-sm' type="button" id="addContatoBtn">Adicionar
-                                    Contato</button>
-
                             </div>
                         </div>
+
                         {{ Form::close() }}
                     </div>
                     <!-- /.card-body -->
+
+                    <!-- Listagem de moradores associados -->
+                    <div class="card-footer">
+                        <h5>Moradores Associados ao Lote</h5>
+                        <div id="pessoas_do_lote" class="p-2 border">
+                            <div id="morador-alert" class="alert alert-info text-center">
+                                <strong>Nenhum morador associado a este lote.</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,33 +115,81 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
 
 
-
-    {{-- 
-inicio --}}
-
-
-
     <script>
-        // JavaScript para adicionar outro campo de contato
-        document.getElementById('addContatoBtn').addEventListener('click', function() {
-            const novoCampo = `
-            <div class="form-group">
-                <label for="contato_nome">Nome do Contato</label>
-                <input type="text" name="contato_nome[]" class="form-control" placeholder="Informe o nome do contato">
-            </div>
-            <div class="form-group">
-                <label for="contato_telefone">Telefone do Contato</label>
-                <input type="text" name="contato_telefone[]" class="form-control" placeholder="Informe o telefone do contato">
-            </div>
-            <!-- ... outros campos de contato ... -->
-        `;
-            // Adicione o novo campo ao formulário
-            document.querySelector('.card-body').insertAdjacentHTML('beforeend', novoCampo);
+        // Atualiza a lista de pessoas quando o lote for selecionado
+        document.getElementById('lote_id').addEventListener('change', function() {
+            const loteId = this.value;
+
+            // Faz uma requisição Ajax para buscar os moradores do lote selecionado
+            fetch(`/admin/pessoa/get-pessoas-by-lote?lote_id=${loteId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const pessoasContainer = document.getElementById('pessoas_do_lote');
+
+                    // Limpa o conteúdo atual
+                    pessoasContainer.innerHTML = '';
+
+                    if (data.length > 0) {
+                        // Adiciona um alerta visual indicando que existem moradores
+                        const alert = document.createElement('div');
+                        alert.className = 'alert alert-success text-center';
+                        alert.innerHTML =
+                            `<strong>${data.length} morador(es) encontrado(s) neste lote.</strong>`;
+                        pessoasContainer.appendChild(alert);
+
+                        // Cria uma tabela para exibir os moradores
+                        const table = document.createElement('table');
+                        table.classList.add('table', 'table-bordered', 'mt-2');
+
+                        const thead = document.createElement('thead');
+                        thead.innerHTML = `
+                            <tr>
+                                <th>Nome Completo</th>
+                                <th>RG</th>
+                                <th>Celular</th>
+                                <th>Classificação</th>
+                                <th>Ações</th>
+                            </tr>
+                        `;
+                        table.appendChild(thead);
+
+                        const tbody = document.createElement('tbody');
+                        data.forEach(pessoa => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${pessoa.nome_completo}</td>
+                                <td>${pessoa.rg}</td>
+                                <td>${pessoa.celular}</td>
+                                <td>${pessoa.desc_tipo || pessoa.tipo}</td>
+                                <td>
+                                    <form method="POST" action="/admin/pessoa/${pessoa.id}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                    </form>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+
+                        table.appendChild(tbody);
+                        pessoasContainer.appendChild(table);
+                    } else {
+                        // Exibe mensagem caso não existam pessoas associadas
+                        pessoasContainer.innerHTML = `
+                            <div class="alert alert-info text-center">
+                                <strong>Nenhum morador associado a este lote.</strong>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar pessoas do lote:', error);
+                });
         });
     </script>
 
-    {{-- 
-fim --}}
+
 
 
 @stop

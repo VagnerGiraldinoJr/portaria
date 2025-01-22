@@ -39,10 +39,11 @@ class PessoaController extends Controller
 
         $params = $this->params;
 
-        $data = $this->pessoa->select('pessoas.*', 'lotes.descricao as lote')
-            ->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-            ->where('unidade_id', Auth::user()->unidade_id)
-            ->get();
+        $data = $this->pessoa->with('lote')
+            ->whereHas('lote', function ($query) {
+                $query->where('unidade_id', Auth::user()->unidade_id);
+            })->get();
+        //Isso garante que o relacionamento com os lotes está sendo respeitado e que apenas as pessoas vinculadas a lotes da unidade do usuário serão carregadas.
         return view('admin.pessoa.index', compact('params', 'data'));
     }
 
@@ -63,8 +64,8 @@ class PessoaController extends Controller
         $params = $this->params;
         $preload['tipo'] = $codes->select(4);
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
-            ->get()->pluck('descricao', 'id');
+            ->orderBy('descricao')
+            ->pluck('descricao', 'id');
         return view('admin.pessoa.create', compact('params', 'preload'));
     }
 
@@ -94,9 +95,10 @@ class PessoaController extends Controller
             ]
         ];
         $params = $this->params;
-        $data = $this->pessoa->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-            ->where('lotes.unidade_id', Auth::user()->unidade_id)
-            ->where('pessoas.id', $id)->first();
+        $data = $this->pessoa->with('lote')
+            ->whereHas('lote', function ($query) {
+                $query->where('unidade_id', Auth::user()->unidade_id);
+            })->where('pessoas.id', $id)->first();
 
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
@@ -122,9 +124,10 @@ class PessoaController extends Controller
         ];
         $params = $this->params;
 
-        $data = $this->pessoa->select('pessoas.*')->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-            ->where('lotes.unidade_id', Auth::user()->unidade_id)
-            ->where('pessoas.id', $id)->first();
+        $data = $this->pessoa->with('lote')
+            ->whereHas('lote', function ($query) {
+                $query->where('unidade_id', Auth::user()->unidade_id);
+            })->where('pessoas.id', $id)->first();
 
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderByDesc('descricao') // Ordenar por data_inicio em ordem decrescente
@@ -153,14 +156,24 @@ class PessoaController extends Controller
 
     public function destroy($id)
     {
-        $pessoa = $this->pessoa->join('lotes', 'lotes.id', '=', 'pessoas.lote_id')
-            ->where('lotes.unidade_id', Auth::user()->unidade_id)
-            ->where('pessoas.id', $id)->first();
+        $pessoa = Pessoa::findOrFail($id);
 
-        if (($pessoa != null) && $this->pessoa->find($id)->delete()) {
-            return redirect()->route($this->params['main_route'] . '.index');
-        } else {
-            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao deletar.']);
+        if ($pessoa->delete()) {
+            return redirect()->route($this->params['main_route'] . '.index')->with('success', 'Morador excluído com sucesso!');
         }
+
+        return redirect()->route($this->params['main_route'] . '.index')->withErrors(['Erro ao excluir o morador.']);
+    }
+
+    public function getPessoasByLote(Request $request)
+    {
+        $loteId = $request->input('lote_id');
+
+        // Busca as pessoas do lote e inclui a classificação
+        $pessoas = Pessoa::where('lote_id', $loteId)
+            ->select('id', 'nome_completo', 'rg', 'celular', 'tipo') // Inclua 'tipo' para a classificação
+            ->get();
+
+        return response()->json($pessoas);
     }
 }

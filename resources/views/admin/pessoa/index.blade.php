@@ -45,13 +45,12 @@
                                             <td>{{ $item->celular }}</td>
                                             <td>{{ $item->nome_completo }}</td>
                                             <td>{{ $item->desc_tipo }}</td>
-                                            <td>{{ $item->lote }}</td>
+                                            <td>{{ $item->lote->descricao }}</td>
 
                                             <td>
                                                 <a href="{{ route($params['main_route'] . '.edit', $item->id) }}"
                                                     class="btn btn-primary btn-xs"><span class="fas fa-edit"></span>
-                                                    Editar</a>
-                                               
+                                                    Editar</a>                                               
                                                     @role('admin')
                                                     <a href="{{ route($params['main_route'] . '.show', $item->id) }}"
                                                         class="btn btn-danger btn-xs">
