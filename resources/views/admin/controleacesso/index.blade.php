@@ -82,14 +82,13 @@
 @section('css')
     <link rel="stylesheet" href="/css/style.css">
 @stop
-
 @section('js')
     <script>
         $(document).ready(function() {
             $('#dataTablePortaria').DataTable({
-                "pageLength": 25,
+                "pageLength": 25, // Número de registros por página
                 "order": [
-                    [3, "asc"]
+                    [3, "desc"] // Ordenar pela quarta coluna (índice 3) em ordem decrescente
                 ],
                 "language": {
                     "decimal": "",
@@ -109,12 +108,13 @@
                         "previous": "Anterior"
                     }
                 },
-                "columnDefs": [{
-                        "orderable": true,
+                "columnDefs": [
+                    {
+                        "orderable": true, // Colunas que podem ser ordenadas
                         "targets": [0, 1, 2, 3, 4, 5, 6]
                     },
                     {
-                        "orderable": false,
+                        "orderable": false, // Coluna "Operação" não é ordenável
                         "targets": [7]
                     }
                 ]
