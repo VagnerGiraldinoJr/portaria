@@ -83,8 +83,8 @@
 
                             <!-- Motivo -->
                             <div id="div_motivo" class="form-group col-6 col-md-6 col-lg-6">
-                                {{ Form::label('motivo', 'Motivo') }}
-                                {{ Form::text('motivo', null, ['class' => 'form-control', 'placeholder' => 'Informe o Motivo']) }}
+                                {{ Form::label('motivo', 'Quantidade/Volumes') }}
+                                {{ Form::text('motivo', null, ['class' => 'form-control', 'placeholder' => 'Informe a Quantidade / Volumes']) }}
                             </div>
 
                             <!-- Observação -->
