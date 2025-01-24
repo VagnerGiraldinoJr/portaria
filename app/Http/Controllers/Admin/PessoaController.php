@@ -71,15 +71,25 @@ class PessoaController extends Controller
 
     public function store(PessoaRequest $request)
     {
-        $dataForm  = $request->all();
+        // Obter todos os dados do request
+        $dataForm = $request->all();
+
+        // Converter o campo 'descricao' para UPPERCASE
+        if (isset($dataForm['nome_completo'])) {
+            $dataForm['nome_completo'] = strtoupper($dataForm['nome_completo']);
+        }
+
+        // Inserir os dados no banco de dados
         $insert = $this->pessoa->create($dataForm);
 
         if ($insert) {
             return redirect()->route($this->params['main_route'] . '.index');
         } else {
-            return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao fazer Inserir.']);
+            return redirect()->route($this->params['main_route'] . '.create')
+                ->withErrors(['Falha ao fazer Inserir.']);
         }
     }
+
 
     public function show($id, TableCode $codes)
     {
