@@ -127,7 +127,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('controle_acessos/get-morador-detalhes', [ControleAcessoController::class, 'getMoradorDetalhes'])->name('controle_acessos.getMoradorDetalhes');
     Route::get('controleacesso/registrar-saida/{id}', [ControleAcessoController::class, 'registrarSaida'])->name('controleacesso.registrarSaida');
 
-    
+
     Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
     Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');
 
@@ -150,20 +150,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     //Estoque
     Route::any('estoque/inventario', 'EstoqueController@index')->name('admin.estoque.inventario');
 
-    //Conta Corrente
-    Route::any('contacorrente', 'ContaCorrenteController@index')->name('admin.conta_corrente.index');
-    Route::get('contacorrente/show/{id}', 'ContaCorrenteController@show')->name('admin.conta_corrente.show');
-    Route::post('contacorrente/extornar/{id}', ['ContaCorrenteController@extornar', 'is' => 'admin'])->name('admin.conta_corrente.extornar');
-
-    //ContaCorrente - Entradas
-    Route::get('entradas', 'ContaCorrenteController@entradas')->name('admin.conta_corrente.entradas');
-    Route::get('entradas/buscarpedido/{id}', 'ContaCorrenteController@getPedido')->name('admin.entradas.buscarpedido');
-    Route::post('entradas/registrar', 'ContaCorrenteController@registrarEntrada')->name('admin.entradas.registrar');
-
-    //ContaCorrente - Saidas
-    Route::get('saidas', 'ContaCorrenteController@saidas')->name('admin.conta_corrente.saidas');
-    Route::post('saidas/registrar', 'ContaCorrenteController@registrarSaida')->name('admin.saidas.registrar');
-
     //Caixa
     Route::any('caixa', 'CaixaController@index')->name('admin.caixa');
     Route::post('caixa/abrir', 'CaixaController@abrir')->name('admin.caixa.abrir');
@@ -180,25 +166,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
     Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
 
-    //Controle de Reservas no Condominio
+    //Controle de Reservas
     Route::get('reserva', [ReservaController::class, 'index'])->name('admin.reserva.index');
     Route::get('reserva/create', [ReservaController::class, 'create'])->name('admin.reserva.create');
     Route::post('reserva/store', [ReservaController::class, 'store'])->name('admin.reserva.store');
     Route::get('reserva/edit/{id}', [ReservaController::class, 'edit'])->name('admin.reserva.edit');
     Route::get('reserva/show/{id}', [ReservaController::class, 'show'])->name('admin.reserva.show');
-    Route::get('reserva/exit/{id}', [ReservaController::class, 'exit'])->name('admin.reserva.exit');
-    Route::put('reserva/exit/{id}', [ReservaController::class, 'updateExit'])->name('admin.reserva.updateExit');
     Route::put('reserva/update/{id}', [ReservaController::class, 'update'])->name('admin.reserva.update');
-    Route::get('reserva/relatorio', 'ReservaController@relatorio')->name('admin.reserva.relatorio');
-    //Route::delete('reserva/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.destroy');
-    Route::delete('reserva/destroy/{id}', 'ReservaController@destroy')->name('admin.reserva.destroy');
-
-    // Controle de Reservas da Piscina
-    Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
-    Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');
-    Route::post('reserva/piscina/store', [ReservaPiscinaController::class, 'store'])->name('admin.reserva.piscina.store');
-    // Route::delete('reserva/piscina/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.piscina.destroy');
-    Route::delete('reserva/piscina/destroy/{id}', 'ReservaPiscinaController@destroy')->name('admin.reserva.piscina.destroy');
+    Route::delete('reserva/destroy/{id}', [ReservaController::class, 'destroy'])->name('admin.reserva.destroy');
+    Route::get('relatorio', [ReservaController::class, 'relatorio'])->name('relatorio');
 
     //Rota para retirar as chaves na portaria
     Route::put('reserva/retire/{id}', [ReservaController::class, 'retire'])->name('admin.reserva.retire');
@@ -207,7 +183,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     //Rota para devolver as chaves na portaria
     Route::put('reserva/return/{id}', [ReservaController::class, 'return'])->name('admin.reserva.return');
     Route::get('reserva/return/{id}', [ReservaController::class, 'showReturnForm'])->name('admin.reserva.showReturnForm');
-    Route::get('reserva/update/{id}', [ReservaController::class, 'updateReturn'])->name('admin.reserva.updateReturn');
+    Route::get('reserva/return/update/{id}', [ReservaController::class, 'updateReturn'])->name('admin.reserva.updateReturn');
+
+    // Controle de Reservas da Piscina
+    Route::get('reserva/piscina', [ReservaPiscinaController::class, 'index'])->name('admin.reserva.piscina.index');
+    Route::get('reserva/piscina/create', [ReservaPiscinaController::class, 'create'])->name('admin.reserva.piscina.create');
+    Route::post('reserva/piscina/store', [ReservaPiscinaController::class, 'store'])->name('admin.reserva.piscina.store');
+    Route::put('reserva/piscina/update/{id}', [ReservaPiscinaController::class, 'update'])->name('admin.reserva.piscina.update');
+    Route::delete('reserva/piscina/destroy/{id}', [ReservaPiscinaController::class, 'destroy'])->name('admin.reserva.piscina.destroy');
+
+    // Rota para retirar as chaves da piscina na portaria
+    Route::get('reserva/piscina/retire/{id}', [ReservaPiscinaController::class, 'showRetireForm'])->name('admin.reserva.piscina.showRetireForm');
+    Route::put('reserva/piscina/retire/{id}', [ReservaPiscinaController::class, 'retire'])->name('admin.reserva.piscina.retire');
+
+    // Rota para devolver as chaves da piscina na portaria
+    Route::put('reserva/piscina/return/{id}', [ReservaPiscinaController::class, 'return'])->name('admin.reserva.piscina.return');
+    Route::get('reserva/piscina/return/{id}', [ReservaPiscinaController::class, 'showReturnForm'])->name('admin.reserva.piscina.showReturnForm');
 
     //Controle de passagem de turno nos Condominios
 

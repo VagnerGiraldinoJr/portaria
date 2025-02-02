@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReservaPiscinaController extends Controller
 {
@@ -142,35 +143,28 @@ class ReservaPiscinaController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $validatedData = $request->validate([
-            'area' => 'required|string|max:255',
-            'data_inicio' => 'required|date',
-            'limpeza' => 'required|string',
             'status' => 'required|string',
-            'acessorios' => 'required|string',
-            'celular_responsavel' => 'required|string|max:20',
-            'dt_entrega_chaves' => 'nullable|date_format:Y-m-d H:i:s',
-            'retirado_por' => 'nullable|string|max:100',
-            'dt_devolucao_chaves' => 'nullable|date_format:Y-m-d H:i:s',
-            'devolvido_por' => 'nullable|string|max:100',
+            'limpeza' => 'required|string',
         ]);
 
+        // Buscar a reserva pelo ID e validar a unidade
         $reserva = Reserva::where('unidade_id', Auth::user()->unidade_id)->findOrFail($id);
 
-        $reserva->area = $validatedData['area'];
-        $reserva->data_inicio = $validatedData['data_inicio'];
-        $reserva->limpeza = $validatedData['limpeza'];
+        // Atualizar os campos necessários
         $reserva->status = $validatedData['status'];
-        $reserva->acessorios = $validatedData['acessorios'];
-        $celularResponsavel = $validatedData['celular_responsavel'];
-        $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
-        $reserva->celular_responsavel = $celularLimpo;
+        $reserva->limpeza = $validatedData['limpeza'];
 
+
+
+        // Salvar alterações no banco
         $reserva->save();
 
+
+        // Redirecionar para a rota correta
         return redirect()->route('admin.reserva.piscina.index')->with('success', 'Reserva atualizada com sucesso!');
     }
-
 
     public function destroy($id)
     {
@@ -273,8 +267,7 @@ class ReservaPiscinaController extends Controller
 
         // Salvar as alterações
         $reserva->save();
-
-        return redirect()->route('admin.reserva.index')->with('success', 'Chaves devolvidas com sucesso e status atualizado, se necessário.');
+        return redirect()->route('admin.reserva.piscina.index')->with('success', 'Chaves devolvidas com sucesso!');
     }
 
     public function updateReturn(Request $request, $id)

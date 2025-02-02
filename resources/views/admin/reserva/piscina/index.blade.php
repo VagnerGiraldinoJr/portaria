@@ -7,8 +7,6 @@
 @stop
 
 @section('content')
-
-@section('content')
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -52,20 +50,25 @@
                                         <th>Operação</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    @foreach ($data as $item)
-                                        @if ($item)
+                                    @if ($data && $data->isNotEmpty())
+                                        @foreach ($data as $item)
                                             <tr>
-                                                <td>{{ $item->area }}</td>
+                                                <td>{{ $item->area ?? 'N/A' }}</td>
                                                 @php
-                                                    $dataInicio = Carbon\Carbon::parse($item->data_inicio);
-                                                    $diaSemanaInicio = $dataInicio->isoFormat('dddd');
+                                                    $dataInicio = $item->data_inicio
+                                                        ? Carbon\Carbon::parse($item->data_inicio)
+                                                        : null;
+                                                    $diaSemanaInicio = $dataInicio
+                                                        ? $dataInicio->isoFormat('dddd')
+                                                        : 'N/A';
                                                 @endphp
                                                 <td class="{{ $diaSemanaInicio == 'sábado' ? 'text-primary' : '' }}">
-                                                    {{ $dataInicio->format('d/m/Y') }} ({{ $diaSemanaInicio }})
+                                                    {{ $dataInicio ? $dataInicio->format('d/m/Y') : 'N/A' }}
+                                                    ({{ $diaSemanaInicio }})
                                                 </td>
-                                                <td>{{ $item->lote->descricao }}</td>
-                                                {{-- Tratando com cores o resultado para melhorar a visualização do operador; --}}
+                                                <td>{{ $item->lote->descricao ?? 'N/A' }}</td>
                                                 <td>
                                                     @if ($item->limpeza == 'IsentoTaxaLimpeza')
                                                         <span class="text-blue">Limpeza será feita pelo
@@ -76,36 +79,35 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="https://wa.me/55{{ $item->celular_responsavel }}?text=Olá%20{{ optional($item->lote)->descricao ?? 'Unidade' }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ $dataInicio->format('d') }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
+                                                    <a href="https://wa.me/55{{ $item->celular_responsavel ?? '' }}?text=Olá%20{{ optional($item->lote)->descricao ?? 'Unidade' }}.%20Sua%20Reserva%20foi%20realizada%20para%20o%20dia%20{{ $dataInicio ? $dataInicio->format('d') : '' }}%20Dominare%20Portaria%20Agradece%20Obrigado!"
                                                         target="_blank" rel="noopener noreferrer"
                                                         class="btn btn-outline-success btn-xs">
                                                         <span class="fab fa-whatsapp fa-lg" aria-hidden="true"></span>
-                                                        Enviar
-                                                        Mensagem
+                                                        Enviar Mensagem
                                                     </a>
                                                 </td>
                                                 <td>
                                                     @if ($item->status == 'Confirmada')
                                                         <i class="fas fa-calendar-check text-success"
-                                                            aria-hidden="true"></i>
-                                                        Confirmada
-                                                    @elseif($item->status == 'Cancelada')
+                                                            aria-hidden="true"></i> Confirmada
+                                                    @elseif ($item->status == 'Cancelada')
                                                         <i class="fas fa-ban text-danger" aria-hidden="true"></i> Cancelada
-                                                    @elseif($item->status == 'Encerrado')
+                                                    @elseif ($item->status == 'Encerrado')
                                                         <i class="fas fa-check-double text-success" aria-hidden="true"></i>
                                                         Encerrado
                                                     @else
                                                         <i class="far fa-question-circle text-warning"
-                                                            aria-hidden="true"></i>
-                                                        Pendente
+                                                            aria-hidden="true"></i> Pendente
                                                     @endif
                                                 </td>
+
                                                 <td>
                                                     @if (!empty($item->dt_entrega_chaves))
-                                                        {{-- Chaves entregues --}}
+                                                        <i class="fas fa-check-double text-success" aria-hidden="true"></i>
+                                                        Confirmada
                                                     @else
                                                         <form
-                                                            action="{{ route('admin.reserva.showRetireForm', $item->id) }}"
+                                                            action="{{ route('admin.reserva.piscina.showRetireForm', $item->id ?? 0) }}"
                                                             method="GET" style="display: inline;">
                                                             <button type="submit" class="btn btn-outline-secondary btn-xs">
                                                                 <span class="fas fa-unlock"></span> Entrega das Chaves
@@ -115,10 +117,10 @@
 
                                                     @if (!empty($item->dt_devolucao_chaves))
                                                         <i class="fas fa-check-double text-success" aria-hidden="true"></i>
-                                                        Confirmada
+                                                        Devolvida
                                                     @else
                                                         <form
-                                                            action="{{ route('admin.reserva.showReturnForm', $item->id) }}"
+                                                            action="{{ route('admin.reserva.piscina.showReturnForm', $item->id ?? 0) }}"
                                                             method="GET" style="display: inline;">
                                                             <button type="submit" class="btn btn-outline-info btn-xs">
                                                                 <span class="fas fa-lock"></span> Devolução Chaves
@@ -126,37 +128,46 @@
                                                         </form>
                                                     @endif
                                                 </td>
+
+
+
                                                 <td>
                                                     <button type="button" class="btn btn-primary btn-xs"
                                                         data-toggle="modal" data-target="#editModal"
-                                                        data-id="{{ $item->unidade_id }}" data-area="{{ $item->area }}"
-                                                        data-lote_id="{{ $item->lote_id }}"
-                                                        data-data_inicio="{{ $item->data_inicio }}"
-                                                        data-limpeza="{{ $item->limpeza }}"
-                                                        data-status="{{ $item->status }}"
-                                                        data-acessorios="{{ $item->acessorios }}"
-                                                        data-celular_responsavel="{{ $item->celular_responsavel }}"
-                                                        {{ in_array($item->status, ['AAAA', 'ZZZZ']) ? 'disabled' : '' }}>
+                                                        data-id="{{ $item->id ?? '' }}"
+                                                        data-area="{{ $item->area ?? '' }}"
+                                                        data-lote_id="{{ $item->lote_id ?? '' }}"
+                                                        data-data_inicio="{{ $item->data_inicio ?? '' }}"
+                                                        data-limpeza="{{ $item->limpeza ?? '' }}"
+                                                        data-status="{{ $item->status ?? '' }}"
+                                                        data-acessorios="{{ $item->acessorios ?? '' }}"
+                                                        data-celular_responsavel="{{ $item->celular_responsavel ?? '' }}">
                                                         Editar
-                                                    </button>                                              
-
+                                                    </button>
                                                     @if ($item->status != 'Encerrado')
-                                                        <!-- Botão para excluir a reserva -->
-                                                        <form action="{{ route('admin.reserva.piscina.destroy', $item->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.reserva.piscina.destroy', $item->id ?? 0) }}"
                                                             method="POST" style="display: inline;"
                                                             onsubmit="return confirm('Tem certeza que deseja excluir esta reserva?');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-xs btn-flat">
-                                                                Excluir
-                                                            </button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger btn-xs btn-flat">Excluir</button>
                                                         </form>
                                                     @endif
                                                 </td>
                                             </tr>
-                                        @endif
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="8" class="text-center">Nenhuma reserva encontrada.</td>
+                                        </tr>
+                                    @endif
                                 </tbody>
+
+
+
+
                             </table>
                         @else
                             <div class="alert alert-success m-2" role="alert">
@@ -164,14 +175,13 @@
                             </div>
                         @endif
                     </div>
-                    <!-- /.card-body -->
 
                     <!-- Modal de Edição -->
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <form action="{{ route('admin.reserva.update', 'edit') }}" method="POST" id="editForm">
+                                <form id="editForm" action="#" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
@@ -183,44 +193,21 @@
                                     <div class="modal-body">
                                         <input type="hidden" name="id" id="edit_id">
                                         <div class="form-group">
-                                            <label for="edit_area">Área</label>
-                                            <select name="area" id="edit_area" class="form-control" required>
-                                                <option value="PISCINA - MANHÃ">PISCINA - MANHÃ</option>
-                                                <option value="PISCINA - TARDE">PISCINA - TARDE</option>
+                                            <label for="edit_status">Status da Reserva</label>
+                                            <select name="status" id="edit_status" class="form-control">
+                                                <option value="Pendente">Pendente</option>
+                                                <option value="Confirmada">Confirmada</option>
+                                                <option value="Cancelada">Cancelada</option>
+                                                <option value="Encerrado">Encerrado</option>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="edit_data_inicio">Data Reserva</label>
-                                            <input type="date" name="data_inicio" id="edit_data_inicio"
-                                                class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="edit_limpeza">Limpeza</label>
-                                            <select name="limpeza" id="edit_limpeza" class="form-control" required>
-                                                <option value="usuario">O Morador irá limpar após o uso</option>
-                                                <option value="condominio">Será limpo pelo condomínio</option>
+                                            <select name="limpeza" id="edit_limpeza" class="form-control">
+                                                <option value="IsentoTaxaLimpeza">Limpeza será feita pelo Morador</option>
+                                                <option value="TaxaLimpezaCondominio">Limpeza será feita pelo Condomínio
+                                                </option>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="edit_status">Status</label>
-                                            <select name="status" id="edit_status" class="form-control" required>
-                                                <option value="Confirmada">Confirmada</option>
-                                                <option value="Cancelada">Cancelada</option>
-                                                <option value="Pendente">Pendente</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="edit_acessorios">Itens Reserva</label>
-                                            <select name="acessorios" id="edit_acessorios" class="form-control" required>
-                                                <option value="Grelha">Grelha</option>
-                                                <option value="N/A">N/A</option>
-                                                <option value="Talheres">Talheres</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="edit_celular_responsavel">Celular Responsável Reserva</label>
-                                            <input type="text" id="edit_celular_responsavel"
-                                                name="celular_responsavel" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -232,7 +219,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Final Modal de Edição -->
+                    <!-- Fim do Modal -->
+
+
                 </div>
             </div>
         </div>
@@ -247,60 +236,45 @@
 
 @section('js')
     <script>
-        $(document).ready(function() {
-            $('#editModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('id');
-                var area = button.data('area');
-                var lote_id = button.data('lote_id');
-                var data_inicio = button.data('data_inicio');
-                var limpeza = button.data('limpeza');
-                var status = button.data('status');
-                var acessorios = button.data('acessorios');
-                var celular_responsavel = button.data('celular_responsavel');
+        $('#editModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Botão que acionou o modal
 
-                var modal = $(this);
-                modal.find('.modal-body #edit_id').val(id);
-                modal.find('.modal-body #edit_area').val(area);
-                modal.find('.modal-body #edit_lote_id').val(lote_id);
-                modal.find('.modal-body #edit_data_inicio').val(data_inicio);
-                modal.find('.modal-body #edit_limpeza').val(limpeza);
-                modal.find('.modal-body #edit_status').val(status);
-                modal.find('.modal-body #edit_acessorios').val(acessorios);
-                modal.find('.modal-body #edit_celular_responsavel').val(celular_responsavel);
-            });
+            // Verifica se o botão existe e possui os atributos necessários
+            if (!button || !button.data('id')) {
+                console.error('Atributos necessários não encontrados no botão.');
+                return; // Sai da função se não houver os atributos necessários
+            }
 
-            $('#editForm').on('submit', function(event) {
-                var form = $(this);
-                var action = form.attr('action').replace('edit', $('#edit_id').val());
-                form.attr('action', action);
-            });
-        });
+            var id = button.data('id'); // ID da reserva
+            var area = button.data('area'); // Área da reserva
+            var loteId = button.data('lote_id'); // Lote ID
+            var dataInicio = button.data('data_inicio'); // Data de início
+            var limpeza = button.data('limpeza'); // Informação de limpeza
+            var status = button.data('status'); // Status da reserva
+            var acessorios = button.data('acessorios'); // Acessórios
+            var celularResponsavel = button.data('celular_responsavel'); // Celular do responsável
 
-        $(document).ready(function() {
-            var table = $('#dataTablePortaria').DataTable({
-                "pageLength": 25,
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Dados Indisponíveis na Tabela",
-                    "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
-                    "infoEmpty": "Mostrando 0 linhas",
-                    "infoFiltered": "(filtrando _MAX_ total de linhas)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Mostrando _MENU_ linhas",
-                    "loadingRecords": "Carregando...",
-                    "processing": "Processando...",
-                    "search": "Busca:",
-                    "zeroRecords": "Nenhum resultado encontrado",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    },
-                }
-            });
+            var modal = $(this);
+
+            // Preenche os campos do modal com os dados
+            modal.find('#edit_id').val(id);
+            modal.find('#edit_area').val(area);
+            modal.find('#edit_lote_id').val(loteId);
+            modal.find('#edit_data_inicio').val(dataInicio);
+            modal.find('#edit_limpeza').val(limpeza);
+            modal.find('#edit_status').val(status);
+            modal.find('#edit_acessorios').val(acessorios);
+            modal.find('#edit_celular_responsavel').val(celularResponsavel);
+
+            // Configura dinamicamente a rota do formulário
+            var form = modal.find('#editForm');
+            form.attr(
+                'action',
+                "{{ route('admin.reserva.piscina.update', ['id' => '__ID__']) }}".replace(
+                    '__ID__',
+                    id
+                )
+            );
         });
     </script>
 @stop
