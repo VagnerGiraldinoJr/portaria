@@ -3,6 +3,8 @@
 @section('content_header')
     @include('admin.layouts.header')
 @stop
+
+
 @section('content')
 
     <section class="content">
@@ -43,7 +45,8 @@
                                             <td>{{ $item->desc_tipo }}</td>
                                             <td>{{ $item->tipo == 1 ? optional($item->lote)->descricao : optional($item->veiculo->first())->placa }}
                                             </td>
-                                            <td>{{ $item->data_entrada ? Carbon\Carbon::parse($item->data_entrada)->format('d/m/Y H:i:s') : '---' }}
+                                            <td>{{ $item->data_entrada ? Carbon\Carbon::parse($item->data_entrada)->format('Y-m-d H:i:s') : '---' }}
+                                            </td>
                                             </td>
                                             <td>{{ $item->data_saida ? Carbon\Carbon::parse($item->data_saida)->format('d/m/Y H:i:s') : '---' }}
                                             </td>
@@ -83,13 +86,14 @@
     <link rel="stylesheet" href="/css/style.css">
 @stop
 @section('js')
+    <script script script src="https://cdn.datatables.net/plug-ins/1.11.5/sorting/datetime.js"></script>
     <script>
         $(document).ready(function() {
             $('#dataTablePortaria').DataTable({
-                "pageLength": 25, // Número de registros por página
+                "pageLength": 25,
                 "order": [
-                    [3, "desc"] // Ordenar pela quarta coluna (índice 3) em ordem decrescente
-                ],
+                    [4, "asc"]
+                ], // Ordem ascendente para a coluna "Data Saída"
                 "language": {
                     "decimal": "",
                     "emptyTable": "Nenhum registro encontrado",
@@ -108,17 +112,17 @@
                         "previous": "Anterior"
                     }
                 },
-                "columnDefs": [
-                    {
-                        "orderable": true, // Colunas que podem ser ordenadas
+                "columnDefs": [{
+                        "orderable": true,
                         "targets": [0, 1, 2, 3, 4, 5, 6]
                     },
                     {
-                        "orderable": false, // Coluna "Operação" não é ordenável
-                        "targets": [7]
+                        "orderable": false,
+                        "targets": [7] // Coluna "Operação" não ordenável
                     }
                 ]
             });
         });
     </script>
+
 @stop
