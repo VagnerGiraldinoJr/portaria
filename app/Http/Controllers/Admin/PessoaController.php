@@ -15,8 +15,9 @@ class PessoaController extends Controller
 {
 
     private $params = [];
-    private $lote = [];
-    private $pessoa = [];
+
+    private Pessoa $pessoa;
+    private Lote $lote;
     public function __construct(Pessoa $pessoas, Lote $lotes)
     {
 
@@ -185,5 +186,41 @@ class PessoaController extends Controller
             ->get();
 
         return response()->json($pessoas);
+    }
+
+    public function relatorio(Request $request)
+    {
+        // Captura os filtros opcionais enviados pela requisição (GET ou POST)
+        $nome = $request->input('nome'); // Filtro opcional para o nome da pessoa
+        $lote = $request->input('lote'); // Filtro opcional para o lote
+
+        // Consulta com os filtros e relacionamentos
+        $data = $this->pessoa->with([
+            'lote' => function ($query) {
+                $query->select('id', 'descricao', 'inadimplente', 'inadimplente_em','unidade_id') // Inclui unidade_id para carregar o relacionamento
+                    ->with(['unidade' => function ($subQuery) {
+                        $subQuery->select('id', 'titulo'); // Seleciona apenas os campos necessários da tabela unidades
+                    }]);
+            }
+        ])
+            ->select('id', 'nome_completo', 'rg', 'celular', 'tipo','lote_id') // Inclui os campos necessários da tabela pessoas
+            ->when($nome, function ($query, $nome) {
+                $query->where('nome_completo', 'like', '%' . $nome . '%');
+            })
+            ->when($lote, function ($query, $lote) {
+                $query->whereHas('lote', function ($subQuery) use ($lote) {
+                    $subQuery->where('descricao', 'like', '%' . $lote . '%');
+                });
+            })
+            ->whereHas('lote', function ($query) {
+                $query->where('unidade_id', Auth::user()->unidade_id);
+            })
+            ->get();
+
+        // Retorna a view com os dados filtrados
+        return view('admin.pessoa.relatorio', [
+            'params' => $this->params, // Parâmetros adicionais (títulos, etc.)
+            'pessoas' => $data // Dados filtrados para exibição no relatório
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Lote;
 
+use App\Models\Unidade;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoteRequest extends FormRequest
@@ -36,4 +37,10 @@ class LoteRequest extends FormRequest
             'descricao' => 'Descrição'            
         ];
     }
+
+    public function unidade()
+{
+    return $this->belongsTo(Unidade::class, 'unidade_id');
+}
+
 }

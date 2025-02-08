@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Pessoa;
 
+use App\Models\Lote;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PessoaRequest extends FormRequest
@@ -19,7 +20,7 @@ class PessoaRequest extends FormRequest
     public function rules()
     {
         return [
-            
+
             'nome_completo' => 'required',
             'rg' => 'required',
             'lote_id' => 'required'
@@ -30,24 +31,29 @@ class PessoaRequest extends FormRequest
     public function messages()
     {
         return [
-            
+
             'nome_completo.required' => 'O :attribute é obrigatório',
             'rg.required' => 'O :attribute é obrigatório',
             'lote_id.required' => 'O :attribute é obrigatório',
-            
-          
+
+
         ];
     }
 
     public function attributes()
     {
         return [
-            
+
             'nome_completo.required' => 'O :attribute é obrigatório',
             'rg.required' => 'O :attribute é obrigatório',
             'lote_id.required' => 'O :attribute é obrigatório',
-            
-            
+
+
         ];
+    }
+
+    public function lote()
+    {
+        return $this->belongsTo(Lote::class, 'lote_id');
     }
 }

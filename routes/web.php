@@ -85,6 +85,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::delete('pessoa/destroy/{id}', 'PessoaController@destroy')->name('admin.pessoa.destroy');
     Route::delete('pessoa/{id}', [PessoaController::class, 'destroy'])->name('admin.pessoa.destroy');
     Route::get('pessoa/get-pessoas-by-lote', [PessoaController::class, 'getPessoasByLote'])->name('admin.pessoa.getPessoasByLote');
+    Route::get('pessoa/relatorio', [PessoaController::class, 'relatorio'])->name('admin.pessoa.relatorio');
+
 
 
     // Contatos

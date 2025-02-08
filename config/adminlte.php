@@ -423,15 +423,26 @@ return [
         ['header' => 'Relatórios'],
         [
             'text'       => ' Rel. Encomendas',
-            'icon'        => 'far fa-file',
+            'icon'        => 'fa fa-bar-chart',
             'icon_color' => 'green',
-            'url'        => 'admin/controleacesso/relatorio',
+            'url'        => '#',
         ],
         [
             'text'       => ' Rel. Reservas',
-            'icon'        => 'far fa-address-book',
+            'icon'        =>  'fa fa-bar-chart',
             'icon_color' => 'green',
-            'url'        => 'admin/reserva/relatorio',
+            'url'        => '#',
+        ],
+        [
+            'text'       => ' Rel. Moradores',
+            'icon'        => 'fa fa-bar-chart',
+            'icon_color' => 'green',
+            'url'        => 'admin/pessoa/relatorio',
+        ],
+        [
+            'text'       => ' --------------------',
+            'icon_color' => 'green',
+           
         ],
 
         ['header' => 'Informações'],
