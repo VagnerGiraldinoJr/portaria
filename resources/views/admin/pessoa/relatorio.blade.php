@@ -48,7 +48,7 @@
                                             <td>{{ $pessoa->rg ?? '' }}</td>
                                             <td>{{ $pessoa->celular ?? '' }}</td>
                                             <td>{{ $pessoa->tipo_registro ?? '' }}</td>
-                                            <td>{{ $pessoa->condominio ?? '' }}</td>
+                                            <td>{{ $pessoa->lote->unidade->titulo ?? 'N/A' }}</td>
                                             <td>{{ $pessoa->lote->descricao ?? '' }}</td>
                                             <td>
                                                 <!-- Exibe badge de status de inadimplência -->
