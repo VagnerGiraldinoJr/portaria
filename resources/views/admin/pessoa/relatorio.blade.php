@@ -113,7 +113,7 @@
         $(document).ready(function() {
             // Inicializa a tabela com DataTables
             var table = $('#relatorio-tabela').DataTable({
-                "pageLength": 25,
+                "pageLength": 500,
                 "language": {
                     "decimal": "",
                     "emptyTable": "Dados Indisponíveis na Tabela",
