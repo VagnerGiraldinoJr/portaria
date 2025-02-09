@@ -57,7 +57,6 @@ class VisitanteController extends Controller
 
     public function create()
     {
-        // Definir os parâmetros padrão
         $this->params['subtitulo'] = 'Cadastrar Visitante';
         $this->params['arvore'] = [
             ['url' => 'admin/visitante', 'titulo' => 'Cadastro de Visitantes'],
@@ -68,17 +67,18 @@ class VisitanteController extends Controller
 
         // Buscar os lotes da unidade do usuário logado
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)
-            ->pluck('descricao', 'id') // Obtém lotes como coleção associativa
-            ->toArray(); // Converte para array para manipulação
+            ->pluck('descricao', 'id')
+            ->toArray();
 
-        // Adicionar "Serviços Gerais" como primeira opção sem duplicar
-        $lotes = array_merge(['servicos_gerais' => 'Serviços Gerais'], $lotes);
+        // Garantir que "Serviços Gerais" fique no topo e não duplique
+        $lotes = ['servicos_gerais' => 'Serviços Gerais'] + array_filter(
+            $lotes,
+            fn($descricao) => strtoupper($descricao) !== 'SERVIÇOS GERAIS'
+        );
+
 
         return view('admin.visitante.create', compact('params', 'lotes'));
     }
-
-
-
 
     public function edit($id)
     {
