@@ -5,32 +5,6 @@
  */
 
 require('bootstrap');
-document.addEventListener('DOMContentLoaded', function () {
-    function updateMemoryBadge() {
-        fetch("/admin/memory-usage")
-            .then(response => response.json())
-            .then(data => {
-                const badge = document.querySelector('#memory-badge-menu .badge');
-
-                if (badge) {
-                    badge.innerText = `${data.percent}%`;
-
-                    if (data.percent < 50) {
-                        badge.className = "badge badge-success";
-                    } else if (data.percent < 80) {
-                        badge.className = "badge badge-warning";
-                    } else {
-                        badge.className = "badge badge-danger";
-                    }
-                }
-            })
-            .catch(error => console.error('Erro ao buscar uso de memória:', error));
-    }
-
-    updateMemoryBadge();
-    setInterval(updateMemoryBadge, 5000);
-});
-
 
 // window.Vue = require('vue');
 

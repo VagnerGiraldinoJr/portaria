@@ -481,15 +481,6 @@ return [
             'label'       => 'Abrir chamado',
             'label_color' => 'warning',
 
-        ],
-        [
-            'text' => 'Uso de Memória',
-            'url'  => '#',
-            'icon' => 'fas fa-memory',
-            'id'   => 'memory-badge-menu', // ID para atualizar dinamicamente
-            'topnav_right' => false, // Opcional: coloca no menu superior
-            'label' => 'Carregando...',
-            'label_color' => 'info',
         ]
         
 

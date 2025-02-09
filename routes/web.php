@@ -27,9 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('cliente/update/{id}', 'ClienteController@update')->name('admin.cliente.update');
 
   
-    Route::get('memory-usage', [IndexController::class, 'getMemoryUsage'])->name('admin.memory-usage');
-
-
+   
 
     //Routes AJAX
     Route::get('cliente/buscar', 'ClienteController@getClienteCpfCnpj')->name('admin.cliente.buscar');
