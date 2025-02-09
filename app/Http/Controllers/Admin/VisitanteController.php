@@ -70,6 +70,10 @@ class VisitanteController extends Controller
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)
             ->pluck('descricao', 'id'); // Retorna um array com ID como chave e descrição como valor
 
+        // Adicionar a opção "Serviços Gerais" no início do array
+        $lotes = collect(['servicos_gerais' => 'Serviços Gerais'])->merge($lotes);
+
+
         return view('admin.visitante.create', compact('params', 'lotes'));
     }
 
@@ -99,12 +103,18 @@ class VisitanteController extends Controller
             'celular' => 'nullable|string|max:15',
         ]);
 
-        // Obtém o lote e valida que pertence à unidade do usuário logado
-        $lote = Lote::find($validatedData['lote_id']);
-        if (!$lote || $lote->unidade_id !== Auth::user()->unidade_id) {
-            return back()->withErrors(['lote_id' => 'O lote selecionado não pertence à sua unidade.'])->withInput();
+        // Verificar se o lote_id é "Serviços Gerais" ou um ID válido
+        if ($validatedData['lote_id'] === 'servicos_gerais') {
+            $unidadeId = Auth::user()->unidade_id; // Unidade do usuário logado
+            $loteId = null; // Não associa a nenhum lote específico
+        } else {
+            $lote = Lote::find($validatedData['lote_id']);
+            if (!$lote || $lote->unidade_id !== Auth::user()->unidade_id) {
+                return back()->withErrors(['lote_id' => 'O lote selecionado não é válido.'])->withInput();
+            }
+            $unidadeId = $lote->unidade_id;
+            $loteId = $lote->id;
         }
-
         // Criar visitante diretamente usando `create()`
         Visitante::create([
             'nome' => strtoupper($validatedData['nome']), // Converter nome para maiúsculas

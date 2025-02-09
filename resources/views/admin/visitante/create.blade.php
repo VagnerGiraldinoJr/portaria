@@ -63,11 +63,12 @@
 
                             <!-- Unidade Visitada -->
                             <div class="form-group col-12 col-md-6">
-                                {{ Form::label('lote_id', 'Unidade Visitada') }}
-                                {{ Form::select('lote_id', $lotes, old('lote_id'), [
-                                    'class' => 'form-control',
-                                    'placeholder' => 'Selecione a unidade visitada',
-                                ]) }}
+                                <label for="lote_id">Bloco/Apartamento</label>
+                                <select name="lote_id" id="lote_id" class="form-control">
+                                    @foreach ($lotes as $id => $descricao)
+                                        <option value="{{ $id }}">{{ $descricao }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <!-- Hora de Entrada -->
@@ -78,7 +79,6 @@
                                     'required',
                                 ]) }}
                             </div>
-
 
                             <!-- Celular -->
                             <div class="form-group col-12 col-md-6">
@@ -94,13 +94,23 @@
                                 {{ Form::label('motivo', 'Motivo da Entrada') }}
 
                                 <!-- Botões Predefinidos -->
-                                <div class="mb-2 motive-buttons">
+                                <div class="mb-2 motive-buttons d-flex flex-wrap gap-2">
                                     <button type="button" class="btn btn-outline-info btn-sm motive-option"
-                                        data-value="ENTREGADORES COMIDA">ENTREGADORES COMIDA</button>
+                                        data-value="ENTREGADORES_COMIDA" aria-label="Entregadores de comida">
+                                        Entregadores em Geral
+                                    </button>
                                     <button type="button" class="btn btn-outline-primary btn-sm motive-option"
-                                        data-value="UBER">UBER</button>
+                                        data-value="UBER" aria-label="Motoristas Uber">
+                                        Uber
+                                    </button>
                                     <button type="button" class="btn btn-outline-success btn-sm motive-option"
-                                        data-value="VISITANTES">VISITANTES</button>
+                                        data-value="VISITANTES" aria-label="Visitantes">
+                                        Visitantes
+                                    </button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm motive-option"
+                                        data-value="SERVICOS_GERAIS" aria-label="Serviços gerais em áreas comuns">
+                                        Serviços Gerais em Áreas Comuns
+                                    </button>
                                 </div>
 
                                 <!-- Campo de Entrada Manual -->

@@ -56,10 +56,7 @@
                                             <td>{{ $visitante->placa_do_veiculo ?? 'N/A' }}</td>
 
                                             <!-- Unidade Visitada -->
-                                            <td>{{ $visitante->lote->descricao ?? 'Lote não encontrado' }}</td>
-
-
-                                        
+                                            <td>{{ $visitante->lote->descricao ?? 'Lote não encontrado' }}</td>                                        
 
                                             <!-- Hora de Entrada -->
                                             <td>{{ \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') }}
