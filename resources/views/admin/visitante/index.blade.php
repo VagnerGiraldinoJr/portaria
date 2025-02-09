@@ -1,11 +1,10 @@
 @extends('adminlte::page')
 @section('title', config('admin.title'))
-
 @section('content_header')
     @include('admin.layouts.header')
 @stop
 
-@section('content') 
+@section('content')
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -15,8 +14,6 @@
                         <div class="row">
                             <div class="col-6">
                                 <h3 class="card-title">{{ $params['subtitulo'] }}</h3>
-                                <small class="text-muted d-block">Controle de Acesso da Portaria
-                                    {{ $params['unidade_descricao'] }}</small>
                             </div>
                             <div class="col-6 text-right">
                                 <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-sm">
@@ -56,7 +53,7 @@
                                             <td>{{ $visitante->placa_do_veiculo ?? 'N/A' }}</td>
 
                                             <!-- Unidade Visitada -->
-                                            <td>{{ $visitante->lote->descricao ?? 'Lote não encontrado' }}</td>                                        
+                                            <td>{{ $visitante->lote->descricao ?? 'Lote não encontrado' }}</td>
 
                                             <!-- Hora de Entrada -->
                                             <td>{{ \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') }}
