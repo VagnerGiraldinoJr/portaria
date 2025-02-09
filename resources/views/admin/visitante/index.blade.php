@@ -5,7 +5,7 @@
     @include('admin.layouts.header')
 @stop
 
-@section('content')
+@section('content') 
     <section class="content">
         <div class="row">
             <div class="col-12">
