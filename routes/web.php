@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\ReservaPiscinaController;
 use App\Http\Controllers\Admin\CalendarioController;
+use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PessoaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::get('cliente/edit/{id}', 'ClienteController@edit')->name('admin.cliente.edit');
     Route::get('cliente/show/{id}', 'ClienteController@show')->name('admin.cliente.show');
     Route::put('cliente/update/{id}', 'ClienteController@update')->name('admin.cliente.update');
+
+  
+    Route::get('memory-usage', [IndexController::class, 'getMemoryUsage'])->name('admin.memory-usage');
+
+
 
     //Routes AJAX
     Route::get('cliente/buscar', 'ClienteController@getClienteCpfCnpj')->name('admin.cliente.buscar');

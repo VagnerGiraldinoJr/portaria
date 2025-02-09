@@ -131,4 +131,19 @@ class IndexController extends Controller
 
         return view('admin.index', compact('params', 'data', 'totalPessoas'));
     }
+
+    public function getMemoryUsage()
+    {
+        $totalMemory = (int) shell_exec("free -m | awk 'NR==2{print $2}'"); // Total de Memória RAM em MB
+        $usedMemory = (int) shell_exec("free -m | awk 'NR==2{print $3}'"); // Memória Usada em MB
+
+        // Calcula a porcentagem
+        $memoryUsagePercent = ($totalMemory > 0) ? round(($usedMemory / $totalMemory) * 100, 2) : 0;
+
+        return response()->json([
+            'total' => $totalMemory,
+            'used' => $usedMemory,
+            'percent' => $memoryUsagePercent
+        ]);
+    }
 }
