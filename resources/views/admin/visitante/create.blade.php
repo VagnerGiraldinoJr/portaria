@@ -65,11 +65,20 @@
                             <div class="form-group col-12 col-md-6">
                                 <label for="lote_id">Bloco/Apartamento</label>
                                 <select name="lote_id" id="lote_id" class="form-control">
+                                    <option value="">Selecione o Bloco/Apartamento</option>
+                                    @php $renderedOptions = []; @endphp
                                     @foreach ($lotes as $id => $descricao)
-                                        <option value="{{ $id }}">{{ $descricao }}</option>
+                                        @if (!in_array($descricao, $renderedOptions))
+                                            <option value="{{ $id }}"
+                                                @if (strtoupper($descricao) === 'SERVIÇOS GERAIS') class="highlight-option" @endif>
+                                                {{ strtoupper($descricao) }}
+                                            </option>
+                                            @php $renderedOptions[] = $descricao; @endphp
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
+
 
                             <!-- Hora de Entrada -->
                             <div class="form-group col-12 col-md-6">

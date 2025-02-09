@@ -68,14 +68,17 @@ class VisitanteController extends Controller
 
         // Buscar os lotes da unidade do usuário logado
         $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)
-            ->pluck('descricao', 'id'); // Retorna um array com ID como chave e descrição como valor
+            ->pluck('descricao', 'id') // Obtém lotes como coleção associativa
+            ->toArray(); // Converte para array para manipulação
 
-        // Adicionar a opção "Serviços Gerais" no início do array
-        $lotes = collect(['servicos_gerais' => 'Serviços Gerais'])->merge($lotes);
-
+        // Adicionar "Serviços Gerais" como primeira opção sem duplicar
+        $lotes = array_merge(['servicos_gerais' => 'Serviços Gerais'], $lotes);
 
         return view('admin.visitante.create', compact('params', 'lotes'));
     }
+
+
+
 
     public function edit($id)
     {
@@ -97,31 +100,36 @@ class VisitanteController extends Controller
             'nome' => 'required|string|max:191',
             'documento' => 'required|string|max:191',
             'placa_do_veiculo' => 'nullable|string|max:191',
-            'lote_id' => 'required|exists:lotes,id', // Garantir que lote_id seja obrigatório e válido
+            'lote_id' => 'required', // Garantir que lote_id seja obrigatório
             'hora_de_entrada' => 'required|date_format:Y-m-d\TH:i',
             'motivo' => 'nullable|string|max:255',
             'celular' => 'nullable|string|max:15',
         ]);
 
-        // Verificar se o lote_id é "Serviços Gerais" ou um ID válido
+        // Verificar se o lote_id é "servicos_gerais"
         if ($validatedData['lote_id'] === 'servicos_gerais') {
-            $unidadeId = Auth::user()->unidade_id; // Unidade do usuário logado
-            $loteId = null; // Não associa a nenhum lote específico
+            // Busca ou cria o registro "Serviços Gerais" na tabela lotes
+            $lote = Lote::firstOrCreate(
+
+                ['descricao' => 'SERVIÇOS GERAIS', 'unidade_id' => Auth::user()->unidade_id]
+            );
+            $loteId = $lote->id;
         } else {
+            // Valida o lote selecionado
             $lote = Lote::find($validatedData['lote_id']);
             if (!$lote || $lote->unidade_id !== Auth::user()->unidade_id) {
                 return back()->withErrors(['lote_id' => 'O lote selecionado não é válido.'])->withInput();
             }
-            $unidadeId = $lote->unidade_id;
             $loteId = $lote->id;
         }
+
         // Criar visitante diretamente usando `create()`
         Visitante::create([
             'nome' => strtoupper($validatedData['nome']), // Converter nome para maiúsculas
             'documento' => $validatedData['documento'],
             'placa_do_veiculo' => $validatedData['placa_do_veiculo'] ?? null,
-            'unidade_id' => Auth::user()->unidade_id, // Garantir que seja a unidade do usuário logado
-            'lote_id' => $validatedData['lote_id'],
+            'unidade_id' => Auth::user()->unidade_id, // Unidade do usuário logado
+            'lote_id' => $loteId, // ID do lote válido ou "Serviços Gerais"
             'hora_de_entrada' => $validatedData['hora_de_entrada'],
             'user_id' => Auth::id(),
             'motivo' => $validatedData['motivo'] ?? null,
