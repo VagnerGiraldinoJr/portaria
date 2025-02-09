@@ -708,4 +708,6 @@ return [
     */
 
     'livewire' => false,
+
+    
 ];

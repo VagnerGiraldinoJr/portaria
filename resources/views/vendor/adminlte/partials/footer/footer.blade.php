@@ -1,5 +1,6 @@
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    // Atualizar o badge do uso de memória
+    document.addEventListener('DOMContentLoaded', function () {
         function updateMemoryUsage() {
             fetch("{{ url('/admin/memory-usage') }}")
                 .then(response => response.json())
@@ -7,9 +8,10 @@
                     const badge = document.getElementById('memory-badge');
 
                     if (badge) {
+                        // Atualiza o texto do badge
                         badge.innerText = `${data.percent}%`;
 
-                        // Atualizar a cor do badge com base no uso de memória
+                        // Atualiza a classe para mudar a cor com base na porcentagem
                         if (data.percent < 50) {
                             badge.className = "badge badge-success float-right"; // Verde
                         } else if (data.percent < 80) {
@@ -31,7 +33,7 @@
                 });
         }
 
-        // Chama a função ao carregar a página e a cada 5 segundos
+        // Atualiza o badge a cada 5 segundos
         updateMemoryUsage();
         setInterval(updateMemoryUsage, 5000);
     });
