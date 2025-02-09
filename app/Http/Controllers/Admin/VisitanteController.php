@@ -46,7 +46,7 @@ class VisitanteController extends Controller
         $params = $this->params;
 
         // Buscar visitantes apenas da unidade logada
-        $visitantes = Visitante::with(['lote', 'unidade'])
+        $visitantes = Visitante::with(['lote'])
             ->where('unidade_id', Auth::user()->unidade_id) // Filtra pela unidade do usuário logado
             ->orderByRaw('hora_de_saida IS NULL DESC') // Registros sem saída primeiro
             ->orderByDesc('created_at') // Ordena por data de criação decrescente

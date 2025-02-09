@@ -54,13 +54,16 @@
 
                                             <!-- Placa do Veículo -->
                                             <td>{{ $visitante->placa_do_veiculo ?? 'N/A' }}</td>
-                                            <!-- HORA ENTRADA -->
+
+                                            <!-- Unidade Visitada -->
+                                            <td>{{ $visitante->lote->descricao ?? 'Lote não encontrado' }}</td>
+
+
+                                        
+
+                                            <!-- Hora de Entrada -->
                                             <td>{{ \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
-                                            <!-- HORA SAIDA -->
-                                            <td>{{ $visitante->hora_de_saida ? \Carbon\Carbon::parse($visitante->hora_de_saida)->format('d/m/Y H:i:s') : 'Ainda presente' }}
-                                            </td>
-
 
                                             <!-- Hora de Saída -->
                                             <td>
@@ -76,17 +79,22 @@
                                             <td>{{ $visitante->motivo ?? 'N/A' }}</td>
 
                                             <!-- Ações -->
-                                            <td>
-                                                @if (!$visitante->hora_de_saida)
-                                                    <a href="{{ route('admin.visitante.exit', $visitante->id) }}"
-                                                        class="btn btn-sm btn-outline-primary">
-                                                        Registrar Saída
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-around align-items-center">
+                                                    <!-- Botão Registrar Saída (se aplicável) -->
+                                                    @if (!$visitante->hora_de_saida)
+                                                        <a href="{{ route('admin.visitante.exit', $visitante->id) }}"
+                                                            class="btn btn-sm btn-outline-primary">
+                                                            Registrar Saída
+                                                        </a>
+                                                    @endif
+
+                                                    <!-- Botão Enviar Mensagem -->
+                                                    <a href="https://wa.me/{{ $visitante->celular }}" target="_blank"
+                                                        class="btn btn-sm btn-success">
+                                                        <i class="fab fa-whatsapp"></i> Enviar Mensagem
                                                     </a>
-                                                @endif
-                                                <a href="https://wa.me/{{ $visitante->celular ?? '' }}" target="_blank"
-                                                    class="btn btn-success btn-sm">
-                                                    <i class="fab fa-whatsapp"></i> Enviar Mensagem
-                                                </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
