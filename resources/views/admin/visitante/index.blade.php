@@ -143,7 +143,7 @@
                 },
             },
             "order": [
-                [4, "desc"], // Ordena pela coluna "Hora de Entrada"
+                [5, "desc"], // Ordena pela coluna "Hora de Entrada"
             ],
         });
     });
