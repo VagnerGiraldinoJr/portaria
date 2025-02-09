@@ -48,46 +48,67 @@
                             <!-- Nome Completo -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('nome_completo', 'Nome Completo') }}
-                                {{ Form::text('nome_completo', null, ['class' => 'form-control', 'placeholder' => 'Informe o nome completo']) }}
+                                {{ Form::text('nome_completo', null, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Informe o nome completo',
+                                ]) }}
                             </div>
 
                             <!-- RG/CPF -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('rg', 'RG/CPF') }}
-                                {{ Form::text('rg', null, ['class' => 'form-control rg', 'placeholder' => 'Informe o número do RG/CPF completo']) }}
+                                {{ Form::text('rg', null, [
+                                    'class' => 'form-control rg',
+                                    'placeholder' => 'Informe o número do RG/CPF completo',
+                                ]) }}
                             </div>
 
                             <!-- Celular -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('celular', 'Nº Celular') }}
-                                {{ Form::text('celular', null, ['class' => 'form-control celular', 'placeholder' => 'Informe o número celular']) }}
+                                {{ Form::text('celular', null, [
+                                    'class' => 'form-control celular',
+                                    'placeholder' => 'Informe o número celular',
+                                ]) }}
                             </div>
 
                             <!-- Lote -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('lote_id', 'Lote (Unidade/Apto)') }}
-                                {{ Form::select('lote_id', $preload['lote_id'], isset($data->lote_id) ? $data->lote_id : null, [
+                                {{ Form::select('lote_id', $preload['lote_id'], $data->lote_id ?? null, [
                                     'class' => 'form-control',
                                     'id' => 'lote_id',
+                                    'placeholder' => 'Selecione o lote',
+                                ]) }}
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group col-6 col-md-6 col-lg-6">
+                                {{ Form::label('email', 'E-mail') }}
+                                {{ Form::email('email', $data->email ?? null, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Digite o e-mail do morador',
                                 ]) }}
                             </div>
 
                             <!-- Classificação -->
-                            <div class="form-group col-12 col-md-12 col-lg-12">
+                            <div class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('tipo', 'Classificação') }}
-                                {{ Form::select('tipo', $preload['tipo'], isset($data->tipo) ? $data->tipo : null, [
+                                {{ Form::select('tipo', $preload['tipo'], $data->tipo ?? null, [
                                     'class' => 'form-control',
+                                    'placeholder' => 'Selecione a classificação',
                                 ]) }}
                             </div>
 
                             <!-- Botões -->
-                            <div class="form-group col-6 col-md-6 col-lg-6 pt-2">
+                            <div class="form-group col-12 pt-2">
                                 {{ Form::submit('Salvar', ['class' => 'btn btn-success btn-sm']) }}
                             </div>
                         </div>
 
                         {{ Form::close() }}
                     </div>
+
                     <!-- /.card-body -->
 
                     <!-- Listagem de moradores associados -->

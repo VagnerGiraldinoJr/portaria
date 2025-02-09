@@ -1,33 +1,36 @@
 @extends('adminlte::page')
 @section('title', config('admin.title'))
+
 @section('content_header')
     @include('admin.layouts.header')
 @stop
-@section('content')
-@section('content')
 
+@section('content')
     <section class="content">
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <!-- Card Header -->
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
                                 <h3 class="card-title">{{ $params['subtitulo'] }}</h3>
+                                <small class="text-muted d-block">Controle de Acesso da Portaria
+                                    {{ $params['unidade_descricao'] }}</small>
                             </div>
                             <div class="col-6 text-right">
-                                <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-xs"><span
-                                        class="fas fa-plus"></span> Novo
-                                    Cadastro</a>
+                                <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-sm">
+                                    <span class="fas fa-plus"></span> Novo Cadastro
+                                </a>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
+
+                    <!-- Card Body -->
                     <div class="card-body table-responsive">
-                        @if (isset($data) && count($data))
-
-                            <table id="dataTablePortaria" class="table table-hover">
-
+                        @if (count($visitantes))
+                            <table id="dataTableVisitantes" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
@@ -36,35 +39,54 @@
                                         <th>Unidade Visitada</th>
                                         <th>Hora de Entrada</th>
                                         <th>Hora de Saída</th>
-                                        <th>Motivo Entrada ?</th>
+                                        <th>Motivo Entrada</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($visitantes as $visitante)
                                         <tr>
+                                            <!-- Nome -->
                                             <td>{{ $visitante->nome }}</td>
+
+                                            <!-- Documento -->
                                             <td>{{ $visitante->documento }}</td>
-                                            <td>{{ $visitante->placa_do_veiculo }}</td>
-                                            <td>{{ $visitante->lote ? $visitante->lote->descricao : 'Sem lote associado' }}
+
+                                            <!-- Placa do Veículo -->
+                                            <td>{{ $visitante->placa_do_veiculo ?? 'N/A' }}</td>
+                                            <!-- HORA ENTRADA -->
+                                            <td>{{ \Carbon\Carbon::parse($visitante->hora_de_entrada)->format('d/m/Y H:i:s') }}
                                             </td>
-                                            {{-- <td>{{ $visitante->lote->descricao }}</td> --}}
-
-                                            <td>{{ $visitante->hora_de_entrada->format('d/m/Y H:i:s') }}</td>
-                                            <td>{{ $visitante->hora_de_saida ? $visitante->hora_de_saida->format('d/m/Y H:i:s') : '-' }}
+                                            <!-- HORA SAIDA -->
+                                            <td>{{ $visitante->hora_de_saida ? \Carbon\Carbon::parse($visitante->hora_de_saida)->format('d/m/Y H:i:s') : 'Ainda presente' }}
                                             </td>
 
 
-                                            <td>{{ $visitante->motivo }}</td>
+                                            <!-- Hora de Saída -->
                                             <td>
-
-                                                @if ($visitante->hora_de_saida == null)
-                                                    <a href="{{ route($params['main_route'] . '.exit', $visitante->id) }}"
-                                                        class="btn btn-outline-primary btn-xs"><span
-                                                            class="fas fa-check"></span> Marcar
-                                                        Saída</a>
+                                                @if ($visitante->hora_de_saida)
+                                                    <span
+                                                        class="badge badge-success">{{ \Carbon\Carbon::parse($visitante->hora_de_saida)->format('d/m/Y H:i:s') }}</span>
+                                                @else
+                                                    <span class="badge badge-warning">Ainda presente</span>
                                                 @endif
+                                            </td>
 
+                                            <!-- Motivo Entrada -->
+                                            <td>{{ $visitante->motivo ?? 'N/A' }}</td>
+
+                                            <!-- Ações -->
+                                            <td>
+                                                @if (!$visitante->hora_de_saida)
+                                                    <a href="{{ route('admin.visitante.exit', $visitante->id) }}"
+                                                        class="btn btn-sm btn-outline-primary">
+                                                        Registrar Saída
+                                                    </a>
+                                                @endif
+                                                <a href="https://wa.me/{{ $visitante->celular ?? '' }}" target="_blank"
+                                                    class="btn btn-success btn-sm">
+                                                    <i class="fab fa-whatsapp"></i> Enviar Mensagem
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -76,41 +98,35 @@
                             </div>
                         @endif
                     </div>
-
                     <!-- /.card-body -->
                 </div>
             </div>
         </div>
     </section>
-
-
 @stop
 
 @section('css')
     <link rel="stylesheet" href="/css/style.css">
 @section('plugins.Datatables', true)
-
 @stop
 
 @section('js')
-
 <script>
     $(document).ready(function() {
-        var table = $('#dataTablePortaria').DataTable({
+        var table = $('#dataTableVisitantes').DataTable({
             "pageLength": 25,
             "language": {
                 "decimal": "",
-                "emptyTable": "Dados Indisponiveis na Tabela",
-                "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
-                "infoEmpty": "Mostrando 0 linhas",
-                "infoFiltered": "(filtrando _MAX_ total de linhas)",
-                "infoPostFix": "",
+                "emptyTable": "Dados Indisponíveis na Tabela",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros totais)",
                 "thousands": ",",
-                "lengthMenu": "Mostrando _MENU_ linhas",
+                "lengthMenu": "Mostrar _MENU_ registros",
                 "loadingRecords": "Carregando...",
                 "processing": "Processando...",
                 "search": "Busca:",
-                "zeroRecords": "Nenhum resultado encontrado",
+                "zeroRecords": "Nenhum registro encontrado",
                 "paginate": {
                     "first": "Primeiro",
                     "last": "Último",
@@ -119,13 +135,8 @@
                 },
             },
             "order": [
-                [7, "desc"],
-                [7, "desc"]
+                [4, "desc"], // Ordena pela coluna "Hora de Entrada"
             ],
-            "columnDefs": [{
-                "orderable": true,
-                "targets": [7]
-            }],
         });
     });
 </script>

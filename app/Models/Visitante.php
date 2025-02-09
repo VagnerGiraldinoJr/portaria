@@ -17,17 +17,21 @@ class Visitante extends Model
         'hora_de_entrada',
         'hora_de_saida',
         'motivo',
-        'user_id'
+        'user_id',
+        'celular' // Adicionando o campo celular
     ];
 
     public function unidade()
     {
-        return $this->belongsTo(Unidade::class, 'unidade_id');
+        return $this->belongsTo(Unidade::class, 'unidade_id', 'id');
+        
     }
 
     public function lote()
     {
-        return $this->belongsTo(Lote::class, 'lote_id');
+        return $this->belongsTo(Lote::class, 'lote_id', 'id');
+        
+        
     }
 
     // Acessor para hora_de_entrada

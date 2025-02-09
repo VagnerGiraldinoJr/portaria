@@ -21,6 +21,7 @@
                                 <a href="{{ route($params['main_route'] . '.create') }}" class="btn btn-primary btn-xs"><span
                                         class="fas fa-plus"></span> Novo Cadastro</a>
                             </div>
+                            
                         </div>
 
                     </div>
@@ -33,6 +34,7 @@
                                         <th>RG</th>
                                         <th>Nr Celular</th>
                                         <th>Nome Completo</th>
+                                        <th>E-mail</th>
                                         <th>Tipo</th>
                                         <th>Unidade</th>
                                         <th>Operações</th>
@@ -44,6 +46,7 @@
                                             <td>{{ $item->rg }}</td>
                                             <td>{{ $item->celular }}</td>
                                             <td>{{ $item->nome_completo }}</td>
+                                            <td>{{ $item->email }}</td>
                                             <td>{{ $item->desc_tipo }}</td>
                                             <td>{{ $item->lote->descricao }}</td>
 

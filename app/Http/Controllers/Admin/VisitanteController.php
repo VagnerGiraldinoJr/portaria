@@ -9,13 +9,19 @@ use App\Models\Visitante;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
+
 
 class VisitanteController extends Controller
 {
     private $params = [];
-    private $visitante = [];
+    private Visitante $visitante;
 
+    /**
+     * Construtor do VisitanteController
+     *
+     * @param Visitante $visitantes Instância do modelo Visitante
+     */
     public function __construct(Visitante $visitantes)
     {
         $this->visitante = $visitantes;
@@ -27,106 +33,94 @@ class VisitanteController extends Controller
 
     public function index()
     {
-        // PARAMS DEFAULT
+        // Definir os parâmetros padrão
         $this->params['subtitulo'] = 'Cadastro de Visitantes';
-        $this->params['unidade_descricao'] = '';
         $this->params['arvore'][0] = [
             'url' => 'admin/visitante',
-            'titulo' => 'Cadastro Visitantes'
+            'titulo' => 'Cadastro Visitantes',
         ];
 
-        // Obter a descrição da unidade dentro do params['unidade_descricao']
-        $unidadeId = Auth::user()->unidade_id;
-        $descricaoUnidade = DB::table('unidades')
-            ->where('id', $unidadeId)
-            ->value('titulo');
-        $this->params['unidade_descricao'] = $descricaoUnidade;
-        // Final do bloco da descricao atualizada
+        // Obter a descrição da unidade com base no usuário logado
+        $this->params['unidade_descricao'] = Unidade::where('id', Auth::user()->unidade_id)->value('titulo');
 
         $params = $this->params;
 
-        $visitantes = Visitante::with('unidade', 'lote')
-            ->where('unidade_id', Auth::user()->unidade_id)
-            ->orderByRaw('hora_de_saida IS NULL DESC')
-            ->orderBy('created_at', 'DESC') // Ordenar por created_at em ordem decrescente
+        // Buscar visitantes apenas da unidade logada
+        $visitantes = Visitante::with(['lote', 'unidade'])
+            ->where('unidade_id', Auth::user()->unidade_id) // Filtra pela unidade do usuário logado
+            ->orderByRaw('hora_de_saida IS NULL DESC') // Registros sem saída primeiro
+            ->orderByDesc('created_at') // Ordena por data de criação decrescente
             ->get();
 
-        // Obter os lotes com os usuários da unidade
-        $resultados = Lote::with(['unidade.users'])
-            ->where('unidade_id', $unidadeId)
-            ->get();
-
-        // Obter dados dos visitantes, pode ser redundante com a consulta acima
-        $data = Visitante::where('unidade_id', $unidadeId)->get();
-
-        return view('admin.visitante.index', compact('resultados', 'visitantes', 'params', 'data'));
+        return view('admin.visitante.index', compact('visitantes', 'params'));
     }
 
     public function create()
     {
-        // PARAMS DEFAULT
+        // Definir os parâmetros padrão
         $this->params['subtitulo'] = 'Cadastrar Visitante';
         $this->params['arvore'] = [
-            [
-                'url' => 'admin/visitante',
-                'titulo' => 'Cadastro de Visitantes'
-            ],
-            [
-                'url' => '',
-                'titulo' => 'Cadastrar'
-            ]
+            ['url' => 'admin/visitante', 'titulo' => 'Cadastro de Visitantes'],
+            ['url' => '', 'titulo' => 'Cadastrar']
         ];
 
         $params = $this->params;
-        $unidades = Unidade::all();
-        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)->get();
-        $data = $this->visitante->select('visitantes.*')->where('visitantes.unidade_id', Auth::user()->unidade_id)->get();
 
-        return view('admin.visitante.create', compact('unidades', 'lotes', 'params'));
+        // Buscar os lotes da unidade do usuário logado
+        $lotes = Lote::where('unidade_id', Auth::user()->unidade_id)
+            ->pluck('descricao', 'id'); // Retorna um array com ID como chave e descrição como valor
+
+        return view('admin.visitante.create', compact('params', 'lotes'));
     }
+
+    public function edit($id)
+    {
+        $visitante = Visitante::findOrFail($id);
+
+        $params = [
+            'titulo' => 'Editar Visitante',
+            'subtitulo' => 'Atualizar informações do visitante',
+        ];
+
+        return view('admin.visitante.create', compact('params', 'visitante'));
+    }
+
 
     public function store(Request $request)
     {
         // Validação dos dados
-        $request->validate([
+        $validatedData = $request->validate([
             'nome' => 'required|string|max:191',
             'documento' => 'required|string|max:191',
-            'placa_do_veiculo' => 'required|string|max:191',
-            'lote_id' => 'nullable|exists:lotes,id',
+            'placa_do_veiculo' => 'nullable|string|max:191',
+            'lote_id' => 'required|exists:lotes,id', // Garantir que lote_id seja obrigatório e válido
             'hora_de_entrada' => 'required|date_format:Y-m-d\TH:i',
-            'motivo' => 'nullable|string',
+            'motivo' => 'nullable|string|max:255',
+            'celular' => 'nullable|string|max:15',
         ]);
 
-        $user_id = Auth::id();
-        if (!$user_id) {
-            return back()->withErrors(['user_id' => 'User ID is missing'])->withInput();
+        // Obtém o lote e valida que pertence à unidade do usuário logado
+        $lote = Lote::find($validatedData['lote_id']);
+        if (!$lote || $lote->unidade_id !== Auth::user()->unidade_id) {
+            return back()->withErrors(['lote_id' => 'O lote selecionado não pertence à sua unidade.'])->withInput();
         }
 
-        // Obtém o ID do lote a partir do formulário
-        $lote_id = $request->lote_id;
-
-        // Obtém o ID da unidade a partir do registro do lote
-        $dataForm['unidade_id'] = Auth::user()->unidade_id;
-        $unidade_id = Lote::find($lote_id)->unidade_id ?? null;
-
-
-        // Cria um novo registro de visitante com os dados fornecidos e o ID do usuário logado
-        $visitante = new Visitante([
-            'nome' => $request->nome,
-            'documento' => $request->documento,
-            'placa_do_veiculo' => $request->placa_do_veiculo,
-            'unidade_id' => $unidade_id,
-            'lote_id' => $lote_id,
-            'hora_de_entrada' => $request->hora_de_entrada,
-            'user_id' => $user_id,
-            'motivo' => $request->motivo,
+        // Criar visitante diretamente usando `create()`
+        Visitante::create([
+            'nome' => strtoupper($validatedData['nome']), // Converter nome para maiúsculas
+            'documento' => $validatedData['documento'],
+            'placa_do_veiculo' => $validatedData['placa_do_veiculo'] ?? null,
+            'unidade_id' => Auth::user()->unidade_id, // Garantir que seja a unidade do usuário logado
+            'lote_id' => $validatedData['lote_id'],
+            'hora_de_entrada' => $validatedData['hora_de_entrada'],
+            'user_id' => Auth::id(),
+            'motivo' => $validatedData['motivo'] ?? null,
+            'celular' => $validatedData['celular'] ?? null,
         ]);
 
-        $visitante->save();
-
-
-        return redirect()->route('admin.visitante.index')->with('success', 'Entrada do Visitante criada com sucesso.');
+        return redirect()->route('admin.visitante.index')->with('success', 'Entrada do visitante criada com sucesso.');
     }
+
 
 
     public function exit($id)
@@ -146,7 +140,7 @@ class VisitanteController extends Controller
         ];
 
         $params = $this->params;
-        $data = $this->visitante->find($id);
+        $data = Visitante::find($id);
 
         // Verificar se o visitante foi encontrado
         if ($data) {
@@ -167,6 +161,30 @@ class VisitanteController extends Controller
             return redirect()->route('admin.visitante.index')->with('error', 'Visitante não encontrado.');
         }
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nome' => 'required|string|max:191',
+            'documento' => 'nullable|string|max:191',
+            'placa_do_veiculo' => 'nullable|string|max:10',
+            'unidade_id' => 'required|exists:unidades,id',
+            'lote_id' => 'nullable|exists:lotes,id',
+            'motivo' => 'nullable|string|max:191',
+            'celular' => 'nullable|string|max:15', // Adicionando a validação do celular
+        ]);
+
+        $visitante = Visitante::findOrFail($id);
+        $visitante->nome = strtoupper($request->input('nome'));
+        $visitante->documento = $request->input('documento');
+        $visitante->placa_do_veiculo = $request->input('placa_do_veiculo');
+        $visitante->unidade_id = $request->input('unidade_id');
+        $visitante->lote_id = $request->input('lote_id');
+        $visitante->motivo = $request->input('motivo');
+        $visitante->celular = $request->input('celular'); // Atualizando o celular
+        $visitante->save();
+
+        return redirect()->route('admin.visitante.index')->with('success', 'Visitante atualizado com sucesso!');
+    }
 
 
     public function updateexit(Request $request, $id)
@@ -181,50 +199,5 @@ class VisitanteController extends Controller
         } else {
             return redirect()->route($this->params['main_route'] . '.create')->withErrors(['Falha ao editar.']);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

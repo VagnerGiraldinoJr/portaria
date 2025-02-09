@@ -9,7 +9,7 @@ use App\Models\Pessoa;
 use App\Models\TableCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 
 class PessoaController extends Controller
 {
@@ -50,46 +50,65 @@ class PessoaController extends Controller
 
     public function create(TableCode $codes)
     {
-        // PARAMS DEFAULT
         $this->params['subtitulo'] = 'Cadastrar Pessoas';
         $this->params['arvore'] = [
-            [
-                'url' => 'admin/pessoa',
-                'titulo' => 'Cadastro de Pessoas'
-            ],
-            [
-                'url' => '',
-                'titulo' => 'Cadastrar'
-            ]
+            ['url' => 'admin/pessoa', 'titulo' => 'Cadastro de Pessoas'],
+            ['url' => '', 'titulo' => 'Cadastrar']
         ];
+
         $params = $this->params;
+
+        // Carregar os tipos e os lotes
         $preload['tipo'] = $codes->select(4);
         $preload['lote_id'] = $this->lote->where('unidade_id', Auth::user()->unidade_id)
             ->orderBy('descricao')
             ->pluck('descricao', 'id');
-        return view('admin.pessoa.create', compact('params', 'preload'));
+
+        $data = null; // Para evitar problemas se não houver dados a serem carregados
+
+        
+
+        return view('admin.pessoa.create', compact('params', 'preload', 'data'));
     }
+
+
 
     public function store(PessoaRequest $request)
     {
         // Obter todos os dados do request
         $dataForm = $request->all();
 
-        // Converter o campo 'descricao' para UPPERCASE
+        // Validação adicional caso seja necessário
+        $request->validate([
+            'nome_completo' => 'required|string|max:191',
+            'rg' => 'nullable|string|max:191',
+            'celular' => 'nullable|string|max:15',
+            'tipo' => 'required|string|max:191',
+            'lote_id' => 'required|exists:lotes,id',
+            'email' => 'nullable|email|max:191', // Valida o campo de e-mail
+        ]);
+
+        // Converter o campo 'nome_completo' para UPPERCASE
         if (isset($dataForm['nome_completo'])) {
             $dataForm['nome_completo'] = strtoupper($dataForm['nome_completo']);
         }
 
         // Inserir os dados no banco de dados
-        $insert = $this->pessoa->create($dataForm);
+        try {
+            $insert = $this->pessoa->create($dataForm);
 
-        if ($insert) {
-            return redirect()->route($this->params['main_route'] . '.index');
-        } else {
+            if ($insert) {
+                return redirect()->route($this->params['main_route'] . '.index')
+                    ->with('success', 'Cadastro realizado com sucesso!');
+            }
+        } catch (\Exception $e) {
+            // Log do erro (opcional)
+            Log::error('Erro ao cadastrar pessoa: ' . $e->getMessage());
             return redirect()->route($this->params['main_route'] . '.create')
-                ->withErrors(['Falha ao fazer Inserir.']);
+                ->withErrors(['Erro ao cadastrar. Por favor, tente novamente.']);
         }
     }
+
 
 
     public function show($id, TableCode $codes)
@@ -197,13 +216,13 @@ class PessoaController extends Controller
         // Consulta com os filtros e relacionamentos
         $data = $this->pessoa->with([
             'lote' => function ($query) {
-                $query->select('id', 'descricao', 'inadimplente', 'inadimplente_em','unidade_id') // Inclui unidade_id para carregar o relacionamento
+                $query->select('id', 'descricao', 'inadimplente', 'inadimplente_em', 'unidade_id') // Inclui unidade_id para carregar o relacionamento
                     ->with(['unidade' => function ($subQuery) {
                         $subQuery->select('id', 'titulo'); // Seleciona apenas os campos necessários da tabela unidades
                     }]);
             }
         ])
-            ->select('id', 'nome_completo', 'rg', 'celular', 'tipo','lote_id') // Inclui os campos necessários da tabela pessoas
+            ->select('id', 'nome_completo', 'rg', 'celular', 'tipo', 'lote_id') // Inclui os campos necessários da tabela pessoas
             ->when($nome, function ($query, $nome) {
                 $query->where('nome_completo', 'like', '%' . $nome . '%');
             })

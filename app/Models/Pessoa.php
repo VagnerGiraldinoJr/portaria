@@ -11,6 +11,7 @@ class Pessoa extends Model
         "nome_completo",
         "celular",
         "rg",
+        "email",
         "tipo",
         "lote_id",
         "desc_tipo"
@@ -59,6 +60,6 @@ class Pessoa extends Model
         }
 
         // Caso contrário, retorna nulo ou outra mensagem padrão
-        return '----';
+        return '---';
     }
 }

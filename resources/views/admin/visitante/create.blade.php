@@ -10,76 +10,113 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-6">
-                                <h3 class="card-title">{{ $params['subtitulo'] }}</h3>
-                            </div>
-                            <div class="col-6 text-right">
-                                <a href="{{ route($params['main_route'] . '.index') }}" class="btn btn-primary btn-xs">
-                                    <span class="fas fa-arrow-left"></span> Voltar
-                                </a>
-                            </div>
-                        </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">{{ $params['subtitulo'] }}</h3>
+                        <a href="{{ route($params['main_route'] . '.index') }}" class="btn btn-primary btn-sm ml-auto">
+                            <span class="fas fa-arrow-left"></span> Voltar
+                        </a>
                     </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="m-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    {{ Form::open(['route' => 'admin.visitante.store', 'method' => 'POST']) }}
-                    <div class="container">
-                        <br>
-                        <div class="row">
-                            <div class="form-group col-12 col-md-6">
-                                <label for="nome">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required>
-                            </div>
-
-                            <div class="form-group col-12 col-md-6">
-                                <label for="documento">Documento:</label>
-                                <input type="text" name="documento" id="documento" class="form-control" required>
-                            </div>
-
-                            <div class="form-group col-12 col-md-6">
-                                <label for="placa_do_veiculo">Placa do Veículo:</label>
-                                <input type="text" name="placa_do_veiculo" id="placa_do_veiculo" class="form-control"
-                                    required>
-                            </div>
-
-                            <div class="form-group col-12 col-md-6">
-                                <label for="lote_id">Unidade Visitada:</label>
-                                <select name="lote_id" id="lote_id" class="form-control">
-                                    <option value="" disabled selected>Selecione Unidade</option>
-                                    @foreach ($lotes as $lote)
-                                        <option value="{{ $lote->id }}">{{ $lote->descricao }}</option>
+                    <div class="card-body">
+                        <!-- Exibir erros -->
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="m-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
                                     @endforeach
-                                </select>
+                                </ul>
                             </div>
+                        @endif
 
+                        <!-- Formulário -->
+                        {{ Form::open(['route' => 'admin.visitante.store', 'method' => 'POST']) }}
+                        <div class="row">
+                            <!-- Nome -->
                             <div class="form-group col-12 col-md-6">
-                                <label for="hora_de_entrada">Hora de Entrada:</label>
-                                <input type="datetime-local" name="hora_de_entrada" id="hora_de_entrada"
-                                    class="form-control" required>
+                                {{ Form::label('nome', 'Nome') }}
+                                {{ Form::text('nome', old('nome'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Digite o nome do visitante',
+                                    'required',
+                                ]) }}
                             </div>
 
+                            <!-- Documento -->
                             <div class="form-group col-12 col-md-6">
-                                <label for="motivo">Motivo Entrada:</label>
-                                <input type="text" name="motivo" id="motivo" class="form-control" required>
+                                {{ Form::label('documento', 'Documento') }}
+                                {{ Form::text('documento', old('documento'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Digite o documento (RG ou CPF)',
+                                    'required',
+                                ]) }}
                             </div>
 
+                            <!-- Placa do Veículo -->
+                            <div class="form-group col-12 col-md-6">
+                                {{ Form::label('placa_do_veiculo', 'Placa do Veículo') }}
+                                {{ Form::text('placa_do_veiculo', old('placa_do_veiculo'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Digite a placa do veículo',
+                                ]) }}
+                            </div>
+
+                            <!-- Unidade Visitada -->
+                            <div class="form-group col-12 col-md-6">
+                                {{ Form::label('lote_id', 'Unidade Visitada') }}
+                                {{ Form::select('lote_id', $lotes, old('lote_id'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Selecione a unidade visitada',
+                                ]) }}
+                            </div>
+
+                            <!-- Hora de Entrada -->
+                            <div class="form-group col-12 col-md-6">
+                                {{ Form::label('hora_de_entrada', 'Hora de Entrada') }}
+                                {{ Form::datetimeLocal('hora_de_entrada', \Carbon\Carbon::now()->format('Y-m-d\TH:i'), [
+                                    'class' => 'form-control datetime-input',
+                                    'required',
+                                ]) }}
+                            </div>
+
+
+                            <!-- Celular -->
+                            <div class="form-group col-12 col-md-6">
+                                {{ Form::label('celular', 'Número de Celular') }}
+                                {{ Form::text('celular', old('celular'), [
+                                    'class' => 'form-control celular',
+                                    'placeholder' => 'Informe o número de celular com DDD (ex: (42) 9 96190016)',
+                                ]) }}
+                            </div>
+
+                            <!-- Motivo da Entrada -->
                             <div class="form-group col-12">
-                                {{ Form::submit('Salvar', ['class' => 'btn btn-success btn-sm']) }}
+                                {{ Form::label('motivo', 'Motivo da Entrada') }}
+
+                                <!-- Botões Predefinidos -->
+                                <div class="mb-2 motive-buttons">
+                                    <button type="button" class="btn btn-outline-info btn-sm motive-option"
+                                        data-value="ENTREGADORES COMIDA">ENTREGADORES COMIDA</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm motive-option"
+                                        data-value="UBER">UBER</button>
+                                    <button type="button" class="btn btn-outline-success btn-sm motive-option"
+                                        data-value="VISITANTES">VISITANTES</button>
+                                </div>
+
+                                <!-- Campo de Entrada Manual -->
+                                {{ Form::text('motivo', old('motivo'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Digite ou selecione o motivo da entrada',
+                                    'required',
+                                ]) }}
+                            </div>
+                            <!-- Botão de Salvar -->
+                            <div class="form-group col-12 text-right">
+                                {{ Form::submit('Salvar', ['class' => 'btn btn-success']) }}
                             </div>
                         </div>
+                        {{ Form::close() }}
                     </div>
-                    {{ Form::close() }}
                 </div>
             </div>
         </div>
@@ -91,7 +128,36 @@
 @stop
 
 @section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const motiveButtons = document.querySelectorAll('.motive-option');
+            const motiveInput = document.querySelector('input[name="motivo"]');
+
+            motiveButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove a classe "ativo" de todos os botões
+                    motiveButtons.forEach(btn => btn.classList.remove('btn-selected'));
+
+                    // Adiciona a classe "ativo" ao botão clicado
+                    this.classList.add('btn-selected');
+
+                    // Atualiza o valor do campo de entrada com o valor do botão clicado
+                    motiveInput.value = this.getAttribute('data-value');
+                });
+            });
+        });
+    </script>
     <script src="{{ asset('js/plugin/jquery.js') }}"></script>
     <script src="{{ asset('plugin/jquery.mask.min.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Aplicar máscara ao campo de celular no formato "42 996190016"
+            $('.celular').mask('00 000000000', {
+                onKeyPress: function(cep, e, field, options) {
+                    // Opcional: Adicione lógica para validar DDD ou outros requisitos aqui
+                }
+            });
+        });
+    </script>
 @stop
