@@ -1,176 +1,101 @@
 <?php
 
-use App\Http\Controllers\Admin\ClienteController;
-use App\Http\Controllers\Admin\PassagemTurnoController;
 use App\Http\Controllers\Admin\ControleAcessoController;
 use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\ReservaPiscinaController;
 use App\Http\Controllers\Admin\CalendarioController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\LoteController;
+use App\Http\Controllers\Admin\PassagemTurnoController;
 use App\Http\Controllers\Admin\PessoaController;
+use App\Http\Controllers\Admin\UnidadeController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VeiculoController;
+use App\Http\Controllers\Admin\VisitanteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/admin');
+// 🔹 Substituindo Closure por redirect automático
+Route::redirect('/', '/admin');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl']], function () {
+    Route::get('/', [IndexController::class, 'index'])->name('admin');
+    Route::get('/home', [IndexController::class, 'index'])->name('home');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' => 'Admin'], function () {
-    Route::get('/', 'IndexController@index')->name('admin');
-    Route::get('/home', 'IndexController@index')->name('home');
-    //Cliente
-    Route::any('cliente', [ClienteController::class, 'index'])->name('admin.cliente.index');
-    Route::get('cliente/create', 'ClienteController@create')->name('admin.cliente.create');
-    Route::post('cliente/store', 'ClienteController@store')->name('admin.cliente.store');
-    Route::get('cliente/edit/{id}', 'ClienteController@edit')->name('admin.cliente.edit');
-    Route::get('cliente/show/{id}', 'ClienteController@show')->name('admin.cliente.show');
-    Route::put('cliente/update/{id}', 'ClienteController@update')->name('admin.cliente.update');
-
-  
-   
-
-    //Routes AJAX
-    Route::get('cliente/buscar', 'ClienteController@getClienteCpfCnpj')->name('admin.cliente.buscar');
-
-    //Orcamento
-    Route::any('orcamento', 'OrcamentoController@index')->name('admin.orcamento.index');
-    Route::get('orcamento/create', 'OrcamentoController@create')->name('admin.orcamento.create');
-    Route::post('orcamento/store', 'OrcamentoController@store')->name('admin.orcamento.store');
-    Route::get('orcamento/edit/{id}', 'OrcamentoController@edit')->name('admin.orcamento.edit');
-    //Route::get('orcamento/show/{id}', 'OrcamentoController@show')->name('admin.orcamento.show');
-    Route::put('orcamento/update/{id}', 'OrcamentoController@update')->name('admin.orcamento.update');
-    Route::delete('orcamento/destroy/{id}', 'OrcamentoController@destroy')->name('admin.orcamento.destroy');
-    Route::get('orcamento/buscar', 'OrcamentoController@getOrcamentoById')->name('admin.orcamento.buscar');
-    Route::get('orcamento/print/{id}', 'OrcamentoController@print')->name('admin.print.orcamento');
-
-    //Pedido
-    Route::any('pedido', 'PedidoController@index')->name('admin.pedido.index');
-    Route::get('pedido/create', 'PedidoController@create')->name('admin.pedido.create');
-    Route::post('pedido/store', 'PedidoController@store')->name('admin.pedido.store');
-    Route::get('pedido/edit/{id}', 'PedidoController@edit')->name('admin.pedido.edit');
-    Route::get('pedido/show/{id}', 'PedidoController@show')->name('admin.pedido.show');
-    Route::put('pedido/update/{id}', 'PedidoController@update')->name('admin.pedido.update');
-    Route::delete('pedido/destroy/{id}', 'PedidoController@destroy')->name('admin.pedido.destroy');
-
-    //Produto
-    Route::get('produto', 'ProdutoController@index')->name('admin.produto.index');
-    Route::get('produto/create', 'ProdutoController@create')->name('admin.produto.create');
-    Route::post('produto/store', 'ProdutoController@store')->name('admin.produto.store');
-    Route::get('produto/edit/{id}', 'ProdutoController@edit')->name('admin.produto.edit');
-    Route::get('produto/show/{id}', 'ProdutoController@show')->name('admin.produto.show');
-    Route::put('produto/update/{id}', 'ProdutoController@update')->name('admin.produto.update');
-    Route::delete('produto/destroy/{id}', 'ProdutoController@destroy')->name('admin.produto.destroy');
-
     // User
-    Route::get('user', ['uses' => 'UserController@index'])->name('admin.user.index');
-    Route::get('user/create', ['uses' => 'UserController@create'])->name('admin.user.create');
-    Route::post('user/store', ['uses' => 'UserController@store'])->name('admin.user.store');
-    Route::get('user/edit/{id}', ['uses' => 'UserController@edit'])->name('admin.user.edit');
-    Route::get('user/show/{id}', ['uses' => 'UserController@show'])->name('admin.user.show');
-    Route::put('user/update/{id}', ['uses' => 'UserController@update'])->name('admin.user.update');
-    Route::delete('user/destroy/{id}', ['uses' => 'UserController@destroy'])->name('admin.user.destroy');
+    Route::get('user', [UserController::class, 'index'])->name('admin.user.index');
+    Route::get('user/create', [UserController::class, 'create'])->name('admin.user.create');
+    Route::post('user/store', [UserController::class, 'store'])->name('admin.user.store');
+    Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::get('user/show/{id}', [UserController::class, 'show'])->name('admin.user.show');
+    Route::put('user/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
+    Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
 
     //Veiculos
-    Route::get('veiculo', 'VeiculoController@index')->name('admin.veiculo.index');
-    Route::get('veiculo/create', 'VeiculoController@create')->name('admin.veiculo.create');
-    Route::post('veiculo/store', 'VeiculoController@store')->name('admin.veiculo.store');
-    Route::get('veiculo/edit/{id}', 'VeiculoController@edit')->name('admin.veiculo.edit');
-    Route::get('veiculo/show/{id}', 'VeiculoController@show')->name('admin.veiculo.show');
-    Route::put('veiculo/update/{id}', 'VeiculoController@update')->name('admin.veiculo.update');
-    Route::delete('veiculo/destroy/{id}', 'VeiculoController@destroy')->name('admin.veiculo.destroy');
+    Route::get('veiculo', [VeiculoController::class, 'index'])->name('admin.veiculo.index');
+    Route::get('veiculo/create', [VeiculoController::class, 'create'])->name('admin.veiculo.create');
+    Route::post('veiculo/store', [VeiculoController::class, 'store'])->name('admin.veiculo.store');
+    Route::get('veiculo/edit/{id}', [VeiculoController::class, 'edit'])->name('admin.veiculo.edit');
+    Route::get('veiculo/show/{id}', [VeiculoController::class, 'show'])->name('admin.veiculo.show');
+    Route::put('veiculo/update/{id}', [VeiculoController::class, 'update'])->name('admin.veiculo.update');
+    Route::delete('veiculo/destroy/{id}', [VeiculoController::class, 'destroy'])->name('admin.veiculo.destroy');
 
     //Pessoas
-    Route::get('pessoa', 'PessoaController@index')->name('admin.pessoa.index');
-    Route::get('pessoa/create', 'PessoaController@create')->name('admin.pessoa.create');
-    Route::post('pessoa/store', 'PessoaController@store')->name('admin.pessoa.store');
-    Route::get('pessoa/edit/{id}', 'PessoaController@edit')->name('admin.pessoa.edit');
-    Route::get('pessoa/show/{id}', 'PessoaController@show')->name('admin.pessoa.show');
-    Route::put('pessoa/update/{id}', 'PessoaController@update')->name('admin.pessoa.update');
-    Route::delete('pessoa/destroy/{id}', 'PessoaController@destroy')->name('admin.pessoa.destroy');
+    Route::get('pessoa', [PessoaController::class, 'index'])->name('admin.pessoa.index');
+    Route::get('pessoa/create', [PessoaController::class, 'create'])->name('admin.pessoa.create');
+    Route::post('pessoa/store', [PessoaController::class, 'store'])->name('admin.pessoa.store');
+    Route::get('pessoa/edit/{id}', [PessoaController::class, 'edit'])->name('admin.pessoa.edit');
+    Route::get('pessoa/show/{id}', [PessoaController::class, 'show'])->name('admin.pessoa.show');
+    Route::put('pessoa/update/{id}', [PessoaController::class, 'update'])->name('admin.pessoa.update');
+    Route::delete('pessoa/destroy/{id}', [PessoaController::class, 'destroy'])->name('admin.pessoa.destroy');
     Route::delete('pessoa/{id}', [PessoaController::class, 'destroy'])->name('admin.pessoa.destroy');
     Route::get('pessoa/get-pessoas-by-lote', [PessoaController::class, 'getPessoasByLote'])->name('admin.pessoa.getPessoasByLote');
     Route::get('pessoa/relatorio', [PessoaController::class, 'relatorio'])->name('admin.pessoa.relatorio');
 
-
-
-    // Contatos
-    Route::get('contato', 'ContatoController@index')->name('admin.contato.index');
-    Route::get('contato/create', 'ContatoController@create')->name('admin.contato.create');
-    Route::post('contato/store/{pessoa_id}', 'ContatoController@store')->name('admin.contato.store');
-    Route::get('contato/edit/{id}', 'ContatoController@edit')->name('admin.contato.edit');
-    Route::get('contato/show/{id}', 'ContatoController@show')->name('admin.contato.show');
-    Route::put('contato/update/{id}', 'ContatoController@update')->name('admin.contato.update');
-    Route::delete('contato/destroy/{id}', 'ContatoController@destroy')->name('admin.contato.destroy');
-
     //Unidades de acesso - Filiais
-    Route::get('unidade', 'UnidadeController@index')->name('admin.unidade.index');
-    Route::get('unidade/create', 'UnidadeController@create')->name('admin.unidade.create');
-    Route::post('unidade/store', 'UnidadeController@store')->name('admin.unidade.store');
-    Route::get('unidade/edit/{id}', 'UnidadeController@edit')->name('admin.unidade.edit');
-    Route::get('unidade/show/{id}', 'UnidadeController@show')->name('admin.unidade.show');
-    Route::put('unidade/update/{id}', 'UnidadeController@update')->name('admin.unidade.update');
-    Route::delete('unidade/destroy/{id}', 'UnidadeController@destroy')->name('admin.unidade.destroy');
+    Route::get('unidade', [UnidadeController::class, 'index'])->name('admin.unidade.index');
+    Route::get('unidade/create', [UnidadeController::class, 'create'])->name('admin.unidade.create');
+    Route::post('unidade/store', [UnidadeController::class, 'store'])->name('admin.unidade.store');
+    Route::get('unidade/edit/{id}', [UnidadeController::class, 'edit'])->name('admin.unidade.edit');
+    Route::get('unidade/show/{id}', [UnidadeController::class, 'show'])->name('admin.unidade.show');
+    Route::put('unidade/update/{id}', [UnidadeController::class, 'update'])->name('admin.unidade.update');
+    Route::delete('unidade/destroy/{id}', [UnidadeController::class, 'destroy'])->name('admin.unidade.destroy');
 
     //Lotes
-    Route::get('lote', 'LoteController@index')->name('admin.lote.index');
-    Route::get('lote/create', 'LoteController@create')->name('admin.lote.create');
-    Route::post('lote/store', 'LoteController@store')->name('admin.lote.store');
-    Route::get('lote/edit/{id}', 'LoteController@edit')->name('admin.lote.edit');
-    Route::get('lote/show/{id}', 'LoteController@show')->name('admin.lote.show');
-    Route::put('lote/update/{id}', 'LoteController@update')->name('admin.lote.update');
-    Route::delete('lote/destroy/{id}', 'LoteController@destroy')->name('admin.lote.destroy');
+    Route::get('lote', [LoteController::class, 'index'])->name('admin.lote.index');
+    Route::get('lote/create', [LoteController::class, 'create'])->name('admin.lote.create');
+    Route::post('lote/store', [LoteController::class, 'store'])->name('admin.lote.store');
+    Route::get('lote/edit/{id}', [LoteController::class, 'edit'])->name('admin.lote.edit');
+    Route::get('lote/show/{id}', [LoteController::class, 'show'])->name('admin.lote.show');
+    Route::put('lote/update/{id}', [LoteController::class, 'update'])->name('admin.lote.update');
+    Route::delete('lote/destroy/{id}', [LoteController::class, 'destroy'])->name('admin.lote.destroy');
+
 
     //ControleAcesso
-    Route::get('controleacesso', 'ControleAcessoController@index')->name('admin.controleacesso.index');
-    Route::get('controleacesso/create', 'ControleAcessoController@create')->name('admin.controleacesso.create');
-    Route::post('controleacesso/store', 'ControleAcessoController@store')->name('admin.controleacesso.store');
-    Route::get('controleacesso/edit/{id}', 'ControleAcessoController@edit')->name('admin.controleacesso.edit');
-    Route::get('controleacesso/relatorio', 'ControleAcessoController@relatorio')->name('admin.controleacesso.relatorio');
-    Route::get('controleacesso/show/{id}', 'ControleAcessoController@show')->name('admin.controleacesso.show');
-    Route::put('controleacesso/update/{id}', 'ControleAcessoController@update')->name('admin.controleacesso.update');
-    Route::delete('controleacesso/destroy/{id}', 'ControleAcessoController@destroy')->name('admin.controleacesso.destroy');
+    Route::get('controleacesso', [ControleAcessoController::class, 'index'])->name('admin.controleacesso.index');
+    Route::get('controleacesso/create', [ControleAcessoController::class, 'create'])->name('admin.controleacesso.create');
+    Route::post('controleacesso/store', [ControleAcessoController::class, 'store'])->name('admin.controleacesso.store');
+    Route::get('controleacesso/edit/{id}', [ControleAcessoController::class, 'edit'])->name('admin.controleacesso.edit');
+    Route::get('controleacesso/show/{id}', [ControleAcessoController::class, 'show'])->name('admin.controleacesso.show');
+    Route::put('controleacesso/update/{id}', [ControleAcessoController::class, 'update'])->name('admin.controleacesso.update');
+    Route::delete('controleacesso/destroy/{id}', [ControleAcessoController::class, 'destroy'])->name('admin.controleacesso.destroy');
     Route::get('controle_acessos/get-moradores-by-lote', [ControleAcessoController::class, 'getMoradoresByLote'])->name('controle_acessos.getMoradoresByLote');
     Route::get('controle_acessos/get-morador-detalhes', [ControleAcessoController::class, 'getMoradorDetalhes'])->name('controle_acessos.getMoradorDetalhes');
     Route::get('controleacesso/registrar-saida/{id}', [ControleAcessoController::class, 'registrarSaida'])->name('controleacesso.registrarSaida');
-
-
-    Route::get('controleacesso/exit/{id}', 'ControleAcessoController@exit')->name('admin.controleacesso.exit');
-    Route::put('controleacesso/exit/{id}', 'ControleAcessoController@updateexit')->name('admin.controleacesso.updateexit');
-
-    //Compras
-    Route::any('compra', 'CompraController@index')->name('admin.compra.index');
-    Route::get('compra/create', 'CompraController@create')->name('admin.compra.create');
-    Route::post('compra/store', 'CompraController@store')->name('admin.compra.store');
-    Route::get('compra/edit/{id}', 'CompraController@edit')->name('admin.compra.edit');
-    Route::get('compra/show/{id}', 'CompraController@show')->name('admin.compra.show');
-    Route::put('compra/update/{id}', 'CompraController@update')->name('admin.compra.update');
-    Route::delete('compra/destroy/{id}', 'CompraController@destroy')->name('admin.compra.destroy');
-
-    //Baixa Material
-    Route::any('baixa_material', ['uses' => 'BaixaMaterialController@index'])->name('admin.baixa_material.index');
-    Route::get('baixa_material/create', ['uses' => 'BaixaMaterialController@create'])->name('admin.baixa_material.create');
-    Route::post('baixa_material/store', ['uses' => 'BaixaMaterialController@store'])->name('admin.baixa_material.store');
-    Route::get('baixa_material/show/{id}', ['uses' => 'BaixaMaterialController@show'])->name('admin.baixa_material.show');
-    Route::delete('baixa_material/destroy/{id}', ['uses' => 'BaixaMaterialController@destroy', 'is' => 'admin'])->name('admin.baixa_material.destroy');
-
-    //Estoque
-    Route::any('estoque/inventario', 'EstoqueController@index')->name('admin.estoque.inventario');
-
-    //Caixa
-    Route::any('caixa', 'CaixaController@index')->name('admin.caixa');
-    Route::post('caixa/abrir', 'CaixaController@abrir')->name('admin.caixa.abrir');
-    Route::put('caixa/fechar', 'CaixaController@fechar')->name('admin.caixa.fechar');
+    Route::get('controleacesso/exit/{id}', [ControleAcessoController::class, 'sair'])->name('admin.controleacesso.exit');
+    Route::put('controleacesso/exit/{id}', [ControleAcessoController::class, 'updateexit'])->name('admin.controleacesso.updateexit');
 
     //Controles Visitantes
-    Route::get('visitante', 'VisitanteController@index')->name('admin.visitante.index');
-    Route::get('visitante/create', 'VisitanteController@create')->name('admin.visitante.create');
-    Route::post('visitante/store', 'VisitanteController@store')->name('admin.visitante.store');
-    Route::get('visitante/edit/{id}', 'VisitanteController@edit')->name('admin.visitante.edit');
-    Route::get('visitante/show/{id}', 'VisitanteController@show')->name('admin.visitante.show');
-    Route::put('visitante/update/{id}', 'VisitanteController@update')->name('admin.visitante.update');
-    Route::delete('visitante/destroy/{id}', 'VisitanteController@destroy')->name('admin.visitante.destroy');
-    Route::get('visitante/exit/{id}', 'VisitanteController@exit')->name('admin.visitante.exit');
-    Route::put('visitante/exit/{id}', 'VisitanteController@updateexit')->name('admin.visitante.updateexit');
+    Route::get('visitante', [VisitanteController::class, 'index'])->name('admin.visitante.index');
+    Route::get('visitante/create', [VisitanteController::class, 'create'])->name('admin.visitante.create');
+    Route::post('visitante/store', [VisitanteController::class, 'store'])->name('admin.visitante.store');
+    Route::get('visitante/edit/{id}', [VisitanteController::class, 'edit'])->name('admin.visitante.edit');
+    Route::get('visitante/show/{id}', [VisitanteController::class, 'show'])->name('admin.visitante.show');
+    Route::put('visitante/update/{id}', [VisitanteController::class, 'update'])->name('admin.visitante.update');
+    Route::delete('visitante/destroy/{id}', [VisitanteController::class, 'destroy'])->name('admin.visitante.destroy');
+    Route::get('visitante/exit/{id}', [VisitanteController::class, 'exit'])->name('admin.visitante.exit');
+    Route::put('visitante/exit/{id}', [VisitanteController::class, 'updateexit'])->name('admin.visitante.updateexit');
 
     //Controle de Reservas
     Route::get('reserva', [ReservaController::class, 'index'])->name('admin.reserva.index');
@@ -208,11 +133,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
 
     //Controle de passagem de turno nos Condominios
 
-    Route::get('passagem_turno', 'PassagemTurnoController@index')->name('admin.passagem_turno.index');
-    Route::get('passagem_turno/create', 'PassagemTurnoController@create')->name('admin.passagem_turno.create');
-    Route::post('passagem_turno/store', 'PassagemTurnoController@store')->name('admin.passagem_turno.store');
-
-
+    Route::get('passagem_turno', [PassagemTurnoController::class, 'index'])->name('admin.passagem_turno.index');
+    Route::get('passagem_turno/create', [PassagemTurnoController::class, 'create'])->name('admin.passagem_turno.create');
+    Route::post('passagem_turno/store', [PassagemTurnoController::class, 'store'])->name('admin.passagem_turno.store');
 
     // Gerenciamento do Calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('admin.calendario.index');
@@ -223,11 +146,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl'], 'namespace' 
     Route::put('/calendario/{id}', [CalendarioController::class, 'update'])->name('admin.calendario.update');
     Route::delete('/calendario/{id}', [CalendarioController::class, 'destroy'])->name('admin.calendario.destroy');
 
-
     // Gerenciamento de inadimplência de lotes
-    Route::get('lote/{id}/inadimplencia', 'LoteController@inadimplencia')->name('admin.lote.inadimplencia');
-    Route::post('lote/{id}/marcar-inadimplente', 'LoteController@marcarInadimplente')->name('admin.lote.marcarInadimplente');
-    Route::post('lote/{id}/regularizar', 'LoteController@regularizar')->name('admin.lote.regularizar');
+
+    Route::get('lote/{id}/inadimplencia', [LoteController::class, 'inadimplencia'])->name('admin.lote.inadimplencia');
+    Route::post('lote/{id}/marcar-inadimplente', [LoteController::class, 'marcarInadimplente'])->name('admin.lote.marcarInadimplente');
+    Route::post('lote/{id}/regularizar', [LoteController::class, 'regularizar'])->name('admin.lote.regularizar');
 });
 
 Auth::routes();
