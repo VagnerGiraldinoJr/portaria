@@ -82,8 +82,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl']], function ()
     Route::get('controle_acessos/get-moradores-by-lote', [ControleAcessoController::class, 'getMoradoresByLote'])->name('controle_acessos.getMoradoresByLote');
     Route::get('controle_acessos/get-morador-detalhes', [ControleAcessoController::class, 'getMoradorDetalhes'])->name('controle_acessos.getMoradorDetalhes');
     Route::get('controleacesso/registrar-saida/{id}', [ControleAcessoController::class, 'registrarSaida'])->name('controleacesso.registrarSaida');
-    Route::get('controleacesso/exit/{id}', [ControleAcessoController::class, 'sair'])->name('admin.controleacesso.exit');
-    Route::put('controleacesso/exit/{id}', [ControleAcessoController::class, 'updateexit'])->name('admin.controleacesso.updateexit');
+    Route::get('controleacesso/sair/{id}', [ControleAcessoController::class, 'sair'])->name('admin.controleacesso.sair');
+    Route::put('controleacesso/sair/{id}', [ControleAcessoController::class, 'updatesair'])->name('admin.controleacesso.updatesair');
 
     //Controles Visitantes
     Route::get('visitante', [VisitanteController::class, 'index'])->name('admin.visitante.index');

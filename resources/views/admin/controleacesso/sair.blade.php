@@ -36,7 +36,7 @@
                     @endif
 
 
-                    {{ Form::open(['route' => [$params['main_route'].'.updateexit',$data->id],'method' =>'PUT']) }}
+                    {{ Form::open(['route' => [$params['main_route'].'.updatesair',$data->id],'method' =>'PUT']) }}
 
                     <div class="row">
                         <div id="div_data_saida" class="form-group col-6 col-md-6 col-lg-6">

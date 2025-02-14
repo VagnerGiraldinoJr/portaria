@@ -54,7 +54,7 @@
                                             <td>{{ $item->retirado_por }}</td>
                                             <td>
                                                 @if (!$item->data_saida)
-                                                    <a href="{{ route($params['main_route'] . '.exit', $item->id) }}"
+                                                    <a href="{{ route($params['main_route'] . '.sair', $item->id) }}"
                                                         class="btn btn-outline-primary btn-xs">
                                                         <span class="fas fa-check"></span> Registrar Saída
                                                     </a>

@@ -171,7 +171,7 @@ class ControleAcessoController extends Controller
 
         $preload['tipo'] = $codes->select(5);
 
-        return view('admin.controleacesso.exit', compact('params', 'data', 'preload'));
+        return view('admin.controleacesso.sair', compact('params', 'data', 'preload'));
     }
 
     /**
@@ -205,19 +205,20 @@ class ControleAcessoController extends Controller
         return response()->json(null, 404);
     }
 
-    public function exit($id)
+    public function sair($id)
     {
         $this->carregarParametrosPadrao();
-
+    
         $data = $this->controle_acesso->findOrFail($id);
-
-        return view('admin.controleacesso.exit', [
+    
+        return view('admin.controleacesso.sair', [
             'params' => $this->params,
             'data' => $data,
         ]);
     }
+    
 
-    public function updateexit(Request $request, $id)
+    public function updatesair(Request $request, $id)
 {
     $dataForm = $request->all();
     $dataForm['data_saida'] = Carbon::now();
