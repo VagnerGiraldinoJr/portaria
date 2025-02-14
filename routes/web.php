@@ -15,13 +15,12 @@ use App\Http\Controllers\Admin\VisitanteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// 🔹 Substituindo Closure por redirect automático
+// 🔹 Closure por redirect automático
 Route::redirect('/', '/admin');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl']], function () {
     Route::get('/', [IndexController::class, 'index'])->name('admin');
     Route::get('/home', [IndexController::class, 'index'])->name('home');
-});
 
     // User
     Route::get('user', [UserController::class, 'index'])->name('admin.user.index');
