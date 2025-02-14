@@ -214,13 +214,17 @@ class LoteController extends Controller
     {
         try {
             $query = $request->input('q');
+            $unidadeId = auth()->user()->unidade_id; // Pega a unidade do operador logado
 
             if (!$query) {
                 return response()->json(['error' => 'Parâmetro de busca não enviado'], 400);
             }
 
-            // Certifique-se de que o nome da coluna 'descricao' está correto
-            $lotes = Lote::where('descricao', 'LIKE', "%{$query}%") // Aqui está o nome correto da coluna
+            // Filtrar pela unidade logada
+            $lotes = Lote::where('unidade_id', $unidadeId)
+                ->where(function ($q) use ($query) {
+                    $q->where('descricao', 'LIKE', "%{$query}%");
+                })
                 ->limit(10)
                 ->get();
 
