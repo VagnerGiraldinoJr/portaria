@@ -276,5 +276,30 @@
                 )
             );
         });
+
+        // Configurar o DataTable
+        $('#dataTablePortaria').DataTable({
+            "pageLength": 25,
+            "language": {
+                "decimal": "",
+                "emptyTable": "Dados Indisponíveis na Tabela",
+                "info": "Mostrando _START_ de _END_ do _TOTAL_ linhas",
+                "infoEmpty": "Mostrando 0 linhas",
+                "infoFiltered": "(filtrando _MAX_ total de linhas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrando _MENU_ linhas",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Busca:",
+                "zeroRecords": "Nenhum resultado encontrado",
+                "paginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Próximo",
+                    "previous": "Anterior"
+                },
+            }
+        });
     </script>
 @stop
