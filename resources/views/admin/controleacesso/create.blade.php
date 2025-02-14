@@ -51,15 +51,18 @@
                                 ]) }}
                             </div>
 
-                            <!-- Unidade/Apto -->
+                            <!-- Unidade/Apto - Alterado para um campo de busca -->
                             <div id="div_lote" class="form-group col-6 col-md-6 col-lg-6">
                                 {{ Form::label('lote', 'Unidade/Apto.') }}
-                                {{ Form::select('lote_id', $preload['unidade'], isset($data->lote_id) ? $data->lote_id : null, [
+                                {{ Form::text('lote_nome', null, [
                                     'class' => 'form-control',
-                                    'id' => 'lote',
-                                    'onChange' => 'buscarMoradoresLote();',
+                                    'id' => 'lote_nome',
+                                    'placeholder' => 'Digite o nome da unidade...',
+                                    'autocomplete' => 'off',
                                 ]) }}
+                                {{ Form::hidden('lote_id', null, ['id' => 'lote_id']) }}
                             </div>
+
 
                             <!-- Campo para Selecionar o Morador -->
                             <div class="form-group col-6 col-md-6 col-lg-6">
@@ -114,66 +117,109 @@
 @section('js')
     <script src="{{ asset('js/plugin/jquery.js') }}"></script>
     <script src="{{ asset('js/plugin/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('js/plugin/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+
     <script>
-        // Atualiza a lista de moradores quando o lote for selecionado
-        function buscarMoradoresLote() {
-            const loteId = document.getElementById('lote').value;
+        $(document).ready(function() {
+            var urlBuscaLotes = "{{ route('admin.lotes.busca') }}";
 
-            // Faz uma requisição Ajax para buscar os moradores do lote selecionado
-            fetch(`/admin/controle_acessos/get-moradores-by-lote?lote_id=${loteId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const moradorSelect = document.getElementById('morador_id');
+            $("#lote_nome").autocomplete({
+                source: function(request, response) {
+                    console.log("🔍 Buscando lotes com:", request.term); // Debugging
 
-                    // Limpa as opções atuais
-                    moradorSelect.innerHTML = '<option value="">Selecione um morador</option>';
+                    $.ajax({
+                        url: urlBuscaLotes,
+                        dataType: "json",
+                        data: {
+                            q: request.term
+                        },
+                        success: function(data) {
+                            console.log("✅ Dados recebidos:", data); // Debugging
+
+                            if (data.error) {
+                                console.error("❌ Erro na busca:", data.error);
+                                return;
+                            }
+
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item
+                                    .descricao, // Exibir "APTO 101", "CASA 7", etc.
+                                    value: item
+                                    .descricao, // Preencher o campo de texto
+                                    id: item.id // Armazena o ID do lote
+                                };
+                            }));
+                        },
+                        error: function(xhr) {
+                            console.error("❌ Erro na requisição:", xhr.responseText);
+                            alert(
+                                "Erro ao buscar unidades. Verifique o console para detalhes.");
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function(event, ui) {
+                    $("#lote_nome").val(ui.item.value); // Preenche com a descrição do lote
+                    $("#lote_id").val(ui.item.id); // Armazena o ID do lote no campo oculto
+                    buscarMoradoresLote(ui.item.id); // Chama a função para carregar moradores
+                    return false;
+                }
+            });
+
+            // Evento de mudança no dropdown de moradores
+            $("#morador_id").change(function() {
+                let moradorId = $(this).val();
+
+                if (moradorId) {
+                    $.ajax({
+                        url: `/admin/controle_acessos/get-morador-detalhes?morador_id=${moradorId}`,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            console.log("👤 Dados do morador:", data); // Debugging
+                            $("#rg_pessoa").val(data ? data.rg : "");
+                        },
+                        error: function() {
+                            console.error("❌ Erro ao buscar detalhes do morador.");
+                            $("#rg_pessoa").val("");
+                        }
+                    });
+                } else {
+                    $("#rg_pessoa").val("");
+                }
+            });
+        });
+
+        // Função para buscar moradores do lote selecionado
+        function buscarMoradoresLote(loteId) {
+            console.log("🏠 Buscando moradores do lote:", loteId); // Debugging
+
+            $.ajax({
+                url: `/admin/controle_acessos/get-moradores-by-lote?lote_id=${loteId}`,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log("👥 Moradores recebidos:", data); // Debugging
+
+                    let moradorSelect = $("#morador_id");
+                    moradorSelect.empty().append('<option value="">Selecione um morador</option>');
 
                     if (data.length > 0) {
-                        // Preenche o dropdown com os moradores
-                        data.forEach(morador => {
-                            const option = document.createElement('option');
-                            option.value = morador.id;
-                            option.textContent = morador.nome_completo;
-                            moradorSelect.appendChild(option);
+                        $.each(data, function(index, morador) {
+                            moradorSelect.append(
+                                `<option value="${morador.id}">${morador.nome_completo}</option>`
+                            );
                         });
                     } else {
-                        // Caso não tenha moradores, exibe uma mensagem no dropdown
-                        const option = document.createElement('option');
-                        option.value = '';
-                        option.textContent = 'Nenhum morador encontrado';
-                        moradorSelect.appendChild(option);
+                        moradorSelect.append('<option value="">Nenhum morador encontrado</option>');
                     }
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar moradores do lote:', error);
-                });
+                },
+                error: function() {
+                    console.error("❌ Erro ao buscar moradores do lote.");
+                }
+            });
         }
-
-        document.getElementById('morador_id').addEventListener('change', function() {
-            const moradorId = this.value;
-
-            if (moradorId) {
-                // Faz uma requisição Ajax para buscar os dados do morador selecionado
-                fetch(`/admin/controle_acessos/get-morador-detalhes?morador_id=${moradorId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data) {
-                            // Atualiza o campo de documento com os dados do morador
-                            document.getElementById('rg_pessoa').value = data.rg;
-                        } else {
-                            // Caso não encontre dados, limpa o campo
-                            document.getElementById('rg_pessoa').value = '';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar detalhes do morador:', error);
-                        document.getElementById('rg_pessoa').value = '';
-                    });
-            } else {
-                // Limpa o campo caso nenhum morador seja selecionado
-                document.getElementById('rg_pessoa').value = '';
-            }
-        });
     </script>
 @stop

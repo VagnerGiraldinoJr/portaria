@@ -8,6 +8,7 @@ use App\Models\Lote;
 use App\Models\TableCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoteController extends Controller
 {
@@ -207,5 +208,25 @@ class LoteController extends Controller
         }
 
         return redirect()->back()->withErrors(['Este lote já está regularizado.']);
+    }
+
+    public function buscarLotes(Request $request)
+    {
+        try {
+            $query = $request->input('q');
+
+            if (!$query) {
+                return response()->json(['error' => 'Parâmetro de busca não enviado'], 400);
+            }
+
+            // Certifique-se de que o nome da coluna 'descricao' está correto
+            $lotes = Lote::where('descricao', 'LIKE', "%{$query}%") // Aqui está o nome correto da coluna
+                ->limit(10)
+                ->get();
+
+            return response()->json($lotes);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro na busca de lotes', 'message' => $e->getMessage()], 500);
+        }
     }
 }

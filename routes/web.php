@@ -150,6 +150,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'acl']], function ()
     Route::get('lote/{id}/inadimplencia', [LoteController::class, 'inadimplencia'])->name('admin.lote.inadimplencia');
     Route::post('lote/{id}/marcar-inadimplente', [LoteController::class, 'marcarInadimplente'])->name('admin.lote.marcarInadimplente');
     Route::post('lote/{id}/regularizar', [LoteController::class, 'regularizar'])->name('admin.lote.regularizar');
+
+    Route::get('/admin/lotes/busca', [LoteController::class, 'buscarLotes'])->name('admin.lotes.busca');
 });
 
 Auth::routes();
