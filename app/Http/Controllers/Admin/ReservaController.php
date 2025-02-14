@@ -97,7 +97,7 @@ class ReservaController extends Controller
             'status' => 'required|string',
             'acessorios' => 'required|string',
             'lote_id' => 'required|exists:lotes,id', // Valida que o lote_id existe na tabela lotes
-            'celular_responsavel' => 'required|string'
+            'celular_responsavel' => 'required|string',
         ]);
 
         $user_id = Auth::id();
@@ -105,25 +105,31 @@ class ReservaController extends Controller
             return back()->withErrors(['user_id' => 'User ID is missing'])->withInput();
         }
 
-        // Verificação da existência de reserva com a mesma data e área
+        // Obtém a unidade_id do usuário autenticado
+        $unidade_id = Auth::user()->unidade_id;
+
+        // Verificação da existência de reserva com a mesma data, área e unidade_id
         $existingReserva = Reserva::where('data_inicio', $validatedData['data_inicio'])
             ->where('area', $validatedData['area'])
+            ->where('unidade_id', $unidade_id) // Verifica apenas dentro da mesma unidade
             ->first();
 
         if ($existingReserva) {
-            return redirect()->back()->withErrors(['data_inicio' => 'Já existe uma reserva para esta área nesta data.']);
+            return redirect()->back()->withErrors(['data_inicio' => 'Já existe uma reserva para esta área nesta data na sua unidade.']);
         }
 
         // Criação da reserva
         $reserva = new Reserva();
         $reserva->user_id = $user_id; // Adiciona o user_id do usuário autenticado
-        $reserva->unidade_id = Auth::user()->unidade_id; // Adiciona a unidade_id do usuário autenticado
+        $reserva->unidade_id = $unidade_id; // Adiciona a unidade_id do usuário autenticado
         $reserva->lote_id = $validatedData['lote_id']; // Adiciona o lote_id do formulário
         $reserva->area = $validatedData['area'];
         $reserva->data_inicio = $validatedData['data_inicio'];
         $reserva->limpeza = $validatedData['limpeza'];
         $reserva->status = $validatedData['status'];
         $reserva->acessorios = $validatedData['acessorios'];
+
+        // Limpa o número de celular para conter apenas números
         $celularResponsavel = $request->input('celular_responsavel');
         $celularLimpo = preg_replace('/[^0-9]/', '', $celularResponsavel);
         $reserva->celular_responsavel = $celularLimpo;
@@ -132,6 +138,7 @@ class ReservaController extends Controller
 
         return redirect()->route('admin.reserva.index')->with('success', 'Reserva criada com sucesso');
     }
+
 
     public function edit($id)
     {
@@ -144,7 +151,7 @@ class ReservaController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         $validatedData = $request->validate([
             'status' => 'required|string',
             'limpeza' => 'required|string',
